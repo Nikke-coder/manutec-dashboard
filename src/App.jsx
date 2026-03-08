@@ -7,7 +7,7 @@ import {
 } from 'recharts'
 
 // ─── AUTH ─────────────────────────────────────────────────────────────────────
-const PASSWORD    = 'manutec2026!'
+const PASSWORD    = 'sLprtYz64='
 const SESSION_KEY = 'manutec_auth'
 const ACCENT      = '#38bdf8'   // sky blue — distinct from Stremet (indigo) / Strand (emerald)
 
