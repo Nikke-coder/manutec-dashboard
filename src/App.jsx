@@ -32,7 +32,7 @@ const PASSWORD      = 'manutec2026!';
 const SESSION_KEY   = 'manutec_auth';
 const ACCENT        = '#38bdf8';
 const CLIENT_NAME   = 'Manutec Oy';
-const ALLOWED_EMAILS = ['kirsi.junnilainen@manutec.fi'];
+const ALLOWED_EMAILS = ['kirsi.junnilainen@manutec.fi', "niklas.isaksson@targetflow.fi"];
 
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const BLUE="#3b82f6",GREEN="#22c55e",AMBER="#f59e0b",RED="#f87171",PURPLE="#a78bfa",CYAN="#06b6d4",SLATE="#64748b";
