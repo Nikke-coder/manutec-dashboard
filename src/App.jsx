@@ -27,7 +27,7 @@ const STYLE = `
 
 
 // ─── CLIENT CONFIG ───────────────────────────────────────────────────────────
-const PASSWORD    = 'manutec2026!';
+const PASSWORD    = 'sLprtYz64=';
 const SESSION_KEY = 'manutec_auth';
 const ACCENT      = '#38bdf8';
 const CLIENT_NAME = 'Manutec Oy';
