@@ -68,10 +68,13 @@ const THEMES = {
     yrActive:  "#ede9fe",
     scrollBg:  "#f4f1ff",
     scrollFg:  "#c4b5fd",
-    logo:      T.logo,
+    logo:      "linear-gradient(135deg,#6d28d9,#9333ea)",
     uploadBorder: "#c4b5fd",
   },
 };
+
+// Default T at module level — App reassigns before render
+let T = THEMES.dark;
 
 function buildStyle(t) { return `
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
@@ -3845,8 +3848,9 @@ function Dashboard() {
   const [userEmail,   setUserEmail]  = useState("");
   const [year,        setYear]       = useState("2026");
   const [themeKey,    setThemeKey]   = useState(()=>localStorage.getItem("tf_theme")||"dark");
-  const T = THEMES[themeKey]||THEMES.dark;
-  const BLUE=T.blue,GREEN=T.green,AMBER=T.amber,RED=T.red,PURPLE=T.purple,CYAN=T.cyan,SLATE=T.slate,ACCENT=T.accent;
+  const _T = THEMES[themeKey]||THEMES.dark;
+  T = _T; // update module-level T so all sub-components can access it
+  const BLUE=_T.blue,GREEN=_T.green,AMBER=_T.amber,RED=_T.red,PURPLE=_T.purple,CYAN=_T.cyan,SLATE=_T.slate,ACCENT=_T.accent;
   const [mode,        setMode]       = useState("budget");
   const [csvData,     setCsvData]    = useState(null);
   const [csvName,     setCsvName]    = useState(null);
