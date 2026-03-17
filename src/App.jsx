@@ -107,7 +107,7 @@ function buildStyle(t) { return `
   .credits-badge:hover{background:rgba(124,58,237,0.2);}
   .settings-btn{background:${t.bgCard};border:1px solid ${t.border};border-radius:8px;padding:6px 10px;color:${t.textMuted};font-size:10px;font-family:'DM Mono',monospace;cursor:pointer;outline:none;}
   .settings-btn:hover{border-color:${t.accent};color:${t.accent};}
-\`; }
+`; }
 
 
 
@@ -2912,7 +2912,7 @@ ${rowSample}`,
       });
       const resp = await res.json();
       const text = resp.content?.find(b=>b.type==="text")?.text||"{}";
-      const table = JSON.parse(text.replace(/\`\`\`json|\`\`\`/g,"").trim());
+      const table = JSON.parse(text.replace(/```json|```/g,"").trim());
       const newTables = [...aiTables,{...table,id:Date.now(),prompt:aiPrompt}];
       setAiTables(newTables);
       await save(config,newTables,name);
