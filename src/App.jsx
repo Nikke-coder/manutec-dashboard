@@ -43,19 +43,19 @@ const THEMES = {
     logo:      "linear-gradient(135deg,#7c3aed,#9333ea)",
     uploadBorder: "#2a2540",
   },
-  // Light: clean white with purple accents (lila)
+  // Light: soft warm off-white — easy on the eyes, violet accents
   light: {
-    bg:        "#fafafa",
-    bgPanel:   "#f4f1ff",
-    bgCard:    "#ffffff",
-    bgRow:     "#f9f7ff",
-    border:    "#e2d9f3",
-    borderSub: "#ede9fa",
-    borderRow: "#f0ebff",
-    text:      "#0f0a1e",
-    textMuted: "#5b5675",
-    textDim:   "#7c3aed",
-    accent:    "#7c3aed",
+    bg:        "#f0ede8",   // warm greige page bg
+    bgPanel:   "#e8e4df",   // slightly darker panel
+    bgCard:    "#f5f2ee",   // card surface — warm white
+    bgRow:     "#ece9e4",   // table row alternate
+    border:    "#d4cec6",   // warm gray border
+    borderSub: "#ddd9d3",   // subtle inner border
+    borderRow: "#e4e0db",   // row separator
+    text:      "#1c1917",   // warm near-black
+    textMuted: "#78716c",   // warm gray-500
+    textDim:   "#7c3aed",   // violet accent for labels
+    accent:    "#7c3aed",   // vivid purple
     accentHi:  "#6d28d9",
     accentLo:  "#9333ea",
     blue:      "#4f46e5",
@@ -64,9 +64,9 @@ const THEMES = {
     red:       "#dc2626",
     purple:    "#7c3aed",
     cyan:      "#7c3aed",
-    slate:     "#64748b",
-    yrActive:  "#ede9fe",
-    scrollBg:  "#f4f1ff",
+    slate:     "#78716c",
+    yrActive:  "#e0d9f0",   // soft lavender active pill
+    scrollBg:  "#e8e4df",
     scrollFg:  "#c4b5fd",
     logo:      "linear-gradient(135deg,#6d28d9,#9333ea)",
     uploadBorder: "#c4b5fd",
