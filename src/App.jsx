@@ -893,7 +893,7 @@ Financial data for this company only (${financialContext.period}, ${financialCon
       {showBilling&&<BillingView clientName={CLIENT_NAME} supabase={supabase} onClose={()=>setShowBilling(false)} userEmail={userEmailProp}/>}
       <div style={{display:showBilling?"none":"flex",flexDirection:"column",flex:1,overflow:"hidden"}}>
       {/* Header */}
-      <div style={{padding:"14px 18px",borderBottom:"1px solid "+T.border+",display:"flex",alignItems:"center",justifyContent:"space-between",background:T.bgPanel",flexShrink:0,height:56}}>
+      <div style={{padding:"14px 18px",borderBottom:"1px solid "+T.border,display:"flex",alignItems:"center",justifyContent:"space-between",background:T.bgPanel,flexShrink:0,height:56}}>
         <div style={{display:"flex",alignItems:"center",gap:10}}>
           <div style={{width:28,height:28,borderRadius:"50%",background:T.bgPanel,border:"1px solid rgba(129,140,248,0.3)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,overflow:"hidden"}}><svg width="28" height="28" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="e9k_a2" cx="50%" cy="50%" r="50%"><stop offset="0%" stopColor="#818cf8" stopOpacity="0.22"/><stop offset="100%" stopColor="#a78bfa" stopOpacity="0"/></radialGradient><radialGradient id="e9k_c2" cx="50%" cy="45%" r="50%"><stop offset="0%" stopColor="#1e3a6e"/><stop offset="100%" stopColor="#05060f"/></radialGradient></defs><circle cx="22" cy="22" r="22" fill="url(#e9k_a2)"/><g opacity="0.15" stroke="#a5b4fc" strokeLinecap="round"><line x1="22" y1="4" x2="22" y2="0" strokeWidth="0.8"/><line x1="22" y1="40" x2="22" y2="44" strokeWidth="0.8"/><line x1="4" y1="22" x2="0" y2="22" strokeWidth="0.8"/><line x1="40" y1="22" x2="44" y2="22" strokeWidth="0.8"/></g><ellipse cx="22" cy="9" rx="9" ry="2.2" fill="none" stroke="#818cf8" strokeWidth="0.9" opacity="0.55"/><circle cx="22" cy="22" r="18" fill="url(#e9k_c2)" stroke="rgba(129,140,248,0.35)" strokeWidth="0.8"/><rect x="10" y="13" width="24" height="20" rx="5" fill="rgba(10,16,45,0.95)" stroke="rgba(99,120,220,0.4)" strokeWidth="0.7"/><rect x="12" y="16" width="20" height="8" rx="2.5" fill="rgba(5,6,15,0.9)"/><rect x="13" y="17.5" width="6" height="3" rx="1.5" fill="#5b21b6"/><rect x="25" y="17.5" width="6" height="3" rx="1.5" fill="#5b21b6"/><rect x="14" y="18" width="4" height="2" rx="1" fill="#a78bfa"/><rect x="26" y="18" width="4" height="2" rx="1" fill="#a78bfa"/><circle cx="16" cy="19" r="0.8" fill="#bfdbfe" opacity="0.9"/><circle cx="28" cy="19" r="0.8" fill="#bfdbfe" opacity="0.9"/><rect x="13" y="26" width="2.5" height="4" rx="0.8" fill="#22c55e" opacity="0.9"/><rect x="17" y="27.5" width="2.5" height="2.5" rx="0.8" fill="#22c55e" opacity="0.7"/><rect x="21" y="26" width="2.5" height="4" rx="0.8" fill="#22c55e" opacity="0.85"/><rect x="25" y="28" width="2.5" height="2" rx="0.8" fill="#22c55e" opacity="0.6"/><rect x="29" y="26" width="2" height="4" rx="0.8" fill="#22c55e" opacity="0.75"/><line x1="22" y1="13" x2="22" y2="8" stroke="rgba(165,180,252,0.5)" strokeWidth="0.8" strokeLinecap="round"/><polygon points="22,5 24,7.5 22,10 20,7.5" fill="#a5b4fc" opacity="0.85"/><circle cx="22" cy="7.5" r="1" fill="white" opacity="0.6"/></svg></div>
           <div>
@@ -954,7 +954,7 @@ Financial data for this company only (${financialContext.period}, ${financialCon
       )}
 
       {/* Input */}
-      <div style={{padding:"10px 12px",borderTop:"1px solid "+T.border+",display:"flex",gap:8,flexShrink:0,background:T.bgPanel",alignItems:"center"}}>
+      <div style={{padding:"10px 12px",borderTop:"1px solid "+T.border,display:"flex",gap:8,flexShrink:0,background:T.bgPanel,alignItems:"center"}}>
         <select value={role} onChange={e=>setRole(e.target.value)}
           style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:10,padding:"6px 8px",
             color:ROLES[role].color,fontSize:10,outline:"none",cursor:"pointer",flexShrink:0,
@@ -3830,7 +3830,7 @@ function CommentsPanel({supabase, clientName, userName, enabled}) {
               return (
                 <div key={i} style={{display:"flex",flexDirection:"column",alignItems:isMe?"flex-end":"flex-start",gap:3}}>
                   <div style={{display:"flex",alignItems:"center",gap:6,flexDirection:isMe?"row-reverse":"row"}}>
-                    <div style={{width:22,height:22,borderRadius:"50%",background:isMe?T.accentLo+"33":"rgba(22,163,74,0.1)",
+                    <div style={{width:22,height:22,borderRadius:"50%",background:isMe?T.accentLo,33:"rgba(22,163,74,0.1)",
                       display:"flex",alignItems:"center",justifyContent:"center",fontSize:9,
                       fontWeight:700,color:isMe?BLUE:GREEN,fontFamily:"'DM Mono',monospace",flexShrink:0}}>
                       {initials}
@@ -3839,7 +3839,7 @@ function CommentsPanel({supabase, clientName, userName, enabled}) {
                   </div>
                   <div style={{maxWidth:"85%",padding:"9px 12px",
                     borderRadius:isMe?"12px 12px 2px 12px":"12px 12px 12px 2px",
-                    background:isMe?T.accentLo+"22":T.bgCard,
+                    background:isMe?T.accentLo,22:T.bgCard,
                     border:"1px solid "+(isMe?"#3b82f655":"#16a34a33"),
                     fontSize:12,color:"#d1d5db",lineHeight:1.5}}>
                     {c.body}
@@ -3850,7 +3850,7 @@ function CommentsPanel({supabase, clientName, userName, enabled}) {
             {loading&&<div style={{textAlign:"center",fontSize:10,color:SLATE,fontFamily:"'DM Mono',monospace"}}>posting…</div>}
             <div ref={bottomRef}/>
           </div>
-          <div style={{padding:"10px 12px",borderTop:"1px solid "+T.border+",display:"flex",gap:8,flexShrink:0,background:T.bgPanel"}}>
+          <div style={{padding:"10px 12px",borderTop:"1px solid "+T.border,display:"flex",gap:8,flexShrink:0,background:T.bgPanel}}>
             <input ref={inputRef} value={input} onChange={e=>setInput(e.target.value)}
               onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();post();}}}
               placeholder="Add a comment…"
