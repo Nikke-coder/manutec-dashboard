@@ -3162,8 +3162,8 @@ ${rowSample}`,
             ? "e.g. Show top 10 cost centers by total spend, ranked highest to lowest"
             : "e.g. Compare revenue vs opex trend month by month"}
           rows={3}
-          style={{width:"100%",background:T.bgRow,border:"1px solid "+T.border+",borderRadius:10,padding:"8px 10px",
-            color:T.t"ext,fontSize:11,outline:"none",resize:"vertical",fontFamily:"'DM Sans',sans-serif",
+          style={{width:"100%",background:T.bgRow,border:"1px solid "+T.border,borderRadius:10,padding:"8px 10px",
+            color:T.text,fontSize:11,outline:"none",resize:"vertical",fontFamily:"'DM Sans',sans-serif",
             lineHeight:1.5,boxSizing:"border-box"}}
           onFocus={e=>e.target.style.borderColor=ACCENT}
           onBlur={e=>e.target.style.borderColor=T.border}
