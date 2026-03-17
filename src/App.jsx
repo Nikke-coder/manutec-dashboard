@@ -1932,7 +1932,7 @@ function GroupStructureTab({entities,selectedEnt,setSelectedEnt,editingEnt,setEd
               <span style={{fontSize:10,color:SLATE,fontFamily:"'DM Mono',monospace",background:T.bgPanel,border:"1px solid "+T.border,borderRadius:5,padding:"2px 8px"}}>{sel.type}</span>
             </div>
             <div style={{display:"flex",gap:8}}>
-              <button onClick={()=>setEditingEnt(editingEnt===sel.id?null:sel.id)} style={{padding:"6px 14px",background:editingEnt===sel.id?T.bgRow+":"none",border:"1px solid #1e3a5f",borderRadius:10,color:"#a78bfa",fontFamily:"'DM Mono',monospace",fontSize:10,cursor:"pointer"}}>
+              <button onClick={()=>setEditingEnt(editingEnt===sel.id?null:sel.id)} style={{padding:"6px 14px",background:editingEnt===sel.id?T.bgRow:"none",border:"1px solid "+T.border,borderRadius:10,color:"#a78bfa",fontFamily:"'DM Mono',monospace",fontSize:10,cursor:"pointer"}}>
                 {editingEnt===sel.id?"✓ Done":"✏ Edit"}
               </button>
               {entities.length>1 && (
