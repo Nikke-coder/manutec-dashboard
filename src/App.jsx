@@ -883,7 +883,7 @@ Financial data for this company only (${financialContext.period}, ${financialCon
       {(!isMobile || sidebarOpen) && (
     <div data-ai-sidebar style={{position:"fixed",top:0,right:0,width:isMobile?"100vw":380,height:"100vh",
       display:"flex",flexDirection:"column",background:T.bgPanel,
-      borderLeft:"1px solid #0f1e30",zIndex:500}}>
+      borderLeft:"1px solid "+T.border,zIndex:500}}>
 
       {showBilling&&<BillingView clientName={CLIENT_NAME} supabase={supabase} onClose={()=>setShowBilling(false)} userEmail={userEmailProp}/>}
       <div style={{display:showBilling?"none":"flex",flexDirection:"column",flex:1,overflow:"hidden"}}>
@@ -919,13 +919,13 @@ Financial data for this company only (${financialContext.period}, ${financialCon
             <div style={{maxWidth:"94%",padding:"9px 12px",borderRadius:m.role==="user"?"12px 12px 2px 12px":"12px 12px 12px 2px",
               background:m.role==="user"?"#2a1f5e":m.err?"#1a0a0a":"#120f26",
               border:"1px solid "+(m.role==="user"?"#3b82f655":m.err?"#f8717133":T.border),
-              fontSize:11,color:m.err?RED:"#d1d5db",lineHeight:1.6,whiteSpace:"pre-wrap"}}>
+              fontSize:11,color:m.err?RED:T.text,lineHeight:1.6,whiteSpace:"pre-wrap"}}>
               {m.content}
             </div>
           </div>
         ))}
         {loading && messages.length>0 && (
-          <div style={{display:"flex",alignItems:"center",gap:8,padding:"9px 12px",background:T.bgCard,borderRadius:"12px 12px 12px 2px",border:"1px solid #1e2d45",maxWidth:"60%"}}>
+          <div style={{display:"flex",alignItems:"center",gap:8,padding:"9px 12px",background:T.bgCard,borderRadius:"12px 12px 12px 2px",border:"1px solid "+T.border,maxWidth:"60%"}}>
             <div style={{display:"flex",gap:3}}>
               {[0,1,2].map(n=><div key={n} style={{width:5,height:5,borderRadius:"50%",background:BLUE,opacity:0.4+n*0.3}}/>)}
             </div>
@@ -1809,7 +1809,7 @@ function ApiSyncPanel({year, actLast, setActLast, setMode, onClose}) {
           {/* Sync log */}
           <div style={{flex:1}}>
             <div style={{fontSize:10,fontWeight:600,color:SLATE,fontFamily:"'DM Mono',monospace",textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:10}}>Sync Log</div>
-            <div style={{background:"#040710",border:"1px solid #0c1829",borderRadius:12,padding:"12px 14px",minHeight:160,fontFamily:"'DM Mono',monospace",fontSize:11}}>
+            <div style={{background:"#040710",border:"1px solid "+T.border,borderRadius:12,padding:"12px 14px",minHeight:160,fontFamily:"'DM Mono',monospace",fontSize:11}}>
               {log.length===0 && status===null && (
                 <div style={{color:T.border}}>Run sync to see output here…</div>
               )}
@@ -1911,11 +1911,11 @@ function GroupStructureTab({entities,selectedEnt,setSelectedEnt,editingEnt,setEd
             const p=positions[ent.id],nx=ox+p.x-NODE_W/2,ny=p.y,isSel=selectedEnt===ent.id;
             return (
               <g key={ent.id} style={{cursor:"pointer"}} onClick={()=>{setSelectedEnt(ent.id);setEditingEnt(null);}}>
-                <rect x={nx} y={ny} width={NODE_W} height={NODE_H} rx={10} fill={isSel?"#0f2540":"#120f26"} stroke={isSel?ent.color:T.border} strokeWidth={isSel?2:1}/>
+                <rect x={nx} y={ny} width={NODE_W} height={NODE_H} rx={10} fill={isSel?T.bgPanel:T.bgCard} stroke={isSel?ent.color:T.border} strokeWidth={isSel?2:1}/>
                 <circle cx={nx+NODE_W-16} cy={ny+16} r={5} fill={ent.color}/>
-                <text x={nx+10} y={ny+42} style={{fontSize:11,fill:"#e2e8f0",fontWeight:600}}>{ent.name.length>20?ent.name.slice(0,19)+"…":ent.name}</text>
+                <text x={nx+10} y={ny+42} style={{fontSize:11,fill:T.text,fontWeight:600}}>{ent.name.length>20?ent.name.slice(0,19)+"…":ent.name}</text>
                 {ent.parentId
-                  ? <text x={nx+10} y={ny+58} style={{fontSize:9,fontFamily:"'DM Mono',monospace",fill:SLATE}}>{ent.ownership}% owned{ent.currency&&ent.currency!=="EUR"?" · "+ent.currency:""}</text>
+                  ? <text x={nx+10} y={ny+58} style={{fontSize:9,fontFamily:"'DM Mono',monospace",fill:T.textMuted}}>{ent.ownership}% owned{ent.currency&&ent.currency!=="EUR"?" · "+ent.currency:""}</text>
                   : <text x={nx+10} y={ny+58} style={{fontSize:9,fontFamily:"'DM Mono',monospace",fill:GREEN}}>Parent{ent.currency&&ent.currency!=="EUR"?" · "+ent.currency:""}</text>}
               </g>
             );
@@ -1929,10 +1929,10 @@ function GroupStructureTab({entities,selectedEnt,setSelectedEnt,editingEnt,setEd
             <div style={{display:"flex",alignItems:"center",gap:10}}>
               <div style={{width:10,height:10,borderRadius:"50%",background:sel.color}}/>
               <span style={{fontSize:13,fontWeight:600,color:T.text}}>{sel.name}</span>
-              <span style={{fontSize:10,color:SLATE,fontFamily:"'DM Mono',monospace",background:"#0a1525",border:"1px solid #1e2d45",borderRadius:5,padding:"2px 8px"}}>{sel.type}</span>
+              <span style={{fontSize:10,color:SLATE,fontFamily:"'DM Mono',monospace",background:T.bgPanel,border:"1px solid "+T.border,borderRadius:5,padding:"2px 8px"}}>{sel.type}</span>
             </div>
             <div style={{display:"flex",gap:8}}>
-              <button onClick={()=>setEditingEnt(editingEnt===sel.id?null:sel.id)} style={{padding:"6px 14px",background:editingEnt===sel.id?"#2a1f5e":"none",border:"1px solid #1e3a5f",borderRadius:10,color:"#a78bfa",fontFamily:"'DM Mono',monospace",fontSize:10,cursor:"pointer"}}>
+              <button onClick={()=>setEditingEnt(editingEnt===sel.id?null:sel.id)} style={{padding:"6px 14px",background:editingEnt===sel.id?T.bgRow+":"none",border:"1px solid #1e3a5f",borderRadius:10,color:"#a78bfa",fontFamily:"'DM Mono',monospace",fontSize:10,cursor:"pointer"}}>
                 {editingEnt===sel.id?"✓ Done":"✏ Edit"}
               </button>
               {entities.length>1 && (
@@ -3162,8 +3162,8 @@ ${rowSample}`,
             ? "e.g. Show top 10 cost centers by total spend, ranked highest to lowest"
             : "e.g. Compare revenue vs opex trend month by month"}
           rows={3}
-          style={{width:"100%",background:T.bgRow,border:"1px solid #1e2d45",borderRadius:10,padding:"8px 10px",
-            color:T.text,fontSize:11,outline:"none",resize:"vertical",fontFamily:"'DM Sans',sans-serif",
+          style={{width:"100%",background:T.bgRow,border:"1px solid "+T.border+",borderRadius:10,padding:"8px 10px",
+            color:T.t"ext,fontSize:11,outline:"none",resize:"vertical",fontFamily:"'DM Sans',sans-serif",
             lineHeight:1.5,boxSizing:"border-box"}}
           onFocus={e=>e.target.style.borderColor=ACCENT}
           onBlur={e=>e.target.style.borderColor=T.border}
@@ -4177,10 +4177,10 @@ function Dashboard() {
   const compLabel  = mode==="budget"?"BUD":"FC";
   const S=startM,E=endM;
   const visMonths  = MONTHS.slice(S,E+1);
-  const monthTypes = visMonths.map((_,ii)=>(S+ii)<=actLast?"ACT":compLabel);
+  const monthTypes = visMonths.map((_,ii)=>actLast<0?"ACT":(S+ii)<=actLast?"ACT":compLabel);
   // For trajectory tabs (PL, Balance): always show full year so comp months are visible
   const fullMonths  = MONTHS.slice(0,12);
-  const fullTypes   = fullMonths.map((_,ii)=>ii<=actLast?"ACT":compLabel);
+  const fullTypes   = fullMonths.map((_,ii)=>actLast<0?"ACT":ii<=actLast?"ACT":compLabel);
 
   const totRev  = sum(sl(actuals.revenue,S,E));
   const totGP   = sum(sl(actuals.grossProfit,S,E));
@@ -4883,7 +4883,7 @@ function Dashboard() {
 
 
       {isGroup&&!["group","data","deadlines"].includes(tab)&&(
-        <div style={{borderTop:"1px solid #0c1829",background:T.bgPanel,padding:"8px 32px",display:"flex",alignItems:"center",gap:12,flexWrap:"wrap",marginRight:isMobile?0:380}}>
+        <div style={{borderTop:"1px solid "+T.border,background:T.bgPanel,padding:"8px 32px",display:"flex",alignItems:"center",gap:12,flexWrap:"wrap",marginRight:isMobile?0:380}}>
           <span style={{fontSize:10,color:SLATE,fontFamily:"'DM Mono',monospace"}}>VIEWING</span>
           <button onClick={()=>setActiveEntity(null)} style={{padding:"4px 12px",borderRadius:8,fontFamily:"'DM Mono',monospace",fontSize:10,cursor:"pointer",border:"1px solid "+(activeEntity===null?"#8b5cf6":T.border),background:activeEntity===null?"#2a1f5e":"transparent",color:activeEntity===null?"#a78bfa":SLATE}}>Consolidated</button>
           {entities.map(ent=>(
@@ -5573,7 +5573,7 @@ function MfaEnrollScreen({onDone}) {
         <div style={{fontSize:18,fontWeight:700,color:T.text,marginBottom:6}}>Set up two-factor auth</div>
         <div style={{fontSize:12,color:"#64748b",marginBottom:24}}>Scan this QR code with Google Authenticator</div>
         {qr ? (
-          <img src={qr} alt="QR Code" style={{width:180,height:180,borderRadius:14,background:"#fff",padding:8,marginBottom:20}}/>
+          <img src={qr} alt="QR Code" style={{width:180,height:180,borderRadius:14,background:T.bgCard,padding:8,marginBottom:20}}/>
         ) : (
           <div style={{width:180,height:180,background:T.bgCard,borderRadius:14,margin:"0 auto 20px",display:"flex",alignItems:"center",justifyContent:"center"}}>
             <div style={{color:T.textMuted,fontSize:11,fontFamily:"'DM Mono',monospace"}}>{err?"Error":"Loading…"}</div>
