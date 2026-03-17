@@ -104,6 +104,11 @@ function buildStyle(t) { return `
   }
   .mode-btn{padding:6px 14px;border:none;cursor:pointer;font-family:'DM Mono',monospace;font-size:11px;transition:all 0.18s;}
   .upload-zone{border:2px dashed ${t.uploadBorder};border-radius:10px;padding:28px;text-align:center;cursor:pointer;transition:all 0.2s;}
+  .mpill{background:transparent;border:1px solid ${t.border};border-radius:8px;padding:3px 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px;transition:all 0.15s;min-width:38px;}
+  .mpill:hover{border-color:${t.accentLo};background:${t.bgRow};}
+  .mpill.in-range{background:${t.bgRow};border-color:${t.borderSub};}
+  .mpill.is-edge-act{background:${t.yrActive};border-color:${t.accentLo};}
+  .mpill.is-edge-comp{background:rgba(251,191,36,0.12);border-color:rgba(251,191,36,0.5);}
   .upload-zone:hover{border-color:${t.accent};background:rgba(124,58,237,0.04);}
   .tbl-row:hover td{background:rgba(124,58,237,0.04)!important;}
   .psel{background:${t.bgCard};border:1px solid ${t.border};border-radius:6px;padding:4px 8px;color:${t.text};font-family:'DM Mono',monospace;font-size:11px;outline:none;cursor:pointer;-webkit-appearance:none;appearance:none;}
@@ -384,11 +389,11 @@ const TblRow = ({label,actArr,compArr,color,bold,indent,s,e,monthTypes,spot}) =>
 const PeriodBar = ({startM,endM,setStart,setEnd,compLabel,actLast}) => (
   <div style={{borderBottom:"1px solid "+T.border,background:T.bgPanel,padding:"10px 32px",display:"flex",alignItems:"center",gap:16,flexWrap:"wrap"}}>
     <div style={{display:"flex",alignItems:"center",gap:8}}>
-      <span style={{fontSize:10,color:"#2d3f58",fontFamily:"'DM Mono',monospace"}}>From</span>
+      <span style={{fontSize:10,color:T.textMuted,fontFamily:"'DM Mono',monospace"}}>From</span>
       <select className="psel" value={startM} onChange={e=>{const v=+e.target.value;setStart(v);if(v>endM)setEnd(v);}}>
         {MONTHS.map((m,i) => <option key={m} value={i}>{m}</option>)}
       </select>
-      <span style={{fontSize:10,color:"#2d3f58",fontFamily:"'DM Mono',monospace"}}>To</span>
+      <span style={{fontSize:10,color:T.textMuted,fontFamily:"'DM Mono',monospace"}}>To</span>
       <select className="psel" value={endM} onChange={e=>{const v=+e.target.value;setEnd(v);if(v<startM)setStart(v);}}>
         {MONTHS.map((m,i) => <option key={m} value={i}>{m}</option>)}
       </select>
@@ -874,7 +879,7 @@ Financial data for this company only (${financialContext.period}, ${financialCon
             width:48, height:48, borderRadius:"50%",
             background:T.logo,
             border:"none", cursor:"pointer", fontSize:18,
-            boxShadow:"0 4px 20px rgba(29,78,216,0.5)",
+            boxShadow:"0 4px 20px rgba(109,40,217,0.5)",
             display:"flex", alignItems:"center", justifyContent:"center",
           }}>
           {sidebarOpen ? "✕" : (<svg width="24" height="24" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="e9k_a" cx="50%" cy="50%" r="50%"><stop offset="0%" stopColor="#818cf8" stopOpacity="0.22"/><stop offset="100%" stopColor="#a78bfa" stopOpacity="0"/></radialGradient><radialGradient id="e9k_c" cx="50%" cy="45%" r="50%"><stop offset="0%" stopColor="#1e3a6e"/><stop offset="100%" stopColor="#05060f"/></radialGradient></defs><circle cx="22" cy="22" r="22" fill="url(#e9k_a)"/><g opacity="0.15" stroke="#a5b4fc" strokeLinecap="round"><line x1="22" y1="4" x2="22" y2="0" strokeWidth="0.8"/><line x1="22" y1="40" x2="22" y2="44" strokeWidth="0.8"/><line x1="4" y1="22" x2="0" y2="22" strokeWidth="0.8"/><line x1="40" y1="22" x2="44" y2="22" strokeWidth="0.8"/><line x1="8" y1="8" x2="5" y2="5" strokeWidth="0.6"/><line x1="36" y1="8" x2="39" y2="5" strokeWidth="0.6"/></g><ellipse cx="22" cy="9" rx="9" ry="2.2" fill="none" stroke="#818cf8" strokeWidth="0.9" opacity="0.55"/><circle cx="22" cy="22" r="18" fill="url(#e9k_c)" stroke="rgba(129,140,248,0.35)" strokeWidth="0.8"/><rect x="10" y="13" width="24" height="20" rx="5" fill="rgba(10,16,45,0.95)" stroke="rgba(99,120,220,0.4)" strokeWidth="0.7"/><rect x="12" y="16" width="20" height="8" rx="2.5" fill="rgba(5,6,15,0.9)"/><rect x="13" y="17.5" width="6" height="3" rx="1.5" fill="#5b21b6"/><rect x="25" y="17.5" width="6" height="3" rx="1.5" fill="#5b21b6"/><rect x="14" y="18" width="4" height="2" rx="1" fill="#a78bfa"/><rect x="26" y="18" width="4" height="2" rx="1" fill="#a78bfa"/><circle cx="16" cy="19" r="0.8" fill="#bfdbfe" opacity="0.9"/><circle cx="28" cy="19" r="0.8" fill="#bfdbfe" opacity="0.9"/><rect x="13" y="26" width="2.5" height="4" rx="0.8" fill="#22c55e" opacity="0.9"/><rect x="17" y="27.5" width="2.5" height="2.5" rx="0.8" fill="#22c55e" opacity="0.7"/><rect x="21" y="26" width="2.5" height="4" rx="0.8" fill="#22c55e" opacity="0.85"/><rect x="25" y="28" width="2.5" height="2" rx="0.8" fill="#22c55e" opacity="0.6"/><rect x="29" y="26" width="2" height="4" rx="0.8" fill="#22c55e" opacity="0.75"/><line x1="22" y1="13" x2="22" y2="8" stroke="rgba(165,180,252,0.5)" strokeWidth="0.8" strokeLinecap="round"/><polygon points="22,5 24,7.5 22,10 20,7.5" fill="#a5b4fc" opacity="0.85"/><circle cx="22" cy="7.5" r="1" fill="white" opacity="0.6"/></svg>)}
@@ -1750,7 +1755,7 @@ function ApiSyncPanel({year, actLast, setActLast, setMode, onClose}) {
           </div>
 
           {/* GL info + Run button */}
-          <div style={{padding:"10px 12px",background:"rgba(139,92,246,0.06)",border:"1px solid rgba(59,130,246,0.15)",borderRadius:10,fontSize:11,color:T.textMuted}}>
+          <div style={{padding:"10px 12px",background:"rgba(139,92,246,0.06)",border:"1px solid rgba(147,51,234,0.15)",borderRadius:10,fontSize:11,color:T.textMuted}}>
             📒 Imports General Ledger — accounts are mapped automatically on import
           </div>
 
@@ -4177,10 +4182,10 @@ function Dashboard() {
   const compLabel  = mode==="budget"?"BUD":"FC";
   const S=startM,E=endM;
   const visMonths  = MONTHS.slice(S,E+1);
-  const monthTypes = visMonths.map((_,ii)=>actLast<0?"ACT":(S+ii)<=actLast?"ACT":compLabel);
+  const monthTypes = visMonths.map((_,ii)=>actLast<0?(year==="2026"?compLabel:"ACT"):(S+ii)<=actLast?"ACT":compLabel);
   // For trajectory tabs (PL, Balance): always show full year so comp months are visible
   const fullMonths  = MONTHS.slice(0,12);
-  const fullTypes   = fullMonths.map((_,ii)=>actLast<0?"ACT":ii<=actLast?"ACT":compLabel);
+  const fullTypes   = fullMonths.map((_,ii)=>actLast<0?(year==="2026"?compLabel:"ACT"):ii<=actLast?"ACT":compLabel);
 
   const totRev  = sum(sl(actuals.revenue,S,E));
   const totGP   = sum(sl(actuals.grossProfit,S,E));
@@ -5215,9 +5220,9 @@ function LoginScreen({onLogin}) {
       const amp    = 30 + Math.random() * 60;
       const freq   = 0.008 + Math.random() * 0.012;
       const speed  = 0.003 + Math.random() * 0.004;
-      const colors = ["#2a1f5e","#0d2545","#1a3a6b","#0f2a50","#162d4a","#0c2040","#1e3560","#0a1e3a"];
+      const colors = ["#1c1a2e","#231f3a","#2d2845","#1a1728","#261f45","#1f1c35","#2a2450","#161424"];
       const accentChance = i < 2;
-      return { baseY, amp, freq, speed, phase: Math.random()*Math.PI*2, color: accentChance ? "#2a1f5e" : colors[i], accent: accentChance, points, prevY: Array(points).fill(baseY) };
+      return { baseY, amp, freq, speed, phase: Math.random()*Math.PI*2, color: accentChance ? "#3d2a6e" : colors[i], accent: accentChance, points, prevY: Array(points).fill(baseY) };
     });
 
     // Floating data particles
@@ -5229,7 +5234,7 @@ function LoginScreen({onLogin}) {
       vy: (Math.random()-0.5)*0.4,
       r: Math.random()*1.5+0.5,
       alpha: Math.random()*0.4+0.1,
-      color: Math.random()>0.85 ? "#8b5cf6" : Math.random()>0.7 ? "#0ea5e9" : "#2a1f5e",
+      color: Math.random()>0.85 ? "#8b5cf6" : Math.random()>0.7 ? "#a78bfa" : "#231f3a",
     }));
 
     // Grid lines
@@ -5354,7 +5359,7 @@ function LoginScreen({onLogin}) {
     borderRadius:12, padding:"12px 16px", color:T.text, fontSize:13, outline:"none",
     fontFamily:"'DM Sans',sans-serif", marginBottom:14, boxSizing:"border-box",
     transition:"border-color 0.2s, box-shadow 0.2s",
-    boxShadow: focused===field?"0 0 0 3px rgba(59,130,246,0.1)":"none",
+    boxShadow: focused===field?"0 0 0 3px rgba(147,51,234,0.15)":"none",
   });
 
   return (
@@ -5363,18 +5368,18 @@ function LoginScreen({onLogin}) {
 
       {/* Ambient glow behind card */}
       <div style={{position:"absolute",width:500,height:500,borderRadius:"50%",
-        background:"radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 70%)",
+        background:"radial-gradient(circle, rgba(147,51,234,0.08) 0%, transparent 70%)",
         pointerEvents:"none",zIndex:1}}/>
 
       {/* Login card */}
       <div style={{
         position:"relative", zIndex:2, width:360,
-        background:"rgba(10,16,28,0.85)",
+        background:"rgba(14,12,24,0.92)",
         backdropFilter:"blur(20px)",
         WebkitBackdropFilter:"blur(20px)",
-        border:"1px solid rgba(30,58,95,0.6)",
+        border:"1px solid rgba(45,40,69,0.8)",
         borderRadius:20,
-        boxShadow:"0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(59,130,246,0.05), inset 0 1px 0 rgba(255,255,255,0.04)",
+        boxShadow:"0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(147,51,234,0.08), inset 0 1px 0 rgba(255,255,255,0.04)",
         padding:"44px 40px 36px",
         animation:"cardIn 0.6s cubic-bezier(0.16,1,0.3,1) forwards",
       }}>
@@ -5451,7 +5456,7 @@ function LoginScreen({onLogin}) {
               boxShadow: success
                 ? "0 0 0 0 rgba(34,197,94,0.4), 0 8px 24px rgba(22,163,74,0.3)"
                 : loading ? "none"
-                : "0 8px 24px rgba(29,78,216,0.3)",
+                : "0 8px 24px rgba(109,40,217,0.3)",
               animation: success ? "successPulse 0.6s ease" : "none",
               display:"flex", alignItems:"center", justifyContent:"center", gap:8,
             }}>
@@ -5511,7 +5516,7 @@ function MfaScreen({onVerified}) {
 
   return (
     <div style={{minHeight:"100vh",background:T.bg,display:"flex",alignItems:"center",justifyContent:"center"}}>
-      <div style={{background:"rgba(10,8,22,0.97)",border:"1px solid #1e2d45",borderRadius:16,padding:"40px 36px",width:360,boxSizing:"border-box"}}>
+      <div style={{background:"rgba(14,12,24,0.97)",border:"1px solid #1e2d45",borderRadius:16,padding:"40px 36px",width:360,boxSizing:"border-box"}}>
         <div style={{textAlign:"center",marginBottom:28}}>
           <div style={{width:44,height:44,borderRadius:"50%",background:T.logo,display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 16px",fontSize:20}}>🔐</div>
           <div style={{fontSize:18,fontWeight:700,color:T.text,marginBottom:6}}>Two-factor auth</div>
@@ -5568,7 +5573,7 @@ function MfaEnrollScreen({onDone}) {
 
   return (
     <div style={{minHeight:"100vh",background:T.bg,display:"flex",alignItems:"center",justifyContent:"center"}}>
-      <div style={{background:"rgba(10,8,22,0.97)",border:"1px solid #1e2d45",borderRadius:16,padding:"40px 36px",width:380,boxSizing:"border-box",textAlign:"center"}}>
+      <div style={{background:"rgba(14,12,24,0.97)",border:"1px solid #1e2d45",borderRadius:16,padding:"40px 36px",width:380,boxSizing:"border-box",textAlign:"center"}}>
         <div style={{width:44,height:44,borderRadius:"50%",background:T.logo,display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 16px",fontSize:20}}>🔐</div>
         <div style={{fontSize:18,fontWeight:700,color:T.text,marginBottom:6}}>Set up two-factor auth</div>
         <div style={{fontSize:12,color:"#64748b",marginBottom:24}}>Scan this QR code with Google Authenticator</div>
