@@ -918,7 +918,7 @@ Financial data for this company only (${financialContext.period}, ${financialCon
             )}
             <div style={{maxWidth:"94%",padding:"9px 12px",borderRadius:m.role==="user"?"12px 12px 2px 12px":"12px 12px 12px 2px",
               background:m.role==="user"?T.accentLo:m.err?"rgba(248,113,113,0.1)":T.bgCard,
-              border:"1px solid "+(m.role==="user"?"transparent":"#3b82f655":m.err?"#f8717133":T.border),
+              border:"1px solid "+(m.role==="user"?"transparent":m.err?"#f8717133":T.border),
               fontSize:11,color:m.role==="user"?"#fff":m.err?RED:T.text,lineHeight:1.6,whiteSpace:"pre-wrap"}}>
               {m.content}
             </div>
