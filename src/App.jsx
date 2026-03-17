@@ -47,10 +47,10 @@ const STYLE = `
 // ─── CLIENT CONFIG ───────────────────────────────────────────────────────────
 const PASSWORD      = 'stremet2026!';
 const SESSION_KEY   = 'stremet_auth';
-const ACCENT        = '#38bdf8';
-const CLIENT_NAME   = 'Manutec Oy';
+const ACCENT        = '#60a5fa';
+const CLIENT_NAME   = 'Manutec';
 const ANTHROPIC_KEY  = import.meta.env.VITE_ANTHROPIC_KEY;
-const ALLOWED_EMAILS = ['kirsi.junnilainen@manutec.fi', "niklas.isaksson@targetflow.fi", "virpi.lamsa@targetflow.fi"];
+const ALLOWED_EMAILS = []; // Add authorized emails here
 
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const BLUE="#3b82f6",GREEN="#22c55e",AMBER="#f59e0b",RED="#f87171",PURPLE="#a78bfa",CYAN="#06b6d4",SLATE="#64748b";
@@ -58,127 +58,151 @@ const ACT_LAST_DEFAULT = 11;
 // Per-year last confirmed ACT month (0=Jan…11=Dec, -1=full BUD)
 const ACT_LAST_BY_YEAR = {
   "2023": 11,
-  "2024": 11,
-  "2025": 11,
+  "2024": -1,
+  "2025": -1,
   "2026": -1,
 };
-
 const actBase = {
-  revenue:[1221376,1318476,1265615,1094105,1209966,1209825,1104377,1114144,1072649,1055784,878274,797849],
-  cogs:[237739,649974,541596,471916,500601,575102,368989,353392,410499,403315,343477,311398],
-  opex:[220299,112205,205165,156054,125008,207075,155299,210218,167302,147014,202743,177619],
-  ebitda:[-294087,-375979,-250281,5057,-232230,37452,-464345,-165792,-254772,-156953,57118,263065],
-  depAmort:[25683,33683,34781,34831,50044,50711,50711,50916,28730,28730,27403,75386],
-  ebit:[-268404,-342295,-215499,39889,-182186,88162,-413634,-114876,-226043,-128223,84522,338452],
-  finExpenses:[3798,6529,3978,3516,4878,6401,2991,5019,6786,4375,5458,4982],
-  ebt:[-264893,-335766,-211521,43404,-177490,94543,-410643,-109857,-219256,-124731,89854,337829],
-  tax:[1720,1720,1720,1720,1720,1720,1720,18335,18335,18335,123412,71837],
-  netProfit:[263173,334046,209801,-45124,175770,-96263,408923,91522,200921,106396,-213266,-409666],
-  grossProfit:[983637,668502,724019,622189,709365,634723,735388,760752,662150,652469,534797,486451],
-  inventory:[1468893,1502046,1410885,1467324,1418167,1320136,1431512,1363799,1393122,1404292,1310195,1376513],
-  receivables:[1667698,2372442,2482295,2232280,2200370,2317683,2184654,1997253,2203066,1943683,1847771,1337232],
-  cash:[232888,72357,46491,276348,568331,204099,117419,622465,585540,921166,895479,956244],
-  otherCA:[119000,119000,119000,119000,119000,119000,119000,119000,119000,119000,119000,119000],
-  equity:[2030631,2364677,2574478,2529353,2705124,2308716,2717639,2809161,3010082,3116478,2903212,2493546],
-  ltDebt:[1064680,978626,942572,906518,820464,784411,759925,685440,654836,624233,543629,931129],
-  stDebt:[763253,763253,763253,763253,763253,763253,763253,763253,763253,763253,763253,498193],
-  payables:[1048760,1263872,1078948,1060536,1162690,1218997,842409,1084937,1142497,1089247,1175593,1023314],
-  otherCL:[613055,584310,587382,729740,731944,722859,569749,535418,526615,571664,571220,718464],
-  tangibles:[1757088,1723405,1739312,1706886,1695842,1677131,1626421,1585350,1573282,1544553,1524533,1829099],
-};
-
-
+  revenue:       [0,0,0,0,0,0,0,0,0,0,0,0],
+  cogs:          [0,0,0,0,0,0,0,0,0,0,0,0],
+  opex:          [0,0,0,0,0,0,0,0,0,0,0,0],
+  depAmort:      [0,0,0,0,0,0,0,0,0,0,0,0],
+  finExpenses:   [0,0,0,0,0,0,0,0,0,0,0,0],
+  tax:           [0,0,0,0,0,0,0,0,0,0,0,0],
+  netProfit:     [0,0,0,0,0,0,0,0,0,0,0,0],
+  grossProfit:   [0,0,0,0,0,0,0,0,0,0,0,0],
+  ebitda:        [0,0,0,0,0,0,0,0,0,0,0,0],
+  ebit:          [0,0,0,0,0,0,0,0,0,0,0,0],
+  ebt:           [0,0,0,0,0,0,0,0,0,0,0,0],
+  tangibles:     [0,0,0,0,0,0,0,0,0,0,0,0],
+  inventory:     [0,0,0,0,0,0,0,0,0,0,0,0],
+  receivables:   [0,0,0,0,0,0,0,0,0,0,0,0],
+  cash:          [0,0,0,0,0,0,0,0,0,0,0,0],
+  otherCA:       [0,0,0,0,0,0,0,0,0,0,0,0],
+  equity:        [0,0,0,0,0,0,0,0,0,0,0,0],
+  ltDebt:        [0,0,0,0,0,0,0,0,0,0,0,0],
+  stDebt:        [0,0,0,0,0,0,0,0,0,0,0,0],
+  payables:      [0,0,0,0,0,0,0,0,0,0,0,0],
+  otherCL:       [0,0,0,0,0,0,0,0,0,0,0,0],
+};;;
 const budBase = {
-  revenue:     [1221376,1318476,1265615,1094105,1209966,1209825,1104377,1114144,1072649,1055784,878274,797849],
-  cogs:        [237739,649974,541596,471916,500601,575102,368989,353392,410499,403315,343477,311398],
-  opex:        [220299,112205,205165,156054,125008,207075,155299,210218,167302,147014,202743,177619],
-  ebitda:      [-294087,-375979,-250281,5057,-232230,37452,-464345,-165792,-254772,-156953,57118,263065],
-  depAmort:    [25683,33683,34781,34831,50044,50711,50711,50916,28730,28730,27403,75386],
-  ebit:        [-268404,-342295,-215499,39889,-182186,88162,-413634,-114876,-226043,-128223,84522,338452],
-  finExpenses: [3511,6529,3978,3516,4696,6381,2991,5019,6786,3492,5332,623],
-  ebt:         [-264893,-335766,-211521,43404,-177490,94543,-410643,-109857,-219256,-124731,89854,337829],
-  tax:         [1720,1720,1720,1720,1720,1720,1720,18335,18335,18335,123412,71837],
-  netProfit:   [263173,334046,209801,-45124,175770,-96263,408923,91522,200921,106396,-213266,-409666].map(v=>-v),
-  inventory:   [1468893,1502046,1410885,1467324,1418167,1320136,1431512,1363799,1393122,1404292,1310195,1376513],
-  receivables: [1667698,2372442,2482295,2232280,2200370,2317683,2184654,1997253,2203066,1943683,1847771,1337232],
-  payables:    [1048760,1263872,1078948,1060536,1162690,1218997,842409,1084937,1142497,1089247,1175593,1023314],
-  equity:      [2030631,2364677,2574478,2529353,2705124,2308716,2717639,2809161,3010082,3116478,2903212,2493546],
-  cash:        [232888,72357,46491,276348,568331,204099,117419,622465,585540,921166,895479,956244],
-  ltDebt:      [1064680,978626,942572,906518,820464,784411,759925,685440,654836,624233,543629,931129],
-  stDebt:      [763253,763253,763253,763253,763253,763253,763253,763253,763253,763253,763253,498193],
-  otherCL:     [1101497,1182075,1201985,1305430,1313431,1326669,1158189,1108330,1066595,1102737,1074544,1170100],
-  grossProfit: [1221376,1318476,1265615,1094105,1209966,1209825,1104377,1114144,1072649,1055784,878274,797849].map((v,i)=>v-[237739,649974,541596,471916,500601,575102,368989,353392,410499,403315,343477,311398][i]),
+  revenue:       [0,0,0,0,0,0,0,0,0,0,0,0],
+  cogs:          [0,0,0,0,0,0,0,0,0,0,0,0],
+  opex:          [0,0,0,0,0,0,0,0,0,0,0,0],
+  depAmort:      [0,0,0,0,0,0,0,0,0,0,0,0],
+  finExpenses:   [0,0,0,0,0,0,0,0,0,0,0,0],
+  tax:           [0,0,0,0,0,0,0,0,0,0,0,0],
+  netProfit:     [0,0,0,0,0,0,0,0,0,0,0,0],
+  grossProfit:   [0,0,0,0,0,0,0,0,0,0,0,0],
+  ebitda:        [0,0,0,0,0,0,0,0,0,0,0,0],
+  ebit:          [0,0,0,0,0,0,0,0,0,0,0,0],
+  ebt:           [0,0,0,0,0,0,0,0,0,0,0,0],
+  tangibles:     [0,0,0,0,0,0,0,0,0,0,0,0],
+  inventory:     [0,0,0,0,0,0,0,0,0,0,0,0],
+  receivables:   [0,0,0,0,0,0,0,0,0,0,0,0],
+  cash:          [0,0,0,0,0,0,0,0,0,0,0,0],
+  otherCA:       [0,0,0,0,0,0,0,0,0,0,0,0],
+  equity:        [0,0,0,0,0,0,0,0,0,0,0,0],
+  ltDebt:        [0,0,0,0,0,0,0,0,0,0,0,0],
+  stDebt:        [0,0,0,0,0,0,0,0,0,0,0,0],
+  payables:      [0,0,0,0,0,0,0,0,0,0,0,0],
+  otherCL:       [0,0,0,0,0,0,0,0,0,0,0,0],
 };
+const estBase = {
+  revenue:       [0,0,0,0,0,0,0,0,0,0,0,0],
+  cogs:          [0,0,0,0,0,0,0,0,0,0,0,0],
+  opex:          [0,0,0,0,0,0,0,0,0,0,0,0],
+  depAmort:      [0,0,0,0,0,0,0,0,0,0,0,0],
+  finExpenses:   [0,0,0,0,0,0,0,0,0,0,0,0],
+  tax:           [0,0,0,0,0,0,0,0,0,0,0,0],
+  netProfit:     [0,0,0,0,0,0,0,0,0,0,0,0],
+  grossProfit:   [0,0,0,0,0,0,0,0,0,0,0,0],
+  ebitda:        [0,0,0,0,0,0,0,0,0,0,0,0],
+  ebit:          [0,0,0,0,0,0,0,0,0,0,0,0],
+  ebt:           [0,0,0,0,0,0,0,0,0,0,0,0],
+  tangibles:     [0,0,0,0,0,0,0,0,0,0,0,0],
+  inventory:     [0,0,0,0,0,0,0,0,0,0,0,0],
+  receivables:   [0,0,0,0,0,0,0,0,0,0,0,0],
+  cash:          [0,0,0,0,0,0,0,0,0,0,0,0],
+  otherCA:       [0,0,0,0,0,0,0,0,0,0,0,0],
+  equity:        [0,0,0,0,0,0,0,0,0,0,0,0],
+  ltDebt:        [0,0,0,0,0,0,0,0,0,0,0,0],
+  stDebt:        [0,0,0,0,0,0,0,0,0,0,0,0],
+  payables:      [0,0,0,0,0,0,0,0,0,0,0,0],
+  otherCL:       [0,0,0,0,0,0,0,0,0,0,0,0],
+};;;;
 
 
 const DATA_BY_YEAR = {
   "2024": {
-  revenue:[991888,848759,800029,967133,899611,1021817,626056,1171404,983475,1062036,908388,619096],
-  cogs:[325316,79126,472435,243730,424234,460412,304932,355765,412619,442769,353334,466982],
-  opex:[144653,136005,148148,151562,155340,170188,187908,156329,143117,196174,186731,219793],
-  ebitda:[-231359,-239149,-10363,-350941,-180362,-239539,-30253,-334505,-320389,280487,-26574,381114],
-  depAmort:[32056,32056,32056,37712,37712,37712,37712,38494,38494,38494,39764,194668],
-  ebit:[-199303,-207093,21694,-313229,-142650,-201827,7459,-296012,-281895,318981,13190,575782],
-  finExpenses:[4024,7470,3308,3205,7010,2894,2746,8787,4361,4289,6316,5343],
-  ebt:[-195279,-199642,24981,-310024,-135802,-198934,10205,-287224,-277535,322714,19221,567831],
-  tax:[7843,7843,7843,7843,7843,7843,7843,7834,30064,30064,27321,-16202],
-  netProfit:[187435,191799,-32825,302181,127959,191090,-18048,279390,247471,-352778,-46541,-551630],
-  grossProfit:[666572,769633,327594,723403,475377,561405,321124,815639,570856,619267,555054,152114],
-  inventory:[1276329,1391566,1388071,1607699,1719824,1689462,1796461,1790559,1775936,1451688,1448531,1377943],
-  receivables:[1377102,1635302,1588584,1679858,1645623,1740719,1372620,1740659,2055898,2105216,1707492,1226836],
-  cash:[585225,504450,641330,510919,554340,523564,296910,131558,-27871,86511,426933,306915],
-  otherCA:[89000,89000,89000,119000,119000,119000,119000,119000,119000,119000,119000,119000],
-  equity:[1679361,1871160,1838335,2140516,2268475,2459565,2441517,2720907,2718407,2365629,2319087,1767457],
-  ltDebt:[1263587,1177533,1141479,1105425,1019371,983318,947264,1261210,1225156,1189102,1103049,1100733],
-  stDebt:[600000,600000,600000,600000,600000,600000,600000,1000000,1000000,1000000,1000000,763253],
-  payables:[1018232,1092845,1274232,1114264,1113013,1259154,964705,1146942,922853,1088567,1228582,891281],
-  otherCL:[595535,622782,631353,693474,709567,614917,495198,501552,514035,560294,555165,624209],
-  tangibles:[1626265,1594209,1562153,1548913,1511201,1473488,1437796,2067335,2038592,2000098,1970920,1782772],
-},
+  revenue:       [0,0,0,0,0,0,0,0,0,0,0,0],
+  cogs:          [0,0,0,0,0,0,0,0,0,0,0,0],
+  opex:          [0,0,0,0,0,0,0,0,0,0,0,0],
+  depAmort:      [0,0,0,0,0,0,0,0,0,0,0,0],
+  finExpenses:   [0,0,0,0,0,0,0,0,0,0,0,0],
+  tax:           [0,0,0,0,0,0,0,0,0,0,0,0],
+  netProfit:     [0,0,0,0,0,0,0,0,0,0,0,0],
+  grossProfit:   [0,0,0,0,0,0,0,0,0,0,0,0],
+  ebitda:        [0,0,0,0,0,0,0,0,0,0,0,0],
+  ebit:          [0,0,0,0,0,0,0,0,0,0,0,0],
+  ebt:           [0,0,0,0,0,0,0,0,0,0,0,0],
+  tangibles:     [0,0,0,0,0,0,0,0,0,0,0,0],
+  inventory:     [0,0,0,0,0,0,0,0,0,0,0,0],
+  receivables:   [0,0,0,0,0,0,0,0,0,0,0,0],
+  cash:          [0,0,0,0,0,0,0,0,0,0,0,0],
+  otherCA:       [0,0,0,0,0,0,0,0,0,0,0,0],
+  equity:        [0,0,0,0,0,0,0,0,0,0,0,0],
+  ltDebt:        [0,0,0,0,0,0,0,0,0,0,0,0],
+  stDebt:        [0,0,0,0,0,0,0,0,0,0,0,0],
+  payables:      [0,0,0,0,0,0,0,0,0,0,0,0],
+  otherCL:       [0,0,0,0,0,0,0,0,0,0,0,0],
+  },
   "2025": {
-  revenue:[1221376,1318476,1265615,1094105,1209966,1209825,1104377,1114144,1072649,1055784,878274,797849],
-  cogs:[237739,649974,541596,471916,500601,575102,368989,353392,410499,403315,343477,311398],
-  opex:[220299,112205,205165,156054,125008,207075,155299,210218,167302,147014,202743,177619],
-  ebitda:[-294087,-375979,-250281,5057,-232230,37452,-464345,-165792,-254772,-156953,57118,263065],
-  depAmort:[25683,33683,34781,34831,50044,50711,50711,50916,28730,28730,27403,75386],
-  ebit:[-268404,-342295,-215499,39889,-182186,88162,-413634,-114876,-226043,-128223,84522,338452],
-  finExpenses:[3798,6529,3978,3516,4878,6401,2991,5019,6786,4375,5458,4982],
-  ebt:[-264893,-335766,-211521,43404,-177490,94543,-410643,-109857,-219256,-124731,89854,337829],
-  tax:[1720,1720,1720,1720,1720,1720,1720,18335,18335,18335,123412,71837],
-  netProfit:[263173,334046,209801,-45124,175770,-96263,408923,91522,200921,106396,-213266,-409666],
-  grossProfit:[983637,668502,724019,622189,709365,634723,735388,760752,662150,652469,534797,486451],
-  inventory:[1468893,1502046,1410885,1467324,1418167,1320136,1431512,1363799,1393122,1404292,1310195,1376513],
-  receivables:[1667698,2372442,2482295,2232280,2200370,2317683,2184654,1997253,2203066,1943683,1847771,1337232],
-  cash:[232888,72357,46491,276348,568331,204099,117419,622465,585540,921166,895479,956244],
-  otherCA:[119000,119000,119000,119000,119000,119000,119000,119000,119000,119000,119000,119000],
-  equity:[2030631,2364677,2574478,2529353,2705124,2308716,2717639,2809161,3010082,3116478,2903212,2493546],
-  ltDebt:[1064680,978626,942572,906518,820464,784411,759925,685440,654836,624233,543629,931129],
-  stDebt:[763253,763253,763253,763253,763253,763253,763253,763253,763253,763253,763253,498193],
-  payables:[1048760,1263872,1078948,1060536,1162690,1218997,842409,1084937,1142497,1089247,1175593,1023314],
-  otherCL:[613055,584310,587382,729740,731944,722859,569749,535418,526615,571664,571220,718464],
-  tangibles:[1757088,1723405,1739312,1706886,1695842,1677131,1626421,1585350,1573282,1544553,1524533,1829099],
-},
+  revenue:       [0,0,0,0,0,0,0,0,0,0,0,0],
+  cogs:          [0,0,0,0,0,0,0,0,0,0,0,0],
+  opex:          [0,0,0,0,0,0,0,0,0,0,0,0],
+  depAmort:      [0,0,0,0,0,0,0,0,0,0,0,0],
+  finExpenses:   [0,0,0,0,0,0,0,0,0,0,0,0],
+  tax:           [0,0,0,0,0,0,0,0,0,0,0,0],
+  netProfit:     [0,0,0,0,0,0,0,0,0,0,0,0],
+  grossProfit:   [0,0,0,0,0,0,0,0,0,0,0,0],
+  ebitda:        [0,0,0,0,0,0,0,0,0,0,0,0],
+  ebit:          [0,0,0,0,0,0,0,0,0,0,0,0],
+  ebt:           [0,0,0,0,0,0,0,0,0,0,0,0],
+  tangibles:     [0,0,0,0,0,0,0,0,0,0,0,0],
+  inventory:     [0,0,0,0,0,0,0,0,0,0,0,0],
+  receivables:   [0,0,0,0,0,0,0,0,0,0,0,0],
+  cash:          [0,0,0,0,0,0,0,0,0,0,0,0],
+  otherCA:       [0,0,0,0,0,0,0,0,0,0,0,0],
+  equity:        [0,0,0,0,0,0,0,0,0,0,0,0],
+  ltDebt:        [0,0,0,0,0,0,0,0,0,0,0,0],
+  stDebt:        [0,0,0,0,0,0,0,0,0,0,0,0],
+  payables:      [0,0,0,0,0,0,0,0,0,0,0,0],
+  otherCL:       [0,0,0,0,0,0,0,0,0,0,0,0],
+  },
   "2026": {
-  revenue:     [1221376,1318476,1265615,1094105,1209966,1209825,1104377,1114144,1072649,1055784,878274,797849],
-  cogs:        [237739,649974,541596,471916,500601,575102,368989,353392,410499,403315,343477,311398],
-  opex:        [220299,112205,205165,156054,125008,207075,155299,210218,167302,147014,202743,177619],
-  ebitda:      [-294087,-375979,-250281,5057,-232230,37452,-464345,-165792,-254772,-156953,57118,263065],
-  depAmort:    [25683,33683,34781,34831,50044,50711,50711,50916,28730,28730,27403,75386],
-  ebit:        [-268404,-342295,-215499,39889,-182186,88162,-413634,-114876,-226043,-128223,84522,338452],
-  finExpenses: [3511,6529,3978,3516,4696,6381,2991,5019,6786,3492,5332,623],
-  ebt:         [-264893,-335766,-211521,43404,-177490,94543,-410643,-109857,-219256,-124731,89854,337829],
-  tax:         [1720,1720,1720,1720,1720,1720,1720,18335,18335,18335,123412,71837],
-  netProfit:   [263173,334046,209801,-45124,175770,-96263,408923,91522,200921,106396,-213266,-409666].map(v=>-v),
-  inventory:   [1468893,1502046,1410885,1467324,1418167,1320136,1431512,1363799,1393122,1404292,1310195,1376513],
-  receivables: [1667698,2372442,2482295,2232280,2200370,2317683,2184654,1997253,2203066,1943683,1847771,1337232],
-  payables:    [1048760,1263872,1078948,1060536,1162690,1218997,842409,1084937,1142497,1089247,1175593,1023314],
-  equity:      [2030631,2364677,2574478,2529353,2705124,2308716,2717639,2809161,3010082,3116478,2903212,2493546],
-  cash:        [232888,72357,46491,276348,568331,204099,117419,622465,585540,921166,895479,956244],
-  ltDebt:      [1064680,978626,942572,906518,820464,784411,759925,685440,654836,624233,543629,931129],
-  stDebt:      [763253,763253,763253,763253,763253,763253,763253,763253,763253,763253,763253,498193],
-  otherCL:     [1101497,1182075,1201985,1305430,1313431,1326669,1158189,1108330,1066595,1102737,1074544,1170100],
-  grossProfit: [1221376,1318476,1265615,1094105,1209966,1209825,1104377,1114144,1072649,1055784,878274,797849].map((v,i)=>v-[237739,649974,541596,471916,500601,575102,368989,353392,410499,403315,343477,311398][i]),
-},
+  revenue:       [0,0,0,0,0,0,0,0,0,0,0,0],
+  cogs:          [0,0,0,0,0,0,0,0,0,0,0,0],
+  opex:          [0,0,0,0,0,0,0,0,0,0,0,0],
+  depAmort:      [0,0,0,0,0,0,0,0,0,0,0,0],
+  finExpenses:   [0,0,0,0,0,0,0,0,0,0,0,0],
+  tax:           [0,0,0,0,0,0,0,0,0,0,0,0],
+  netProfit:     [0,0,0,0,0,0,0,0,0,0,0,0],
+  grossProfit:   [0,0,0,0,0,0,0,0,0,0,0,0],
+  ebitda:        [0,0,0,0,0,0,0,0,0,0,0,0],
+  ebit:          [0,0,0,0,0,0,0,0,0,0,0,0],
+  ebt:           [0,0,0,0,0,0,0,0,0,0,0,0],
+  tangibles:     [0,0,0,0,0,0,0,0,0,0,0,0],
+  inventory:     [0,0,0,0,0,0,0,0,0,0,0,0],
+  receivables:   [0,0,0,0,0,0,0,0,0,0,0,0],
+  cash:          [0,0,0,0,0,0,0,0,0,0,0,0],
+  otherCA:       [0,0,0,0,0,0,0,0,0,0,0,0],
+  equity:        [0,0,0,0,0,0,0,0,0,0,0,0],
+  ltDebt:        [0,0,0,0,0,0,0,0,0,0,0,0],
+  stDebt:        [0,0,0,0,0,0,0,0,0,0,0,0],
+  payables:      [0,0,0,0,0,0,0,0,0,0,0,0],
+  otherCL:       [0,0,0,0,0,0,0,0,0,0,0,0],
+  },
 };
 // Compute grossProfit for each year
 Object.values(DATA_BY_YEAR).forEach(d => {
@@ -225,7 +249,14 @@ const Gauge = ({label,value,unit,target,targetLabel,color,desc,flip}) => {
   );
 };
 
-const TblHead = ({visMonths,monthTypes,totalLabel,stickyBg}) => {
+const TblHead = ({visMonths,monthTypes,totalLabel,stickyBg,simple,compLabel="BUD"}) => {
+  if(simple) return (
+    <thead><tr style={{borderBottom:"1px solid #1e2d45",background:"#070c17"}}>
+      <th style={{textAlign:"left",padding:"10px 20px",color:SLATE,fontWeight:500,minWidth:190,position:"sticky",left:0,background:stickyBg||"#0c1420",zIndex:2}}>Line Item</th>
+      {visMonths.map((m,i)=>(<th key={i} style={{padding:"8px 10px",fontWeight:600,fontSize:10,textAlign:"right",color:monthTypes[i]==="ACT"?"#93c5fd":"#fcd34d",whiteSpace:"nowrap",minWidth:80}}>{m}</th>))}
+      <th style={{padding:"8px 10px",fontWeight:600,fontSize:10,textAlign:"right",color:"#94a3b8",minWidth:90,borderLeft:"1px solid #1e2d45"}}>{totalLabel||"Total"}</th>
+    </tr></thead>
+  );
   const bg = stickyBg||"#0c1420";
   return (
     <thead>
@@ -239,11 +270,11 @@ const TblHead = ({visMonths,monthTypes,totalLabel,stickyBg}) => {
       <tr style={{borderBottom:"1px solid #1e2d45",background:"#070c17"}}>
         <th style={{position:"sticky",left:0,background:"#070c17",zIndex:2}}></th>
         {visMonths.map((_,i) => [
-          <th key={"a"+i} style={{padding:"4px 8px",fontSize:9,fontWeight:600,textAlign:"right",color:BLUE,background:"#060d1a",letterSpacing:"0.05em"}}>ACT</th>,
-          <th key={"c"+i} style={{padding:"4px 8px",fontSize:9,fontWeight:600,textAlign:"right",color:AMBER,background:"#0d0a00",letterSpacing:"0.05em"}}>BUD</th>,
+          <th key={"a"+i} style={{padding:"4px 8px",fontSize:9,fontWeight:600,textAlign:"right",color:monthTypes[i]==="ACT"?BLUE:AMBER,background:"#060d1a",letterSpacing:"0.05em"}}>{monthTypes[i]==="ACT"?"ACT":compLabel}</th>,
+          <th key={"c"+i} style={{padding:"4px 8px",fontSize:9,fontWeight:600,textAlign:"right",color:AMBER,background:"#0d0a00",letterSpacing:"0.05em",opacity: monthTypes[i]==="ACT"?0.3:1}}>{compLabel}</th>,
         ])}
-        {["ACT","BUD","VAR"].map(h => (
-          <th key={h} style={{padding:"4px 8px",fontSize:9,fontWeight:600,textAlign:"right",color:h==="ACT"?BLUE:h==="BUD"?AMBER:RED,letterSpacing:"0.05em"}}>{h}</th>
+        {["ACT",compLabel,"VAR"].map(h => (
+          <th key={h} style={{padding:"4px 8px",fontSize:9,fontWeight:600,textAlign:"right",color:h==="ACT"?BLUE:h==="VAR"?RED:AMBER,letterSpacing:"0.05em"}}>{h}</th>
         ))}
       </tr>
     </thead>
@@ -330,9 +361,9 @@ function BillingView({clientName, supabase, onClose, userEmail=""}) {
   const STRIPE_KEY = "PASTE_STRIPE_PUBLISHABLE_KEY";
 
   const PACKAGES = [
-    {id:"spark",   name:"Spark",   credits:200,  price:"€10", priceId:"price_spark_10eur",   desc:"200 questions",  color:"#60a5fa"},
-    {id:"insight", name:"Insight", credits:400,  price:"€20", priceId:"price_insight_20eur", desc:"400 questions",  color:"#a78bfa"},
-    {id:"oracle",  name:"Oracle",  credits:1000, price:"€50", priceId:"price_oracle_50eur",  desc:"1 000 questions",color:"#2dd4bf"},
+    {id:"spark",   name:"Spark",   credits:200,  price:"€10", priceId:"price_1TBr8936nlMWZMRYRFZb0mAv", desc:"200 questions",  color:"#60a5fa"},
+    {id:"insight", name:"Insight", credits:400,  price:"€20", priceId:"price_1TBr9B36nlMWZMRYjnbtW4iB", desc:"400 questions",  color:"#a78bfa"},
+    {id:"oracle",  name:"Oracle",  credits:1000, price:"€50", priceId:"price_1TBr9o36nlMWZMRYypTwoHC2", desc:"1 000 questions",color:"#2dd4bf"},
   ];
 
   React.useEffect(()=>{
@@ -374,6 +405,7 @@ function BillingView({clientName, supabase, onClose, userEmail=""}) {
         headers:{"Content-Type":"application/json"},
         body:JSON.stringify({package: pkg.id, client: clientName, user_email: userEmail}),
       });
+      if(!resp.ok){let e="Server error "+resp.status;try{const j=await resp.json();e=j.error||e;}catch(_){}throw new Error(e);}
       const {url} = await resp.json();
       if(url) window.open(url, "_blank");
       else alert("Could not start checkout. Please try again.");
@@ -505,7 +537,7 @@ function BillingView({clientName, supabase, onClose, userEmail=""}) {
         </div>
 
         <div style={{marginTop:8,padding:"10px 12px",background:"rgba(99,102,241,0.06)",border:"1px solid rgba(99,102,241,0.2)",borderRadius:8}}>
-          <div style={{fontSize:10,color:"#6366f1",fontFamily:"'DM Mono',monospace"}}>ℹ Credits never expire · Secure payment via Stripe · ALV 25.5% sis.</div>
+          <div style={{fontSize:10,color:"#6366f1",fontFamily:"'DM Mono',monospace"}}>ℹ Credits never expire · Secure payment via Stripe · Prices VAT 0%</div>
         </div>
       </div>
     </div>
@@ -637,12 +669,12 @@ TONE: Decisive and strategic. No deep dives into accounting detail. End with a b
     setCredits(newBal);
   };
 
-  const SYSTEM = `You are EBITDA-9000, an AI financial advisor embedded in a board-level dashboard called Targetflow. When a role is active, you respond as that persona and sign off with their name.
+  const SYSTEM = `You are EBITDA-9000, an AI financial advisor embedded in a board-level dashboard called targetdash›. When a role is active, you respond as that persona and sign off with their name.
 
 CRITICAL — DATA RULES:
 1. This company's data (shown below) is the PRIMARY source. Every answer must be grounded in it.
 2. You may reference publicly available industry data (sector averages, published benchmarks, macroeconomic context) only to give this company's numbers context — never as the main point.
-3. You MUST NEVER reference, hint at, or use data from any other Targetflow client or any private company data. Treat other clients as if they do not exist.
+3. You MUST NEVER reference, hint at, or use data from any other targetdash› client or any private company data. Treat other clients as if they do not exist.
 4. If you don't have enough data to answer, say so — do not speculate or invent.
 
 ABSOLUTE RULES:
@@ -919,8 +951,8 @@ function MembersPanel({supabase, currentUserEmail, credits, setCredits, customTa
     setInviting(true);
 
     // Check credits
-    if(credits !== Infinity && (credits??0) < MEMBER_FEE_CR) {
-      setInviteErr(`Insufficient credits. Need ${MEMBER_FEE_CR} cr (€50) for first month.`);
+    if(credits !== null && credits !== Infinity && (credits??0) < MEMBER_FEE_CR) {
+      setInviteErr(`Insufficient credits. Need ${MEMBER_FEE_CR} cr for first month.`);
       setInviting(false); return;
     }
 
@@ -955,10 +987,20 @@ function MembersPanel({supabase, currentUserEmail, credits, setCredits, customTa
       fee_paid_at:new Date().toISOString(),
     }).select().single();
 
-    if(error) { setInviteErr("Error: "+error.message); setInviting(false); return; }
+    if(error) {
+      console.error("dashboard_members insert error:", error);
+      setInviteErr("Error: "+error.message+(error.code?" ("+error.code+")":""));
+      setInviting(false); return;
+    }
 
-    // Create Supabase Auth invite
-    await supabase.auth.admin?.inviteUserByEmail?.(inviteEmail.trim()).catch(()=>{});
+    // Send invite via backend API
+    try {
+      const invResp = await fetch("/api/invite-member", {
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({email:inviteEmail.trim(),client:CLIENT_NAME,invited_by:currentUserEmail}),
+      });
+      if(!invResp.ok){const d=await invResp.json().catch(()=>({}));console.warn("Invite warning:",d.error);}
+    } catch(invErr){ console.warn("Invite send failed:",invErr.message); }
 
     setMembers(prev=>[...prev, data]);
     setInviteEmail("");
@@ -1009,7 +1051,7 @@ function MembersPanel({supabase, currentUserEmail, credits, setCredits, customTa
           <div style={{fontSize:9,color:AMBER,fontFamily:"'DM Mono',monospace",
             background:"rgba(245,158,11,0.08)",border:"1px solid rgba(245,158,11,0.2)",
             borderRadius:5,padding:"2px 8px"}}>
-            €{members_only.length * 50}/mo
+            {members_only.length * MEMBER_FEE_CR} cr/mo
           </div>
         )}
       </div>
@@ -1099,7 +1141,7 @@ function MembersPanel({supabase, currentUserEmail, credits, setCredits, customTa
       <div style={{padding:"12px 14px",background:"rgba(10,14,26,0.8)",border:"1px solid #1e2d45",borderRadius:9}}>
         <div style={{fontSize:10,color:SLATE,fontFamily:"'DM Mono',monospace",textTransform:"uppercase",letterSpacing:"0.1em",marginBottom:8}}>Invite member</div>
         <div style={{fontSize:10,color:"#475569",marginBottom:10}}>
-          Cost: <span style={{color:AMBER,fontWeight:600}}>{MEMBER_FEE_CR} cr/month (€50)</span> charged from your credit balance.
+          Cost: <span style={{color:AMBER,fontWeight:600}}>{MEMBER_FEE_CR} cr/month</span> charged from your credit balance.
           Member gets their own credits for AI.
         </div>
         <div style={{display:"flex",gap:8}}>
@@ -1170,7 +1212,7 @@ function AccountingConnect({supabase, onConnected}) {
   // Simple XOR obfuscation — not true encryption but prevents plain text storage
   // For production, use a Vercel Edge Function with proper encryption
   const obfuscate = (str) => {
-    const key = CLIENT_NAME + "targetflow2025";
+    const key = CLIENT_NAME + "targetdash2026";
     return btoa(str.split("").map((c,i)=>
       String.fromCharCode(c.charCodeAt(0)^key.charCodeAt(i%key.length))
     ).join(""));
@@ -1494,10 +1536,10 @@ function ApiSyncPanel({year, actLast, setActLast, setMode, onClose}) {
                     <div style={{width:6,height:6,borderRadius:"50%",background:AMBER}}/>
                     <span style={{fontSize:11,color:"#94a3b8"}}>API Key</span>
                   </div>
-                  <span style={{fontSize:10,fontFamily:"'DM Mono',monospace",color:AMBER}}>Targetflow Dashboard key needed</span>
+                  <span style={{fontSize:10,fontFamily:"'DM Mono',monospace",color:AMBER}}>targetdash› API key needed</span>
                 </div>
                 <div style={{fontSize:9,color:"#1e2d45",fontFamily:"'DM Mono',monospace",lineHeight:1.6}}>
-                  To connect: create an API key called "Targetflow Dashboard" in your {source==="procountor"?"Procountor":"Netvisor"} settings, then set it in the dashboard config. See setup guide →
+                  To connect: create an API key called "targetdash› API key" in your {source==="procountor"?"Procountor":"Netvisor"} settings, then set it in the dashboard config. See setup guide →
                 </div>
               </div>
             )}
@@ -1778,10 +1820,10 @@ function codeToMapping(code) {
   return null;
 }
 
-// ── Targetflow Import Template parser ────────────────────────────────────────
+// ── targetdash› Import Template parser ────────────────────────────────────────
 // Reads the structured template format (row 3 = metadata, row 6 = month headers,
 // row 7 = year headers, rows 8+ = account data).
-function parseTargetflowTemplate(wb, entities) {
+function parseTargetdashTemplate(wb, entities) {
   const XL = window.XLSX;
   const ws = wb.Sheets[wb.SheetNames[0]];
   const rows = XL.utils.sheet_to_json(ws, {header:1, defval:""});
@@ -2102,7 +2144,7 @@ function SettingsMenu({actData,actName,actLast,setActData,setActName,setActLast,
                   fontSize:9,fontFamily:"'DM Mono',monospace",color:"#4ade80",
                   textTransform:"uppercase",letterSpacing:"0.06em"}}>
                   <span style={{width:5,height:5,borderRadius:"50%",background:"#4ade80",display:"inline-block"}}/>
-                  Board member
+                  {userRole==="superuser"?"Superuser":userRole==="mainuser"?"Main user":"Board member"}
                 </div>
               </div>
             </div>
@@ -2239,20 +2281,20 @@ function SettingsMenu({actData,actName,actLast,setActData,setActName,setActLast,
               const hoverBg= isAct ? "#0c1e35" : isElim ? "#180d2e" : "#1a0e00";
               const loadC  = isAct ? "#4ade80" : isElim ? "#a78bfa" : AMBER;
               const onDrop = isAct
-                ? e=>{e.preventDefault();setDragOverA(false);parseFile(e.dataTransfer.files[0],true);}
+                ? e=>{e.preventDefault();setDragOverA(false);parseCSV(e.dataTransfer.files[0],true);}
                 : isElim
                 ? e=>{e.preventDefault();setDragOver(false);parseElimFile(e.dataTransfer.files[0]);}
-                : e=>{e.preventDefault();setDragOver(false);parseFile(e.dataTransfer.files[0],false);};
+                : e=>{e.preventDefault();setDragOver(false);parseCSV(e.dataTransfer.files[0],false);};
               const onOver = isAct
                 ? e=>{e.preventDefault();setDragOverA(true);}
                 : e=>{e.preventDefault();setDragOver(true);};
               const onLeave= isAct ? ()=>setDragOverA(false) : ()=>setDragOver(false);
               const ref_   = isAct ? fileRefA : isElim ? fileRefE : fileRef;
               const onChange=isAct
-                ? e=>parseFile(e.target.files[0],true)
+                ? e=>parseCSV(e.target.files[0],true)
                 : isElim
                 ? e=>parseElimFile(e.target.files[0])
-                : e=>parseFile(e.target.files[0],false);
+                : e=>parseCSV(e.target.files[0],false);
               return (
                 <div style={{border:"1px dashed "+baseC,borderRadius:8,padding:"11px 14px",
                   display:"flex",alignItems:"center",justifyContent:"space-between",cursor:"pointer",
@@ -2321,6 +2363,17 @@ function SettingsMenu({actData,actName,actLast,setActData,setActName,setActLast,
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
               Billing & Credits
             </button>
+            {(userRole==="mainuser"||userRole==="superuser")&&(
+              <button onClick={()=>setView("members")}
+                style={{width:"100%",padding:"11px 20px",background:"transparent",border:"none",
+                  borderTop:"1px solid #0f1e30",color:"#94a3b8",fontSize:12,cursor:"pointer",
+                  textAlign:"left",fontFamily:"'DM Sans',sans-serif",display:"flex",alignItems:"center",gap:11}}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                Team Members
+              </button>
+            )}
             <button onClick={doSignOut}
               style={{width:"100%",padding:"11px 20px",background:"transparent",border:"none",
                 borderTop:"1px solid #0f1e30",color:"#f87171",fontSize:12,cursor:"pointer",
@@ -2359,7 +2412,7 @@ function SettingsMenu({actData,actName,actLast,setActData,setActName,setActLast,
           )}
           {/* ── API Sync placeholder ── */}
           {/* Members — mainuser only */}
-          {userRole==="mainuser"&&(
+          {(userRole==="mainuser"||userRole==="superuser")&&(
             <div style={{borderTop:"1px solid #0f1e30",padding:"12px 20px"}}>
               <button onClick={()=>setView("members")}
                 style={{width:"100%",padding:"9px 12px",background:"#070c17",border:"1px solid #1e2d45",
@@ -2589,7 +2642,7 @@ function CustomTab({slot, userEmail, actData, csvData, glData, actLast, year, S,
         headers:{"Content-Type":"application/json","x-api-key":ANTHROPIC_KEY,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
         body:JSON.stringify({
           model:"claude-sonnet-4-20250514", max_tokens:1200,
-          system:`You are a financial data analyst embedded in a private board dashboard called Targetflow.
+          system:`You are a financial data analyst embedded in a private board dashboard called targetdash›.
 
 CRITICAL DATA RULES:
 1. Use ONLY the financial data provided below.
@@ -2848,11 +2901,11 @@ function ForecastTab({actuals,comp,compLabel,mode,setMode,S,E,fcRevData,fcEqData
     const newCogs  = scnItem==="cogs"        ? (actuals.cogs||[]).map(v=>v*multiplier)        : actuals.cogs;
     const newOpex  = scnItem==="opex"        ? (actuals.opex||[]).map(v=>v*multiplier)        : actuals.opex;
     const newFin   = scnItem==="finExpenses" ? (actuals.finExpenses||[]).map(v=>v*multiplier) : actuals.finExpenses;
-    const newGP    = (newRev||[]).map((v,i)=>v-(newCogs[i]||0));
-    const newEBIT  = newGP.map((v,i)=>v-(newOpex[i]||0));
-    const newEBIT2 = newEBIT.map((v,i)=>v-((actuals.depAmort||[])[i]||0));
-    const newEBT   = newEBIT2.map((v,i)=>v-(newFin[i]||0));
-    const newNet   = newEBT.map((v,i)=>v-((actuals.tax||[])[i]||0));
+    const newGP    = (newRev||[]).map((v,i)=>v+(newCogs[i]||0));
+    const newEBIT  = newGP.map((v,i)=>v+(newOpex[i]||0));
+    const newEBIT2 = newEBIT.map((v,i)=>v+((actuals.depAmort||[])[i]||0));
+    const newEBT   = newEBIT2.map((v,i)=>v+(newFin[i]||0));
+    const newNet   = newEBT.map((v,i)=>v+((actuals.tax||[])[i]||0));
     return {...actuals,revenue:newRev,cogs:newCogs,opex:newOpex,finExpenses:newFin,
       grossProfit:newGP,ebitda:newEBIT,ebit:newEBIT2,ebt:newEBT,netProfit:newNet};
   },[actuals,scnItem,multiplier]);
@@ -2878,13 +2931,13 @@ function ForecastTab({actuals,comp,compLabel,mode,setMode,S,E,fcRevData,fcEqData
 
   const heatEbitda = STEPS.map(rp=>STEPS.map(op=>{
     const r=baseRev*(1+rp/100), o=baseOpex*(1+op/100);
-    return r-baseCogs-o;
+    return r+baseCogs+o;
   }));
 
   const heatEquity = STEPS.map(rp=>STEPS.map(op=>{
     const revChg = baseRev*(rp/100);
     const opxChg = baseOpex*(op/100);
-    const netImpact = (revChg - opxChg)*0.8;
+    const netImpact = revChg - opxChg;
     return baseEquity + netImpact;
   }));
 
@@ -2974,8 +3027,8 @@ function ForecastTab({actuals,comp,compLabel,mode,setMode,S,E,fcRevData,fcEqData
                   <XAxis dataKey="month" tick={{fontSize:10,fill:SLATE}} axisLine={false} tickLine={false}/>
                   <YAxis tick={{fontSize:10,fill:SLATE}} axisLine={false} tickLine={false} tickFormatter={v=>"€"+(v/1e3).toFixed(0)+"K"}/>
                   <Tooltip content={<Tt/>}/>
-                  <Line type="monotone" dataKey={ch.k1} stroke={ch.c1} strokeWidth={2} dot={false} name="ACT"/>
-                  <Line type="monotone" dataKey={ch.k2} stroke={ch.c2} strokeWidth={2} dot={false} strokeDasharray="4 4" name={compLabel}/>
+                  <Line type="monotone" dataKey={ch.k1} stroke={ch.c1} strokeWidth={2} dot={false} name="ACT" connectNulls={false}/>
+                  <Line type="monotone" dataKey={ch.k2} stroke={ch.c2} strokeWidth={2} dot={false} strokeDasharray="4 4" name={compLabel} connectNulls={false}/>
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -3124,7 +3177,7 @@ function ModeSwitcher({mode,setMode,compLabel}) {
 }
 
 // ── P&L Tab ──────────────────────────────────────────────────────────────────
-function PLTab({actuals,comp,compLabel,mode,setMode,S,E,visMonths,monthTypes,plRows,year}) {
+function PLTab({actuals,comp,compLabel,mode,setMode,S,E,visMonths,monthTypes,plRows,year,actLast}) {
   const sum = a => a.reduce((s,v)=>s+v,0);
   const sl  = (arr,s,e) => arr?arr.slice(s,e+1):[];
   const fmt = v => { const a=Math.abs(v),sg=v<0?"−":""; return a>=1e6?sg+"€"+(a/1e6).toFixed(2)+"M":a>=1e3?sg+"€"+(a/1e3).toFixed(0)+"K":sg+"€"+a.toFixed(0); };
@@ -3144,9 +3197,14 @@ function PLTab({actuals,comp,compLabel,mode,setMode,S,E,visMonths,monthTypes,plR
 
   const chartData = MONTHS_A.map((m,i)=>({
     month:m,
-    revenue:actuals.revenue[i],   cRevenue:comp.revenue?comp.revenue[i]:0,
-    grossProfit:actuals.grossProfit[i], ebitda:actuals.ebitda[i],
-    netProfit:actuals.netProfit[i], cNet:comp.netProfit?comp.netProfit[i]:0,
+    revenue:     i<=actLast ? actuals.revenue[i]    : null,
+    grossProfit: i<=actLast ? actuals.grossProfit[i]: null,
+    ebitda:      i<=actLast ? actuals.ebitda[i]     : null,
+    netProfit:   i<=actLast ? actuals.netProfit[i]  : null,
+    cRevenue:    i>=actLast ? (comp.revenue?.[i]||0)    : null,
+    cGrossProfit:i>=actLast ? (comp.grossProfit?.[i]||0): null,
+    cEbitda:     i>=actLast ? (comp.ebitda?.[i]||0)     : null,
+    cNet:        i>=actLast ? (comp.netProfit?.[i]||0)  : null,
   }));
 
   return (
@@ -3202,8 +3260,9 @@ function PLTab({actuals,comp,compLabel,mode,setMode,S,E,visMonths,monthTypes,plR
               <YAxis tick={{fontSize:10,fill:SLATE}} axisLine={false} tickLine={false} tickFormatter={v=>"€"+(v/1e3).toFixed(0)+"K"}/>
               <Tooltip content={<Tt/>}/>
               <Line type="monotone" dataKey="revenue"  stroke={BLUE}  strokeWidth={2} dot={false} name="Revenue ACT"/>
-              <Line type="monotone" dataKey="cRevenue" stroke={AMBER} strokeWidth={1.5} dot={false} strokeDasharray="4 4" name={"Revenue "+compLabel}/>
-              <Line type="monotone" dataKey="grossProfit" stroke={CYAN} strokeWidth={1.5} dot={false} strokeDasharray="2 2" name="Gross Profit"/>
+              <Line type="monotone" dataKey="cRevenue"      stroke={AMBER} strokeWidth={1.5} dot={false} strokeDasharray="4 4" name={"Revenue "+compLabel} connectNulls={false}/>
+              <Line type="monotone" dataKey="grossProfit"  stroke={CYAN}  strokeWidth={1.5} dot={false} name="Gross Profit" connectNulls={false}/>
+              <Line type="monotone" dataKey="cGrossProfit" stroke={CYAN}  strokeWidth={1.5} dot={false} strokeDasharray="4 4" name={"GP "+compLabel} connectNulls={false}/>
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -3216,8 +3275,9 @@ function PLTab({actuals,comp,compLabel,mode,setMode,S,E,visMonths,monthTypes,plR
               <YAxis tick={{fontSize:10,fill:SLATE}} axisLine={false} tickLine={false} tickFormatter={v=>"€"+(v/1e3).toFixed(0)+"K"}/>
               <Tooltip content={<Tt/>}/>
               <Line type="monotone" dataKey="ebitda"    stroke={AMBER} strokeWidth={2} dot={false} name="EBITDA ACT"/>
-              <Line type="monotone" dataKey="netProfit" stroke={GREEN} strokeWidth={2} dot={false} name="Net Profit ACT"/>
-              <Line type="monotone" dataKey="cNet"      stroke={AMBER} strokeWidth={1.5} dot={false} strokeDasharray="4 4" name={"Net "+compLabel}/>
+              <Line type="monotone" dataKey="netProfit" stroke={GREEN} strokeWidth={2}   dot={false} name="Net Profit ACT" connectNulls={false}/>
+              <Line type="monotone" dataKey="cNet"      stroke={AMBER} strokeWidth={1.5} dot={false} strokeDasharray="4 4" name={"Net "+compLabel} connectNulls={false}/>
+              <Line type="monotone" dataKey="cEbitda"   stroke={AMBER} strokeWidth={1.5} dot={false} strokeDasharray="2 2" name={"EBITDA "+compLabel} connectNulls={false}/>
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -3227,7 +3287,7 @@ function PLTab({actuals,comp,compLabel,mode,setMode,S,E,visMonths,monthTypes,plR
       <div style={{background:"#0c1420",border:"1px solid #0f1e30",borderRadius:12,overflow:"hidden"}}>
         <div style={{overflowX:"auto"}}>
           <table style={{width:"100%",borderCollapse:"collapse",fontSize:11,fontFamily:"'DM Mono',monospace"}}>
-            <TblHead visMonths={visMonths} monthTypes={monthTypes} totalLabel={MONTHS_A[S]+"–"+MONTHS_A[E]}/>
+            <TblHead visMonths={visMonths} monthTypes={monthTypes} totalLabel={MONTHS_A[S]+"–"+MONTHS_A[E]} compLabel={compLabel}/>
             <tbody>
               {plRows.map((r,ri)=>(
                 <TblRow key={ri} label={r.label} actArr={actuals[r.ak]||[]} compArr={r.ck?comp[r.ck]:null} color={r.color} bold={r.bold} indent={r.indent} s={S} e={E} monthTypes={monthTypes}/>
@@ -3249,8 +3309,8 @@ function BalanceTab({actuals,comp,compLabel,mode,setMode,S,E,visMonths,monthType
   const endDebt = (actuals.ltDebt[E]||0)+(actuals.stDebt[E]||0);
   const endAss  = totAss[E]||0;
   const endLiab = totLiab[E]||0;
-  const eqR     = (endEq+endDebt) ? (endEq/(endEq+endDebt)*100).toFixed(1) : 0;
-  const gear    = endEq ? (endDebt/endEq*100).toFixed(1) : 0;
+  const eqR     = endAss ? (endEq/endAss*100).toFixed(1) : 0;  // equity / total assets
+  const gear    = endEq  ? (endDebt/endEq*100).toFixed(1) : 0; // net debt / equity
 
   const chartData = MONTHS_A.map((m,i)=>({
     month:m,
@@ -3328,7 +3388,7 @@ function BalanceTab({actuals,comp,compLabel,mode,setMode,S,E,visMonths,monthType
       <div style={{background:"#0c1420",border:"1px solid #0f1e30",borderRadius:12,overflow:"hidden"}}>
         <div style={{overflowX:"auto"}}>
           <table style={{width:"100%",borderCollapse:"collapse",fontSize:11,fontFamily:"'DM Mono',monospace"}}>
-            <TblHead visMonths={visMonths} monthTypes={monthTypes} totalLabel="End of period"/>
+            <TblHead visMonths={visMonths} monthTypes={monthTypes} totalLabel="End of period" compLabel={compLabel}/>
             <tbody>
               {balRows.map((r,ri)=>{
                 if(r.spacer){
@@ -3512,7 +3572,7 @@ function Dashboard() {
         const {data:member} = await supabase.from("dashboard_members")
           .select("*").eq("client",CLIENT_NAME).eq("email",email).maybeSingle();
         if(member) {
-          setUserRole(member.role || "member");
+          setUserRole(member.role || "mainuser");
           setMemberData(member);
         } else {
           setUserRole("mainuser"); // not in members table = original user = mainuser
@@ -3531,10 +3591,14 @@ function Dashboard() {
   const [customTabs,  setCustomTabs] = useState([]);  // [{slot:1,name:...},{slot:2,name:...}]
   const [credits,     setCredits]    = useState(null);
   const [userEmail,   setUserEmail]  = useState("");
-  const [year,        setYear]       = useState("2025");
+  const [year,        setYear]       = useState("2026");
   const [mode,        setMode]       = useState("budget");
   const [csvData,     setCsvData]    = useState(null);
   const [csvName,     setCsvName]    = useState(null);
+  const [budData,     setBudData]    = useState(null);
+  const [budName,     setBudName]    = useState(null);
+  const [fcData,      setFcData]     = useState(null);
+  const [fcName,      setFcName]     = useState(null);
   const [actData,     setActData]    = useState(null);
   const [glData,      setGlData]     = useState(null);
   const [userRole,    setUserRole]   = useState("mainuser"); // "mainuser" | "member"
@@ -3621,7 +3685,7 @@ function Dashboard() {
             // Footer
             pdf.setFontSize(6.5); pdf.setTextColor(30,45,69);
             const today = new Date().toLocaleDateString("fi-FI");
-            pdf.text("Generated "+today+" · Targetflow Board Dashboard · "+clientName, PW/2, PH-3, {align:"center"});
+            pdf.text("Generated "+today+" · targetdash› · "+clientName, PW/2, PH-3, {align:"center"});
             const mg=5, top=15, avW=PW-mg*2, avH=PH-top-mg;
             const sc=Math.min(avW/c.w, avH/c.h);
             const dW=c.w*sc, dH=c.h*sc, x=mg+(avW-dW)/2, y=top+(avH-dH)/2;
@@ -3745,7 +3809,7 @@ function Dashboard() {
   const _consolidatedAct  = _buildConsolidated("act");
   const _consolidatedComp = _buildConsolidated(mode==="forecast"?"fc":"bud");
   const _rawAct  = (isGroup && _consolidatedAct)  ? _consolidatedAct  : actData||(DATA_BY_YEAR[year]||actBase);
-  const _rawComp = (isGroup && _consolidatedComp) ? _consolidatedComp : csvData||(DATA_BY_YEAR[year]||budBase);
+  const _rawComp = (isGroup && _consolidatedComp) ? _consolidatedComp : (mode==="forecast"?(fcData||csvData||estBase):(budData||csvData||budBase));
   const Z12 = ()=>[0,0,0,0,0,0,0,0,0,0,0,0];
 
   // ── Consolidated = sum of all entity uploads + eliminations ──────────────
@@ -3795,6 +3859,9 @@ function Dashboard() {
   const S=startM,E=endM;
   const visMonths  = MONTHS.slice(S,E+1);
   const monthTypes = visMonths.map((_,ii)=>(S+ii)<=actLast?"ACT":compLabel);
+  // For trajectory tabs (PL, Balance): always show full year so comp months are visible
+  const fullMonths  = MONTHS.slice(0,12);
+  const fullTypes   = fullMonths.map((_,ii)=>ii<=actLast?"ACT":compLabel);
 
   const totRev  = sum(sl(actuals.revenue,S,E));
   const totGP   = sum(sl(actuals.grossProfit,S,E));
@@ -3823,9 +3890,23 @@ function Dashboard() {
   const eqDebtData=MONTHS.map((m,i)=>({month:m,equity:actuals.equity[i],debt:(actuals.ltDebt[i]||0)+(actuals.stDebt[i]||0)}));
   const gearData  =MONTHS.map((m,i)=>({month:m,gearing:actuals.equity[i]?+(((actuals.ltDebt[i]||0)+(actuals.stDebt[i]||0))/actuals.equity[i]*100).toFixed(1):0}));
   const effData   =MONTHS.map((m,i)=>({month:m,dso:actuals.revenue[i]?+(actuals.receivables[i]/(actuals.revenue[i]/30)).toFixed(0):0}));
-  const fcRevData =MONTHS.map((m,i)=>({month:m,act:actuals.revenue[i],comp:comp.revenue[i]}));
-  const fcEqData  =MONTHS.map((m,i)=>({month:m,act:actuals.equity[i], comp:comp.equity[i]}));
-  const fcCashData=MONTHS.map((m,i)=>({month:m,act:actuals.cash[i],   comp:comp.cash[i]}));
+  // Trajectory: single line - ACT up to actLast, then comp/est continues
+  const fcRevData =MONTHS.map((m,i)=>({
+    month:m,
+    act:  i<=actLast ? (actuals.revenue[i]||0) : null,
+    comp: i> actLast ? ((comp.revenue||[])[i]||0) : null,
+  }));
+  const fcEqData  =MONTHS.map((m,i)=>({
+    month:m,
+    act:  i<=actLast ? (actuals.equity[i]||0) : null,
+    comp: i> actLast ? ((comp.equity||[])[i]||0) : null,
+  }));
+  const _lastActCash=actuals.cash[actLast]||0;
+  const fcCashData=MONTHS.map((m,i)=>({
+    month:m,
+    act:  i<=actLast ? (actuals.cash[i]||0) : null,
+    comp: i> actLast ? ((comp.cash||[])[i]||0) : null,
+  }));
     // ── CASH FLOW — indirect method, hybrid residual ──────────────────────────
   // Opening cash: use prior year Dec if available, else back-derive from month 1
   const _prevYearData = DATA_BY_YEAR[String(parseInt(year)-1)];
@@ -3871,7 +3952,7 @@ function Dashboard() {
   const netCFArr = MONTHS.map((_,i) => cfOp[i]+cfInv[i]+cfFin[i]);
   const closCash = MONTHS.map((_,i) => actuals.cash[i]||0);
 
-  const cfAll   = MONTHS.map((_,i)=>({month:MONTHS[i],op:cfOp[i],inv:cfInv[i],fin:cfFin[i],net:netCFArr[i],endCash:closCash[i]}));
+  const cfAll   = MONTHS.map((_,i)=>({month:MONTHS[i],op:cfOp[i]||0,inv:cfInv[i]||0,fin:cfFin[i]||0,net:netCFArr[i]||0,endCash:closCash[i]||0}));
   const cfChart = cfAll.slice(S,E+1);
 
   const CSV_FIELDS=[
@@ -3884,7 +3965,7 @@ function Dashboard() {
     {key:"ltDebt",label:"lt_debt"},{key:"stDebt",label:"st_debt"},{key:"otherCL",label:"other_cl"},
   ];
 
-  // ── Download Targetflow Import Template ───────────────────────────────────
+  // ── Download targetdash› Import Template ───────────────────────────────────
   const downloadTemplate = (type) => {
     if(type === "ELIM") {
       const a = document.createElement("a");
@@ -3953,7 +4034,11 @@ function Dashboard() {
         if(s.gl_data)   { try{ const d=JSON.parse(s.gl_data);   setGlData(d);   }catch(e){} }
         if(s.act_name)  setActName(s.act_name);
         if(s.act_last!=null) setActLast(s.act_last);
-        if(s.csv_data)  { try{ const d=JSON.parse(s.csv_data);  setCsvData(d);  }catch(e){} }
+        if(s.csv_data)  { try{ const d=JSON.parse(s.csv_data);
+          setCsvData(d);
+          if(s.mode==="forecast"){setFcData(d);if(s.csv_name)setFcName(s.csv_name);}
+          else{setBudData(d);if(s.csv_name)setBudName(s.csv_name);}
+        }catch(e){} }
         if(s.csv_name)  setCsvName(s.csv_name);
         if(s.mode)      setMode(s.mode);
         if(s.year)      setYear(s.year);
@@ -3982,7 +4067,7 @@ function Dashboard() {
     reader.onload = (e) => {
       try {
         const wb = window.XLSX.read(new Uint8Array(e.target.result),{type:"array"});
-        const tr = parseTargetflowTemplate(wb, entities);
+        const tr = parseTargetdashTemplate(wb, entities);
         if(!tr||!tr.data){ showMsg("Could not parse Elimination file — check file format",true); return; }
         if(!confirmOverwrite(false, tr.fileYear||year)) return;
         setElimData(tr.data);
@@ -4002,7 +4087,7 @@ function Dashboard() {
       const wb=XL.utils.book_new();
       const inputRows=[];
       // Header
-      inputRows.push(["Targetflow — "+compLabel+" template — "+year,...Array(13).fill("")]);
+      inputRows.push(["targetdash› — "+compLabel+" template — "+year,...Array(13).fill("")]);
       inputRows.push(["Account Code","Account Name","Model Line",...MONTHS,"Full Year"]);
       // Group by section
       const SECTIONS=[
@@ -4023,7 +4108,7 @@ function Dashboard() {
       }
       // Instructions sheet
       const instrRows=[
-        ["Targetflow Budget/Forecast Template"],[""],
+        ["targetdash› Budget/Forecast Template"],[""],
         ["1. Fill monthly budget values for each account (column D–O)"],
         ["2. Amounts in euros — same sign as your actuals export"],
         ["3. Do NOT change account codes or column order"],
@@ -4041,20 +4126,20 @@ function Dashboard() {
       wsHelp["!cols"]=[{wch:70}];
       XL.utils.book_append_sheet(wb,wsIn,"Budget Input");
       XL.utils.book_append_sheet(wb,wsHelp,"Instructions");
-      XL.writeFile(wb,"targetflow_"+compLabel.toLowerCase()+"_"+year+".xlsx");
+      XL.writeFile(wb,"targetdash_"+compLabel.toLowerCase()+"_"+year+".xlsx");
     } else {
       // Fallback: CSV
       const hdr=["field",...MONTHS].join(",");
       const rows=CSV_FIELDS.map(f=>[f.label,...(comp[f.key]||Array(12).fill(0)).map(v=>Math.round(v))].join(","));
-      const csv=["# Targetflow "+compLabel+" Template — "+year,hdr,...rows].join("\n");
-      const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="targetflow_"+compLabel.toLowerCase()+"_"+year+".csv";a.click();
+      const csv=["# targetdash› "+compLabel+" Template — "+year,hdr,...rows].join("\n");
+      const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="targetdash_"+compLabel.toLowerCase()+"_"+year+".csv";a.click();
     }
   };
   const exportActCSV=()=>{
     const hdr=["field",...MONTHS].join(",");
     const rows=CSV_FIELDS.map(f=>[f.label,...(actuals[f.key]||Array(12).fill(0)).map(v=>Math.round(v))].join(","));
-    const csv=["# Targetflow Actuals — "+year,"# actuals_last: last confirmed month 1-12",hdr,"actuals_last,"+(actLast+1)+",0,0,0,0,0,0,0,0,0,0,0",...rows].join("\n");
-    const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="targetflow_actuals_"+year+".csv";a.click();
+    const csv=["# targetdash› Actuals — "+year,"# actuals_last: last confirmed month 1-12",hdr,"actuals_last,"+(actLast+1)+",0,0,0,0,0,0,0,0,0,0,0",...rows].join("\n");
+    const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="targetdash_actuals_"+year+".csv";a.click();
   };
 
   // ── FX Conversion ─────────────────────────────────────────────────────────
@@ -4135,14 +4220,14 @@ function Dashboard() {
         try{
           const wb=window.XLSX.read(ev.target.result,{type:"array"});
 
-          // ── Try Targetflow template format first ──────────────────────────
+          // ── Try targetdash› template format first ──────────────────────────
           const firstWs = wb.Sheets[wb.SheetNames[0]];
           const firstRows = window.XLSX.utils.sheet_to_json(firstWs,{header:1,defval:""});
           const metaStr = String((firstRows[4]||[])[0]||"");
           const isTfTemplate = metaStr.includes("type:") && metaStr.includes("year:") && metaStr.includes("[");
 
           if(isTfTemplate){
-            const tr = parseTargetflowTemplate(wb, entities);
+            const tr = parseTargetdashTemplate(wb, entities);
             if(!tr){ setUploadMsg({text:"Template read failed — check file format",err:true}); return; }
             if(tr.companyWarning){
               const proceed = window.confirm("⚠️ Yhtiövaroitus\n\n" + tr.companyWarning + "\n\nJatketaanko silti?");
@@ -4181,7 +4266,9 @@ function Dashboard() {
                 setMode(newMode);
                 setUploadMsg({text:"✓ "+tr.fileType+" → "+((entities||[]).find(e=>e.id===uploadEntity)||{name:uploadEntity}).name+" — "+file.name,err:false});
               } else {
-                setCsvData(data); setCsvName(file.name);
+                if(newMode==="forecast"){setFcData(data);setFcName(file.name);}
+                else{setBudData(data);setBudName(file.name);}
+                setCsvData(data);setCsvName(file.name);
                 setMode(newMode);
                 setUploadMsg({text:"✓ "+tr.fileType+" loaded — "+file.name,err:false});
               }
@@ -4204,6 +4291,8 @@ function Dashboard() {
             writeSnapshot(merged, newLast, year, {actName:file.name});
           } else {
             if(!confirmOverwrite(false, year)) return;
+            if(mode==="forecast"){setFcData(merged);setFcName(file.name);}
+            else{setBudData(merged);setBudName(file.name);}
             setCsvData(merged);
             if(supabase){ supabase.from("client_snapshots").upsert({client:CLIENT_NAME,csv_data:JSON.stringify(merged),csv_name:file.name,mode,updated_at:new Date().toISOString()},{onConflict:"client"}).catch(e=>console.warn(e)); }
           }
@@ -4222,11 +4311,12 @@ function Dashboard() {
           const cols=lines[hIdx].split(",").map(c=>c.trim().toLowerCase());
           const mCols=MONTHS.map(m=>cols.indexOf(m.toLowerCase()));
           const parsed={};let newLast=actLast;
-          for(let i=hIdx+1;i<lines.length;i++){
+          for(let i=0;i<lines.length;i++){
             const parts=lines[i].split(",");
             const fname=parts[0]&&parts[0].trim().toLowerCase();
             if(!fname) continue;
             if(isAct&&fname==="actuals_last"){const v=parseInt(parts[1]);if(!isNaN(v)&&v>=1&&v<=12)newLast=v-1;continue;}
+            if(i<=hIdx) continue;
             const match=CSV_FIELDS.find(f=>f.label===fname);
             if(!match) continue;
             parsed[match.key]=mCols.map(ci=>{if(ci===-1)return 0;const v=parseFloat(parts[ci]);return isNaN(v)?0:v;});
@@ -4234,7 +4324,23 @@ function Dashboard() {
           const base=isAct?actBase:budBase;
           const result={...base,...parsed};
           if(parsed.revenue&&parsed.cogs) result.grossProfit=parsed.revenue.map((v,i)=>v-(parsed.cogs[i]||0));
-          if(isAct){setActData(result);setActLast(newLast);}else setCsvData(result);
+          const metaLine=ev.target.result.split("\n").find(l=>l.includes("year:"));
+          const yearMatch=metaLine&&metaLine.match(/year:(\d{4})/);
+          const csvYear=yearMatch?parseInt(yearMatch[1]):parseInt(year);
+          if(isAct){
+            if(!confirmOverwrite(true,csvYear)) return;
+            setActData(result);setActLast(newLast);
+            writeSnapshot(result,newLast,csvYear,{actName:file.name});
+            setUploadMsg({text:"✓ ACT loaded — "+file.name,err:false});
+          } else {
+            if(!confirmOverwrite(false,csvYear)) return;
+            const newMode=ev.target.result.includes("type:EST")||ev.target.result.includes("type:FC")?"forecast":"budget";
+            if(newMode==="forecast"){setFcData(result);setFcName(file.name);}
+            else{setBudData(result);setBudName(file.name);}
+            setCsvData(result);setMode(newMode);
+            if(supabase){supabase.from("client_snapshots").upsert({client:CLIENT_NAME,csv_data:JSON.stringify(result),csv_name:file.name,mode:newMode,updated_at:new Date().toISOString()},{onConflict:"client"}).catch(e=>console.warn(e));}
+            setUploadMsg({text:"✓ "+(newMode==="forecast"?"FC":"BUD")+" loaded — "+file.name,err:false});
+          }
         }catch(err){ setUploadMsg({text:"CSV error: "+err.message,err:true}); }
       };
       r.readAsText(file);
@@ -4280,7 +4386,10 @@ function Dashboard() {
 
   const totCurr=MONTHS.map((_,i)=>(actuals.inventory[i]||0)+(actuals.receivables[i]||0)+(actuals.cash[i]||0)+(actuals.otherCA?actuals.otherCA[i]:0));
   const totAss =MONTHS.map((_,i)=>(actuals.tangibles?actuals.tangibles[i]:0)+totCurr[i]);
-  const totLiab=MONTHS.map((_,i)=>(actuals.ltDebt[i]||0)+(actuals.stDebt[i]||0)+(actuals.payables[i]||0)+(actuals.otherCL[i]||0));
+  // totLiab = all liabilities excluding equity (for liabilities side of balance)
+  const totExtLiab=MONTHS.map((_,i)=>(actuals.ltDebt[i]||0)+(actuals.stDebt[i]||0)+(actuals.payables[i]||0)+(actuals.otherCL[i]||0));
+  // totLiab passed to BalanceTab = equity + all liabilities (should equal totAss)
+  const totLiab=MONTHS.map((_,i)=>(actuals.equity[i]||0)+totExtLiab[i]);
   const balRows=[
     {spacer:"ASSETS"},
     {label:"Tangible assets",   ak:"tangibles",   ck:null,          color:SLATE,indent:true},
@@ -4299,24 +4408,51 @@ function Dashboard() {
     {label:"TOTAL LIABILITIES", aa:totLiab,       ca:null,          color:RED,  bold:true},
   ];
 
+  // Comp (BUD/EST) cash flow
+  const _compPrev=DATA_BY_YEAR[String(parseInt(year)-1)];
+  const _compPrevBS=(key)=>_compPrev?(_compPrev[key]||[])[11]||0:(comp[key]?.[0]||0);
+  const _dc=(key,i)=>i===0?(comp[key]?.[0]||0)-_compPrevBS(key):(comp[key]?.[i]||0)-(comp[key]?.[i-1]||0);
+  const ccfDRec=MONTHS.map((_,i)=>-_dc('receivables',i));
+  const ccfDInv=MONTHS.map((_,i)=>-_dc('inventory',i));
+  const ccfDPay=MONTHS.map((_,i)=> _dc('payables',i));
+  const ccfDOCL=MONTHS.map((_,i)=> _dc('otherCL',i));
+  const ccfWC  =MONTHS.map((_,i)=>ccfDRec[i]+ccfDInv[i]+ccfDPay[i]+ccfDOCL[i]);
+  const ccfOpBefore=MONTHS.map((_,i)=>(comp.ebitda?.[i]||0)+ccfWC[i]);
+  const ccfInterest=MONTHS.map((_,i)=>-(comp.finExpenses?.[i]||0));
+  const ccfTaxCF   =MONTHS.map((_,i)=>-(comp.tax?.[i]||0));
+  const ccfOp  =MONTHS.map((_,i)=>ccfOpBefore[i]+ccfInterest[i]+ccfTaxCF[i]);
+  const ccfDLT =MONTHS.map((_,i)=> _dc('ltDebt',i));
+  const ccfDST =MONTHS.map((_,i)=> _dc('stDebt',i));
+  const ccfFin =MONTHS.map((_,i)=>ccfDLT[i]+ccfDST[i]);
+  // Opening cash for comp months: starts from last ACT cash, chains through comp
+  const ccfOpen=MONTHS.map((_,i)=>{
+    if(i<=actLast) return actuals.cash[i>0?i-1:0]||0;
+    if(i===actLast+1) return actuals.cash[actLast]||0;
+    return comp.cash?.[i-1]||actuals.cash[actLast]||0;
+  });
+  const ccfClose=MONTHS.map((_,i)=>i<=actLast?(actuals.cash[i]||0):(comp.cash?.[i]||actuals.cash[actLast]||0));
+  const ccfInv =MONTHS.map((_,i)=>{const dCash=(comp.cash?.[i]||0)-ccfOpen[i];return dCash-ccfOp[i]-ccfFin[i];});
+  const ccfNet =MONTHS.map((_,i)=>ccfOp[i]+ccfInv[i]+ccfFin[i]);
+  const h=(aA,cA,i)=>i<=actLast?(aA[i]||0):(cA[i]||0);
+
   const netCF = netCFArr;
   const cfTbl=[
-    {label:"EBITDA",                          aa:actuals.ebitda, color:AMBER,      bold:true},
-    {label:"  Δ Receivables",                 aa:cfDRec,         color:SLATE,      indent:true},
-    {label:"  Δ Inventory",                   aa:cfDInv,         color:SLATE,      indent:true},
-    {label:"  Δ Payables",                    aa:cfDPay,         color:SLATE,      indent:true},
-    {label:"  Δ Other current liabilities",   aa:cfDOCL,         color:SLATE,      indent:true},
-    {label:"OPERATIVE CF BEFORE FIN. ITEMS",   aa:cfOpBefore,     color:CYAN,       bold:true},
-    {label:"  Interest & financing",           aa:cfInterest,     color:SLATE,      indent:true},
-    {label:"  Taxes paid",                     aa:cfTaxCF,        color:SLATE,      indent:true},
-    {label:"OPERATIVE CASHFLOW",               aa:cfOp,           color:GREEN,      bold:true},
-    {label:"INVESTMENT CASHFLOW",              aa:cfInv,          color:RED,        bold:true},
-    {label:"  Δ LT debt",                     aa:cfDLT,          color:SLATE,      indent:true},
-    {label:"  Δ ST debt",                     aa:cfDST,          color:SLATE,      indent:true},
-    {label:"FINANCING CASHFLOW",               aa:cfFin,          color:"#94a3b8",  bold:true},
-    {label:"NET CASH CHANGE",                  aa:netCFArr,       color:BLUE,       bold:true},
-    {label:"Opening cash",                     aa:openCash,       color:SLATE},
-    {label:"CLOSING CASH BALANCE",             aa:closCash,       color:CYAN,       bold:true},
+    {label:"EBITDA",                         aa:MONTHS.map((_,i)=>h(actuals.ebitda,comp.ebitda||[],i)),  color:AMBER,     bold:true},
+    {label:"  Δ Receivables",                aa:MONTHS.map((_,i)=>h(cfDRec,ccfDRec,i)),    color:SLATE,     indent:true},
+    {label:"  Δ Inventory",                  aa:MONTHS.map((_,i)=>h(cfDInv,ccfDInv,i)),    color:SLATE,     indent:true},
+    {label:"  Δ Payables",                   aa:MONTHS.map((_,i)=>h(cfDPay,ccfDPay,i)),    color:SLATE,     indent:true},
+    {label:"  Δ Other current liabilities",  aa:MONTHS.map((_,i)=>h(cfDOCL,ccfDOCL,i)),   color:SLATE,     indent:true},
+    {label:"OPERATIVE CF BEFORE FIN. ITEMS", aa:MONTHS.map((_,i)=>h(cfOpBefore,ccfOpBefore,i)), color:CYAN, bold:true},
+    {label:"  Interest & financing",         aa:MONTHS.map((_,i)=>h(cfInterest,ccfInterest,i)), color:SLATE, indent:true},
+    {label:"  Taxes paid",                   aa:MONTHS.map((_,i)=>h(cfTaxCF,ccfTaxCF,i)),  color:SLATE,     indent:true},
+    {label:"OPERATIVE CASHFLOW",             aa:MONTHS.map((_,i)=>h(cfOp,ccfOp,i)),         color:GREEN,     bold:true},
+    {label:"INVESTMENT CASHFLOW",            aa:MONTHS.map((_,i)=>h(cfInv,ccfInv,i)),        color:RED,       bold:true},
+    {label:"  Δ LT debt",                   aa:MONTHS.map((_,i)=>h(cfDLT,ccfDLT,i)),        color:SLATE,     indent:true},
+    {label:"  Δ ST debt",                   aa:MONTHS.map((_,i)=>h(cfDST,ccfDST,i)),        color:SLATE,     indent:true},
+    {label:"FINANCING CASHFLOW",             aa:MONTHS.map((_,i)=>h(cfFin,ccfFin,i)),        color:"#94a3b8", bold:true},
+    {label:"NET CASH CHANGE",                aa:MONTHS.map((_,i)=>h(netCFArr,ccfNet,i)),     color:BLUE,      bold:true},
+    {label:"Opening cash",                   aa:MONTHS.map((_,i)=>h(openCash,ccfOpen,i)),    color:SLATE,     noSum:true,sumFn:"first"},
+    {label:"CLOSING CASH BALANCE",           aa:MONTHS.map((_,i)=>h(closCash,ccfClose,i)),   color:CYAN,      bold:true,noSum:true,sumFn:"last"},
   ];
   const totOp =sum(sl(cfOp, S,E));
   const totInv=sum(sl(cfInv,S,E));
@@ -4346,7 +4482,7 @@ function Dashboard() {
           </div>
           <div>
             <div style={{fontSize:14,fontWeight:600}}>{CLIENT_NAME}</div>
-            <div style={{fontSize:10,color:"#334155",fontFamily:"'DM Mono',monospace"}}>Financial Dashboard · {year}</div>
+            <div style={{fontSize:10,color:"#334155",fontFamily:"'DM Mono',monospace"}}>targetdash› · {year}</div>
           </div>
         </div>
         <div style={{display:"flex",alignItems:"center",gap:10}}>
@@ -4528,11 +4664,11 @@ function Dashboard() {
         )}
 
         {tab==="pl"&&(
-          <PLTab actuals={actuals} comp={comp} compLabel={compLabel} mode={mode} setMode={setMode} S={S} E={E} visMonths={visMonths} monthTypes={monthTypes} plRows={plRows} year={year}/>
+          <PLTab actuals={actuals} comp={comp} compLabel={compLabel} mode={mode} setMode={setMode} S={0} E={11} visMonths={fullMonths} monthTypes={fullTypes} plRows={plRows} year={year} actLast={actLast}/>
         )}
 
         {tab==="balance"&&(
-          <BalanceTab actuals={actuals} comp={comp} compLabel={compLabel} mode={mode} setMode={setMode} S={S} E={E} visMonths={visMonths} monthTypes={monthTypes} balRows={balRows} year={year} totCurr={totCurr} totAss={totAss} totLiab={totLiab}/>
+          <BalanceTab actuals={actuals} comp={comp} compLabel={compLabel} mode={mode} setMode={setMode} S={0} E={11} visMonths={fullMonths} monthTypes={fullTypes} balRows={balRows} year={year} totCurr={totCurr} totAss={totAss} totLiab={totLiab}/>
         )}
 
         {tab==="cashflow"&&(
@@ -4586,24 +4722,26 @@ function Dashboard() {
               </div>
               <div style={{overflowX:"auto"}}>
                 <table style={{width:"100%",borderCollapse:"collapse",fontSize:11,fontFamily:"'DM Mono',monospace"}}>
-                  <TblHead visMonths={visMonths} monthTypes={monthTypes} totalLabel={MONTHS[S]+"–"+MONTHS[E]}/>
+                  <TblHead visMonths={visMonths} monthTypes={monthTypes} totalLabel={MONTHS[S]+"–"+MONTHS[E]} simple={true}/>
                   <tbody>
                     {cfTbl.map((row,ri)=>{
                       const sliced=sl(row.aa,S,E);
-                      const total=sum(sliced);
+                      const total=row.noSum
+                        ?(row.sumFn==="first"?(sliced[0]||0):(sliced[sliced.length-1]||0))
+                        :sum(sliced);
                       const labelPad = row.indent ? "7px 20px 7px 36px" : "7px 20px";
                       const rowBg    = row.bold ? "rgba(255,255,255,0.02)" : "transparent";
                       const topBorder = row.bold ? "1px solid #1e2d45" : "1px solid #080f1a";
                       return (
                         <tr key={ri} className="tbl-row" style={{borderBottom:"1px solid #080f1a",borderTop:topBorder,background:rowBg}}>
                           <td style={{padding:labelPad,color:row.color,fontWeight:row.bold?700:400,fontSize:row.bold?12:11,position:"sticky",left:0,background:row.bold?"#0d1625":"#0c1420",zIndex:1,borderRight:"1px solid #0f1e30"}}>{row.label}</td>
-                          {sliced.map((v,i)=>[
-                            <td key={"a"+i} style={{padding:"7px 8px",textAlign:"right",color:row.color,fontWeight:row.bold?700:400,fontSize:11,fontFamily:"'DM Mono',monospace",whiteSpace:"nowrap"}}>{fmt(v)}</td>,
-                            <td key={"c"+i} style={{padding:"7px 4px",textAlign:"right",color:SLATE,fontSize:10}}>—</td>,
-                          ])}
+                          {sliced.map((v,i)=>{
+                            const isComp=i+S>actLast;
+                            return <td key={"a"+i} style={{padding:"7px 8px",textAlign:"right",
+                              color:isComp?AMBER:row.color,fontWeight:row.bold?700:400,fontSize:11,
+                              fontFamily:"'DM Mono',monospace",whiteSpace:"nowrap",opacity:isComp?0.85:1}}>{fmt(v)}</td>;
+                          })}
                           <td style={{padding:"7px 10px",textAlign:"right",color:row.color,fontWeight:700,borderLeft:"1px solid #1e2d45",fontFamily:"'DM Mono',monospace",whiteSpace:"nowrap"}}>{fmt(total)}</td>
-                          <td style={{padding:"7px 8px",color:SLATE}}>—</td>
-                          <td style={{padding:"7px 8px",color:SLATE}}>—</td>
                         </tr>
                       );
                     })}
@@ -4682,54 +4820,8 @@ function Dashboard() {
               )}
             </div>
 
-            {/* Monthly reporting deadlines */}
-            <div style={{background:"#0c1420",border:"1px solid #0f1e30",borderRadius:12,overflow:"hidden"}}>
-              <div style={{padding:"14px 22px",borderBottom:"1px solid #0f1e30",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                <div style={{fontSize:13,fontWeight:600,color:"#94a3b8"}}>Monthly Reporting · {year}</div>
-                <div style={{fontSize:10,color:SLATE,fontFamily:"'DM Mono',monospace"}}>{notifications.filter(n=>n.submitted).length}/{notifications.length} submitted</div>
-              </div>
-              <div style={{padding:"8px 8px 12px"}}>
-                <div style={{display:"grid",gridTemplateColumns:"1fr 180px 120px 80px",gap:0,padding:"6px 16px 8px",borderBottom:"1px solid #0f1e30"}}>
-                  {["Period","Due Date","Status","Done"].map((h,i)=>(
-                    <span key={i} style={{fontSize:9,fontFamily:"'DM Mono',monospace",color:"#334155",textTransform:"uppercase",letterSpacing:"0.08em",textAlign:i===3?"center":"left"}}>{h}</span>
-                  ))}
-                </div>
-                {MONTHS.map((month,mi)=>{
-                  const due      = mi<11 ? `${year}-${String(mi+2).padStart(2,"0")}-15` : `${parseInt(year)+1}-01-15`;
-                  const n        = notifications.find(n=>n.id===mi+1)||{id:mi+1,month,due,submitted:false};
-                  const today    = new Date();
-                  const dueDate  = new Date(n.due||due);
-                  const diffDays = Math.ceil((dueDate-today)/(1000*60*60*24));
-                  const isPast   = diffDays < 0;
-                  const isSoon   = diffDays >= 0 && diffDays <= 7;
-                  return (
-                    <div key={mi} style={{display:"grid",gridTemplateColumns:"1fr 180px 120px 80px",gap:0,alignItems:"center",
-                      padding:"10px 16px",borderRadius:8,marginBottom:2,
-                      background:n.submitted?"transparent":isSoon?"rgba(245,158,11,0.05)":"transparent",
-                      border:isSoon&&!n.submitted?"1px solid rgba(245,158,11,0.15)":"1px solid transparent"}}>
-                      <div style={{display:"flex",alignItems:"center",gap:10}}>
-                        <div style={{width:6,height:6,borderRadius:"50%",flexShrink:0,background:n.submitted?GREEN:isPast?RED:isSoon?AMBER:"#1e2d45"}}/>
-                        <span style={{fontSize:13,color:n.submitted?SLATE:"#e2e8f0",fontWeight:n.submitted?400:500}}>{month} {year}</span>
-                      </div>
-                      <input type="date" value={n.due||due} onChange={e=>updateDue(mi+1,e.target.value)}
-                        style={{background:"transparent",border:"1px solid #1e2d45",borderRadius:6,padding:"4px 8px",
-                          color:n.submitted?SLATE:"#94a3b8",fontSize:11,fontFamily:"'DM Mono',monospace",outline:"none",cursor:"pointer",width:140}}/>
-                      <span style={{fontSize:10,fontFamily:"'DM Mono',monospace",color:n.submitted?GREEN:isPast?RED:isSoon?AMBER:SLATE}}>
-                        {n.submitted?"✓ done":isPast?`${Math.abs(diffDays)}d overdue`:isSoon?`${diffDays}d left`:`in ${diffDays}d`}
-                      </span>
-                      <div style={{display:"flex",justifyContent:"center"}}>
-                        <div onClick={()=>{ const found=notifications.find(x=>x.id===mi+1); if(found){toggleSubmitted(mi+1);}else{setNotifications(prev=>[...prev,{id:mi+1,month,due:n.due||due,submitted:true}]);} }}
-                          style={{width:18,height:18,borderRadius:4,border:"1px solid "+(n.submitted?GREEN:"#1e2d45"),
-                            background:n.submitted?GREEN+"22":"transparent",display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer"}}>
-                          {n.submitted&&<span style={{fontSize:11,color:GREEN}}>✓</span>}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
           </div>
+
         )}
 
       </div>
@@ -4976,9 +5068,10 @@ function LoginScreen({onLogin}) {
         <div className="login-card-inner">
           {/* Logo */}
           <div style={{textAlign:"center",marginBottom:32}}>
-            <img src="https://y-lehti.fi/wp-content/uploads/2024/09/logo_tf-1024x293.png"
-              alt="Targetflow"
-              style={{width:160,marginBottom:14,filter:"brightness(0) invert(1)",opacity:0.95}}/>
+            <svg viewBox="0 0 220 40" xmlns="http://www.w3.org/2000/svg" style={{width:160,marginBottom:14}}>
+                  <text x="0" y="30" fontFamily="'DM Mono',monospace" fontSize="26" fontWeight="700" fill="white" opacity="0.95">targetdash</text>
+                  <text x="162" y="30" fontFamily="'DM Mono',monospace" fontSize="26" fontWeight="700" fill={ACCENT}>›</text>
+                </svg>
             <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
               <div style={{width:6,height:6,borderRadius:"50%",background:ACCENT,boxShadow:`0 0 8px ${ACCENT}`}}/>
               <span style={{fontSize:12,color:"rgba(96,165,250,0.8)",fontFamily:"'DM Mono',monospace",letterSpacing:"0.06em"}}>
@@ -5047,7 +5140,7 @@ function LoginScreen({onLogin}) {
             <div style={{width:5,height:5,borderRadius:"50%",background:"#22c55e",
               boxShadow:"0 0 6px #22c55e"}}/>
             <span style={{fontSize:10,color:"rgba(100,116,139,0.6)",fontFamily:"'DM Mono',monospace"}}>
-              Secured · Targetflow v2
+              targetdash › v3
             </span>
           </div>
         </div>
