@@ -15,34 +15,34 @@ import { AreaChart, Area, BarChart, Bar, LineChart, Line, XAxis, YAxis, Cartesia
 
 // ── Theme system ──────────────────────────────────────────────────────────────
 const THEMES = {
-  // targetdash dark — deep purple-black, smooth surfaces
+  // Exact targetdash.ai dark — deep violet-navy from screenshot
   dark: {
-    bg:        "#0d0b16",   // rich near-black purple
-    bgPanel:   "#13101f",   // panel — slightly lifted
-    bgCard:    "#1c1830",   // card — visible purple tint
-    bgRow:     "#16132a",   // table row
-    border:    "#2e2650",   // border — muted purple
-    borderSub: "#221d3c",   // inner border
-    borderRow: "#1a1630",   // row separator
-    text:      "#f1eeff",   // text — warm white with purple tint
-    textMuted: "#8b85a8",   // muted — cool gray-purple
-    textDim:   "#5d4faa",   // dim — deep purple for labels
+    bg:        "#0e0c18",   // page bg — very dark violet-navy
+    bgPanel:   "#13111f",   // panel — slightly lifted
+    bgCard:    "#1c1a2e",   // card — violet-navy surface
+    bgRow:     "#161424",   // table row
+    border:    "#2d2845",   // border — muted violet
+    borderSub: "#231f3a",   // inner border
+    borderRow: "#1a1728",   // row separator
+    text:      "#f0ecff",   // text — warm white with violet tint
+    textMuted: "#8a85a8",   // muted — cool purple-gray
+    textDim:   "#5a4f8a",   // dim labels
     accent:    "#9333ea",   // vivid purple
-    accentHi:  "#c084fc",   // light violet highlight
+    accentHi:  "#c084fc",   // light violet
     accentLo:  "#7c3aed",   // deeper purple
     blue:      "#818cf8",   // indigo for charts
-    green:     "#34d399",   // emerald — softer on dark
-    amber:     "#fbbf24",   // amber
-    red:       "#fb7185",   // rose — softer on dark
+    green:     "#34d399",   // emerald
+    amber:     "#fbbf24",
+    red:       "#fb7185",   // rose
     purple:    "#a78bfa",
     cyan:      "#a78bfa",
     slate:     "#6e6a8a",
-    yrActive:  "#231b45",
-    scrollBg:  "#0d0b16",
-    scrollFg:  "#2e2650",
-    logo:      "linear-gradient(135deg,#7c3aed,#9333ea)",
-    uploadBorder: "#2e2650",
-    cardRadius: 16,
+    yrActive:  "#2d1f5e",   // active year bg
+    scrollBg:  "#0e0c18",
+    scrollFg:  "#2d2845",
+    logo:      "linear-gradient(135deg,#6d28d9,#9333ea)",
+    uploadBorder: "#2d2845",
+    cardRadius: 14,
     radius:    10,
   },
   // FinManage-inspired light — blue-lavender tinted, white cards
@@ -326,18 +326,18 @@ const Gauge = ({label,value,unit,target,targetLabel,color,desc,flip}) => {
 const TblHead = ({visMonths,monthTypes,totalLabel,stickyBg,simple,compLabel="BUD"}) => {
   if(simple) return (
     <thead><tr style={{borderBottom:"1px solid #1e2d45",background:T.bgRow}}>
-      <th style={{textAlign:"left",padding:"10px 20px",color:SLATE,fontWeight:500,minWidth:190,position:"sticky",left:0,background:stickyBg||"#120f26",zIndex:2}}>Line Item</th>
-      {visMonths.map((m,i)=>(<th key={i} style={{padding:"8px 10px",fontWeight:600,fontSize:10,textAlign:"right",color:monthTypes[i]==="ACT"?"#c4b5fd":"#fcd34d",whiteSpace:"nowrap",minWidth:80}}>{m}</th>))}
+      <th style={{textAlign:"left",padding:"10px 20px",color:SLATE,fontWeight:500,minWidth:190,position:"sticky",left:0,background:stickyBg||T.bgCard,zIndex:2}}>Line Item</th>
+      {visMonths.map((m,i)=>(<th key={i} style={{padding:"8px 10px",fontWeight:600,fontSize:10,textAlign:"right",color:monthTypes[i]==="ACT"?T.accentHi:AMBER,whiteSpace:"nowrap",minWidth:80}}>{m}</th>))}
       <th style={{padding:"8px 10px",fontWeight:600,fontSize:10,textAlign:"right",color:T.textMuted,minWidth:90,borderLeft:"1px solid #1e2d45"}}>{totalLabel||"Total"}</th>
     </tr></thead>
   );
-  const bg = stickyBg||"#120f26";
+  const bg = stickyBg||T.bgCard;
   return (
     <thead>
       <tr style={{borderBottom:"1px solid #0f1e30"}}>
         <th style={{textAlign:"left",padding:"10px 20px",color:SLATE,fontWeight:500,minWidth:190,position:"sticky",left:0,background:bg,zIndex:2}}>Line Item</th>
         {visMonths.map((m,i) => (
-          <th key={i} colSpan={2} style={{padding:"8px 10px",fontWeight:500,fontSize:10,textAlign:"center",color:monthTypes[i]==="ACT"?"#c4b5fd":"#fcd34d",whiteSpace:"nowrap",minWidth:110}}>{m}</th>
+          <th key={i} colSpan={2} style={{padding:"8px 10px",fontWeight:500,fontSize:10,textAlign:"center",color:monthTypes[i]==="ACT"?T.accentHi:AMBER,whiteSpace:"nowrap",minWidth:110}}>{m}</th>
         ))}
         <th colSpan={3} style={{padding:"8px 10px",fontWeight:600,fontSize:10,textAlign:"center",color:T.textMuted,minWidth:130}}>{totalLabel||"Total"}</th>
       </tr>
@@ -409,7 +409,7 @@ const PeriodBar = ({startM,endM,setStart,setEnd,compLabel,actLast}) => (
             else if(i===endM&&i>startM) setEnd(i-1);
             else{setStart(i);setEnd(i);}
           }}>
-            <span style={{fontSize:10,lineHeight:1,color:isEdge?(isAct?"#c4b5fd":"#fcd34d"):(inRange?"#94a3b8":"#4a3d7a")}}>{m}</span>
+            <span style={{fontSize:10,lineHeight:1,color:isEdge?(isAct?T.accentHi:AMBER):(inRange?T.textMuted:T.textDim)}}>{m}</span>
             <span style={{fontSize:8,lineHeight:1,fontWeight:700,color:isAct?BLUE:AMBER}}>{isAct?"ACT":compLabel}</span>
           </button>
         );
@@ -519,7 +519,7 @@ function BillingView({clientName, supabase, onClose, userEmail=""}) {
         <div style={{display:"flex",flexDirection:"column",gap:8,marginBottom:16}}>
           {PACKAGES.map(pkg=>(
             <button key={pkg.id} onClick={()=>handleBuy(pkg)} disabled={buying===pkg.id}
-              style={{background:"#0a1220",border:"1px solid #1e2d45",borderRadius:12,padding:"12px 14px",
+              style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:12,padding:"12px 14px",
                 cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"space-between",
                 transition:"border-color 0.15s",outline:"none"}}
               onMouseEnter={e=>e.currentTarget.style.borderColor=pkg.color}
@@ -890,9 +890,9 @@ Financial data for this company only (${financialContext.period}, ${financialCon
       {/* Header */}
       <div style={{padding:"14px 18px",borderBottom:"1px solid #0f1e30",display:"flex",alignItems:"center",justifyContent:"space-between",background:"linear-gradient(135deg,#0a1628,#060e1e)",flexShrink:0,height:56}}>
         <div style={{display:"flex",alignItems:"center",gap:10}}>
-          <div style={{width:28,height:28,borderRadius:"50%",background:"#05060f",border:"1px solid rgba(129,140,248,0.3)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,overflow:"hidden"}}><svg width="28" height="28" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="e9k_a2" cx="50%" cy="50%" r="50%"><stop offset="0%" stopColor="#818cf8" stopOpacity="0.22"/><stop offset="100%" stopColor="#a78bfa" stopOpacity="0"/></radialGradient><radialGradient id="e9k_c2" cx="50%" cy="45%" r="50%"><stop offset="0%" stopColor="#1e3a6e"/><stop offset="100%" stopColor="#05060f"/></radialGradient></defs><circle cx="22" cy="22" r="22" fill="url(#e9k_a2)"/><g opacity="0.15" stroke="#a5b4fc" strokeLinecap="round"><line x1="22" y1="4" x2="22" y2="0" strokeWidth="0.8"/><line x1="22" y1="40" x2="22" y2="44" strokeWidth="0.8"/><line x1="4" y1="22" x2="0" y2="22" strokeWidth="0.8"/><line x1="40" y1="22" x2="44" y2="22" strokeWidth="0.8"/></g><ellipse cx="22" cy="9" rx="9" ry="2.2" fill="none" stroke="#818cf8" strokeWidth="0.9" opacity="0.55"/><circle cx="22" cy="22" r="18" fill="url(#e9k_c2)" stroke="rgba(129,140,248,0.35)" strokeWidth="0.8"/><rect x="10" y="13" width="24" height="20" rx="5" fill="rgba(10,16,45,0.95)" stroke="rgba(99,120,220,0.4)" strokeWidth="0.7"/><rect x="12" y="16" width="20" height="8" rx="2.5" fill="rgba(5,6,15,0.9)"/><rect x="13" y="17.5" width="6" height="3" rx="1.5" fill="#5b21b6"/><rect x="25" y="17.5" width="6" height="3" rx="1.5" fill="#5b21b6"/><rect x="14" y="18" width="4" height="2" rx="1" fill="#a78bfa"/><rect x="26" y="18" width="4" height="2" rx="1" fill="#a78bfa"/><circle cx="16" cy="19" r="0.8" fill="#bfdbfe" opacity="0.9"/><circle cx="28" cy="19" r="0.8" fill="#bfdbfe" opacity="0.9"/><rect x="13" y="26" width="2.5" height="4" rx="0.8" fill="#22c55e" opacity="0.9"/><rect x="17" y="27.5" width="2.5" height="2.5" rx="0.8" fill="#22c55e" opacity="0.7"/><rect x="21" y="26" width="2.5" height="4" rx="0.8" fill="#22c55e" opacity="0.85"/><rect x="25" y="28" width="2.5" height="2" rx="0.8" fill="#22c55e" opacity="0.6"/><rect x="29" y="26" width="2" height="4" rx="0.8" fill="#22c55e" opacity="0.75"/><line x1="22" y1="13" x2="22" y2="8" stroke="rgba(165,180,252,0.5)" strokeWidth="0.8" strokeLinecap="round"/><polygon points="22,5 24,7.5 22,10 20,7.5" fill="#a5b4fc" opacity="0.85"/><circle cx="22" cy="7.5" r="1" fill="white" opacity="0.6"/></svg></div>
+          <div style={{width:28,height:28,borderRadius:"50%",background:T.bgPanel,border:"1px solid rgba(129,140,248,0.3)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,overflow:"hidden"}}><svg width="28" height="28" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="e9k_a2" cx="50%" cy="50%" r="50%"><stop offset="0%" stopColor="#818cf8" stopOpacity="0.22"/><stop offset="100%" stopColor="#a78bfa" stopOpacity="0"/></radialGradient><radialGradient id="e9k_c2" cx="50%" cy="45%" r="50%"><stop offset="0%" stopColor="#1e3a6e"/><stop offset="100%" stopColor="#05060f"/></radialGradient></defs><circle cx="22" cy="22" r="22" fill="url(#e9k_a2)"/><g opacity="0.15" stroke="#a5b4fc" strokeLinecap="round"><line x1="22" y1="4" x2="22" y2="0" strokeWidth="0.8"/><line x1="22" y1="40" x2="22" y2="44" strokeWidth="0.8"/><line x1="4" y1="22" x2="0" y2="22" strokeWidth="0.8"/><line x1="40" y1="22" x2="44" y2="22" strokeWidth="0.8"/></g><ellipse cx="22" cy="9" rx="9" ry="2.2" fill="none" stroke="#818cf8" strokeWidth="0.9" opacity="0.55"/><circle cx="22" cy="22" r="18" fill="url(#e9k_c2)" stroke="rgba(129,140,248,0.35)" strokeWidth="0.8"/><rect x="10" y="13" width="24" height="20" rx="5" fill="rgba(10,16,45,0.95)" stroke="rgba(99,120,220,0.4)" strokeWidth="0.7"/><rect x="12" y="16" width="20" height="8" rx="2.5" fill="rgba(5,6,15,0.9)"/><rect x="13" y="17.5" width="6" height="3" rx="1.5" fill="#5b21b6"/><rect x="25" y="17.5" width="6" height="3" rx="1.5" fill="#5b21b6"/><rect x="14" y="18" width="4" height="2" rx="1" fill="#a78bfa"/><rect x="26" y="18" width="4" height="2" rx="1" fill="#a78bfa"/><circle cx="16" cy="19" r="0.8" fill="#bfdbfe" opacity="0.9"/><circle cx="28" cy="19" r="0.8" fill="#bfdbfe" opacity="0.9"/><rect x="13" y="26" width="2.5" height="4" rx="0.8" fill="#22c55e" opacity="0.9"/><rect x="17" y="27.5" width="2.5" height="2.5" rx="0.8" fill="#22c55e" opacity="0.7"/><rect x="21" y="26" width="2.5" height="4" rx="0.8" fill="#22c55e" opacity="0.85"/><rect x="25" y="28" width="2.5" height="2" rx="0.8" fill="#22c55e" opacity="0.6"/><rect x="29" y="26" width="2" height="4" rx="0.8" fill="#22c55e" opacity="0.75"/><line x1="22" y1="13" x2="22" y2="8" stroke="rgba(165,180,252,0.5)" strokeWidth="0.8" strokeLinecap="round"/><polygon points="22,5 24,7.5 22,10 20,7.5" fill="#a5b4fc" opacity="0.85"/><circle cx="22" cy="7.5" r="1" fill="white" opacity="0.6"/></svg></div>
           <div>
-            <div style={{fontSize:12,fontWeight:700,color:ROLES[role].color||"#e2e8f0"}}>{ROLES[role].name||"EBITDA-9000"}</div>
+            <div style={{fontSize:12,fontWeight:700,color:ROLES[role].color||T.text}}>{ROLES[role].name||"EBITDA-9000"}</div>
             <div style={{fontSize:9,color:loading?AMBER:GREEN,fontFamily:"'DM Mono',monospace"}}>{loading?"Crunching numbers…":"● Online"}</div>
 
           </div>
@@ -917,9 +917,9 @@ Financial data for this company only (${financialContext.period}, ${financialCon
               <div style={{fontSize:9,color:BLUE,fontFamily:"'DM Mono',monospace",paddingLeft:2}}>✦ Auto-summary</div>
             )}
             <div style={{maxWidth:"94%",padding:"9px 12px",borderRadius:m.role==="user"?"12px 12px 2px 12px":"12px 12px 12px 2px",
-              background:m.role==="user"?"#2a1f5e":m.err?"#1a0a0a":"#120f26",
-              border:"1px solid "+(m.role==="user"?"#3b82f655":m.err?"#f8717133":T.border),
-              fontSize:11,color:m.err?RED:T.text,lineHeight:1.6,whiteSpace:"pre-wrap"}}>
+              background:m.role==="user"?T.accentLo:m.err?"rgba(248,113,113,0.1)":T.bgCard,
+              border:"1px solid "+(m.role==="user"?"transparent":"#3b82f655":m.err?"#f8717133":T.border),
+              fontSize:11,color:m.role==="user"?"#fff":m.err?RED:T.text,lineHeight:1.6,whiteSpace:"pre-wrap"}}>
               {m.content}
             </div>
           </div>
@@ -951,12 +951,12 @@ Financial data for this company only (${financialContext.period}, ${financialCon
       {/* Input */}
       <div style={{padding:"10px 12px",borderTop:"1px solid #0f1e30",display:"flex",gap:8,flexShrink:0,background:T.bgPanel,alignItems:"center"}}>
         <select value={role} onChange={e=>setRole(e.target.value)}
-          style={{background:"#0a1220",border:"1px solid #1e2d45",borderRadius:10,padding:"6px 8px",
+          style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:10,padding:"6px 8px",
             color:ROLES[role].color,fontSize:10,outline:"none",cursor:"pointer",flexShrink:0,
             fontFamily:"'DM Mono',monospace",fontWeight:700,appearance:"none",
             WebkitAppearance:"none",minWidth:52,textAlign:"center"}}>
           {Object.keys(ROLES).map(r=>(
-            <option key={r} value={r} style={{color:ROLES[r].color,background:"#0a1220"}}>{r}</option>
+            <option key={r} value={r} style={{color:ROLES[r].color,background:T.bgCard}}>{r}</option>
           ))}
         </select>
         <input ref={inputRef} value={input} onChange={e=>setInput(e.target.value)}
@@ -967,7 +967,7 @@ Financial data for this company only (${financialContext.period}, ${financialCon
           onBlur={e=>e.target.style.borderColor=T.border}
         />
         <button onClick={send} disabled={!input.trim()||loading}
-          style={{width:34,height:34,borderRadius:12,background:input.trim()&&!loading?"#6d28d9":"#120f26",border:"1px solid "+(input.trim()&&!loading?"#8b5cf6":T.border),cursor:input.trim()&&!loading?"pointer":"not-allowed",color:input.trim()&&!loading?"#fff":SLATE,fontSize:15,transition:"all 0.15s",flexShrink:0}}>
+          style={{width:34,height:34,borderRadius:12,background:input.trim()&&!loading?T.accent:T.bgCard,border:"1px solid "+(input.trim()&&!loading?"#8b5cf6":T.border),cursor:input.trim()&&!loading?"pointer":"not-allowed",color:input.trim()&&!loading?"#fff":SLATE,fontSize:15,transition:"all 0.15s",flexShrink:0}}>
           ↑
         </button>
       </div>
@@ -1587,7 +1587,7 @@ function AccountingConnect({supabase, onConnected}) {
 
       {/* Save */}
       <button onClick={handleSave} disabled={saving}
-        style={{padding:"10px 0",borderRadius:12,background:saving?"#0a1220":sys.color+"22",
+        style={{padding:"10px 0",borderRadius:12,background:saving?T.bgCard:sys.color+"22",
           border:"1px solid "+(saving?T.border:sys.color+"66"),
           color:saving?SLATE:sys.color,fontSize:12,cursor:saving?"not-allowed":"pointer",
           fontFamily:"'DM Mono',monospace",fontWeight:700}}>
@@ -1664,7 +1664,7 @@ function ApiSyncPanel({year, actLast, setActLast, setMode, onClose}) {
   const srcObj = SOURCES.find(s=>s.id===source);
 
   return (
-    <div style={{background:"#0a0e1a",border:"1px solid #1e2d45",borderRadius:14,overflow:"hidden"}}>
+    <div style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,overflow:"hidden"}}>
 
       {/* Header */}
       <div style={{padding:"16px 22px",borderBottom:"1px solid #0f1e30",display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:12}}>
@@ -1696,7 +1696,7 @@ function ApiSyncPanel({year, actLast, setActLast, setMode, onClose}) {
                   <div style={{display:"flex",alignItems:"center",gap:10}}>
                     <div style={{width:8,height:8,borderRadius:"50%",background:source===src.id?src.color:T.border,flexShrink:0}}/>
                     <div>
-                      <div style={{fontSize:12,fontWeight:600,color:source===src.id?"#e2e8f0":"#64748b"}}>{src.label}</div>
+                      <div style={{fontSize:12,fontWeight:600,color:source===src.id?T.text:"#64748b"}}>{src.label}</div>
                       <div style={{fontSize:9,color:T.textDim,fontFamily:"'DM Mono',monospace",marginTop:1}}>{src.note}</div>
                     </div>
                   </div>
@@ -1761,7 +1761,7 @@ function ApiSyncPanel({year, actLast, setActLast, setMode, onClose}) {
               style={{padding:"12px 20px",borderRadius:12,fontFamily:"'DM Mono',monospace",fontSize:12,fontWeight:700,
                 cursor:status==="running"?"not-allowed":"pointer",
                 border:"1px solid "+(status==="running"?"#2a1f5e":status==="done"?GREEN+"88":"#8b5cf6"),
-                background:status==="running"?"#0a1525":status==="done"?GREEN+"15":"#0d1e35",
+                background:status==="running"?T.bgPanel:status==="done"?GREEN+"15":T.bgRow,
                 color:status==="running"?SLATE:status==="done"?GREEN:"#a78bfa",
                 transition:"all 0.2s"}}>
               {status==="running"?"⟳ Syncing…":status==="done"?"✓ Sync complete":"↻ Sync"}
@@ -1814,7 +1814,7 @@ function ApiSyncPanel({year, actLast, setActLast, setMode, onClose}) {
                 <div style={{color:T.border}}>Run sync to see output here…</div>
               )}
               {log.map((line,i) => (
-                <div key={i} style={{color:line.startsWith("✓")||line.startsWith("✅")?GREEN:line.startsWith("⚠")?AMBER:line.startsWith("🔐")||line.startsWith("📡")||line.startsWith("🔄")||line.startsWith("💾")?"#94a3b8":"#e2e8f0",marginBottom:4,lineHeight:1.5}}>
+                <div key={i} style={{color:line.startsWith("✓")||line.startsWith("✅")?GREEN:line.startsWith("⚠")?AMBER:line.startsWith("🔐")||line.startsWith("📡")||line.startsWith("🔄")||line.startsWith("💾")?"#94a3b8":T.text,marginBottom:4,lineHeight:1.5}}>
                   {line}
                 </div>
               ))}
@@ -1892,7 +1892,7 @@ function GroupStructureTab({entities,selectedEnt,setSelectedEnt,editingEnt,setEd
         <svg width="100%" viewBox={"0 0 "+svgW+" "+svgH} style={{minHeight:Math.max(160,svgH),display:"block"}}>
           <defs>
             <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-              <path d="M0,0 L0,6 L8,3 z" fill="#2a1f5e"/>
+              <path d="M0,0 L0,6 L8,3 z" fill={T.border}/>
             </marker>
           </defs>
           {edges.map((edge,i) => {
@@ -1900,7 +1900,7 @@ function GroupStructureTab({entities,selectedEnt,setSelectedEnt,editingEnt,setEd
             const d="M "+edge.fx+" "+edge.fy+" C "+edge.fx+" "+(edge.fy+30)+", "+edge.tx+" "+(edge.ty-30)+", "+edge.tx+" "+edge.ty;
             return (
               <g key={i}>
-                <path d={d} fill="none" stroke="#2a1f5e" strokeWidth="2" markerEnd="url(#arr)"/>
+                <path d={d} fill="none" stroke={T.border} strokeWidth="2" markerEnd="url(#arr)"/>
                 <rect x={mx-18} y={my-10} width={36} height={18} rx={9} fill="#0a1525" stroke={edge.color} strokeWidth="1"/>
                 <text x={mx} y={my+4} textAnchor="middle" style={{fontSize:9,fontFamily:"'DM Mono',monospace",fill:edge.color,fontWeight:700}}>{edge.ownership}%</text>
               </g>
@@ -3039,7 +3039,7 @@ ${rowSample}`,
 
       {/* Pivot config */}
       {(dataSource==="gl"?hasGL:hasSummary)&&(
-        <div style={{background:"#0a0e1a",border:"1px solid #1e2d45",borderRadius:14,padding:"14px 18px",marginBottom:16}}>
+        <div style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,padding:"14px 18px",marginBottom:16}}>
           <div style={{fontSize:10,color:SLATE,fontFamily:"'DM Mono',monospace",textTransform:"uppercase",letterSpacing:"0.1em",marginBottom:10}}>Pivot settings</div>
           <div style={{display:"flex",gap:12,flexWrap:"wrap"}}>
             <div>
@@ -3094,8 +3094,8 @@ ${rowSample}`,
                   <tr key={i} style={{borderBottom:"1px solid #0a1020",background:i%2===0?"transparent":"rgba(10,20,50,0.3)"}}>
                     <td style={{padding:"7px 12px",color:T.textMuted,maxWidth:220,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}} title={key}>{key}</td>
                     {config.colDim==="quarter"
-                      ? quarters.map((q,qi)=><td key={qi} style={{textAlign:"right",padding:"7px 8px",color:q<0?"#f87171":"#e2e8f0",fontFamily:"'DM Mono',monospace"}}>{fmt(q)}</td>)
-                      : pivot.months.map(m=><td key={m} style={{textAlign:"right",padding:"7px 8px",color:(vals[m]||0)<0?"#f87171":"#e2e8f0",fontFamily:"'DM Mono',monospace"}}>{fmt(vals[m]||0)}</td>)
+                      ? quarters.map((q,qi)=><td key={qi} style={{textAlign:"right",padding:"7px 8px",color:q<0?"#f87171":T.text,fontFamily:"'DM Mono',monospace"}}>{fmt(q)}</td>)
+                      : pivot.months.map(m=><td key={m} style={{textAlign:"right",padding:"7px 8px",color:(vals[m]||0)<0?"#f87171":T.text,fontFamily:"'DM Mono',monospace"}}>{fmt(vals[m]||0)}</td>)
                     }
                     <td style={{textAlign:"right",padding:"7px 12px",color:total<0?"#f87171":ACCENT,fontFamily:"'DM Mono',monospace",fontWeight:700}}>{fmt(total)}</td>
                   </tr>
@@ -3116,7 +3116,7 @@ ${rowSample}`,
         <div style={{marginBottom:24}}>
           <div style={{fontSize:12,fontWeight:600,color:T.textMuted,marginBottom:12}}>AI-Generated Tables</div>
           {aiTables.map((table,ti)=>(
-            <div key={table.id||ti} style={{background:"#0a0e1a",border:"1px solid #1e2d45",borderRadius:12,overflow:"hidden",marginBottom:12}}>
+            <div key={table.id||ti} style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:12,overflow:"hidden",marginBottom:12}}>
               <div style={{padding:"10px 16px",borderBottom:"1px solid #0f1e30",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
                 <div>
                   <div style={{fontSize:12,fontWeight:600,color:T.text}}>{table.title}</div>
@@ -3147,7 +3147,7 @@ ${rowSample}`,
       )}
 
       {/* AI Generator — mainuser only */}
-      {userRole!=="member"&&<div style={{background:"#0a0e1a",border:"1px solid #1e2d45",borderRadius:14,padding:"16px 18px"}}>
+      {userRole!=="member"&&<div style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,padding:"16px 18px"}}>
         <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}>
           <div style={{fontSize:12,fontWeight:600,color:T.text}}>✦ AI Table Generator</div>
           <div style={{fontSize:10,color:AMBER,fontFamily:"'DM Mono',monospace",background:"rgba(245,158,11,0.08)",border:"1px solid rgba(245,158,11,0.2)",borderRadius:5,padding:"2px 8px"}}>
@@ -3361,7 +3361,7 @@ function ForecastTab({actuals,comp,compLabel,mode,setMode,S,E,fcRevData,fcEqData
                   <button key={it.id} onClick={()=>setScnItem(it.id)}
                     style={{padding:"9px 14px",borderRadius:10,cursor:"pointer",textAlign:"left",
                       border:"1px solid "+(scnItem===it.id?"#8b5cf6":T.border),
-                      background:scnItem===it.id?"#0d1e35":"transparent",
+                      background:scnItem===it.id?T.yrActive:"transparent",
                       color:scnItem===it.id?"#a78bfa":"#64748b",fontSize:12,fontWeight:scnItem===it.id?600:400,transition:"all 0.15s"}}>
                     {it.label}
                   </button>
@@ -3480,7 +3480,7 @@ function ModeSwitcher({mode,setMode,compLabel}) {
       {["budget","forecast"].map(m=>(
         <button key={m} onClick={()=>setMode(m)}
           style={{padding:"5px 14px",borderRadius:10,fontSize:10,fontFamily:"'DM Mono',monospace",cursor:"pointer",border:"none",
-            background:mode===m?"#2a1f5e":"transparent",
+            background:mode===m?T.yrActive:"transparent",
             color:mode===m?"#a78bfa":"#64748b",fontWeight:mode===m?700:400,transition:"all 0.15s"}}>
           {m==="budget"?"BUD":"EST"}
         </button>
@@ -3825,7 +3825,7 @@ function CommentsPanel({supabase, clientName, userName, enabled}) {
               return (
                 <div key={i} style={{display:"flex",flexDirection:"column",alignItems:isMe?"flex-end":"flex-start",gap:3}}>
                   <div style={{display:"flex",alignItems:"center",gap:6,flexDirection:isMe?"row-reverse":"row"}}>
-                    <div style={{width:22,height:22,borderRadius:"50%",background:isMe?"#2a1f5e":"#1a3a2a",
+                    <div style={{width:22,height:22,borderRadius:"50%",background:isMe?T.accentLo+"33":"rgba(22,163,74,0.1)",
                       display:"flex",alignItems:"center",justifyContent:"center",fontSize:9,
                       fontWeight:700,color:isMe?BLUE:GREEN,fontFamily:"'DM Mono',monospace",flexShrink:0}}>
                       {initials}
@@ -3834,7 +3834,7 @@ function CommentsPanel({supabase, clientName, userName, enabled}) {
                   </div>
                   <div style={{maxWidth:"85%",padding:"9px 12px",
                     borderRadius:isMe?"12px 12px 2px 12px":"12px 12px 12px 2px",
-                    background:isMe?"#2a1f5e":"#0c1a10",
+                    background:isMe?T.accentLo+"22":T.bgCard,
                     border:"1px solid "+(isMe?"#3b82f655":"#16a34a33"),
                     fontSize:12,color:"#d1d5db",lineHeight:1.5}}>
                     {c.body}
