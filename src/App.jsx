@@ -101,7 +101,7 @@ function buildStyle(t) { return `
   .upload-zone{border:2px dashed ${t.uploadBorder};border-radius:10px;padding:28px;text-align:center;cursor:pointer;transition:all 0.2s;}
   .upload-zone:hover{border-color:${t.accent};background:rgba(124,58,237,0.04);}
   .tbl-row:hover td{background:rgba(124,58,237,0.04)!important;}
-  .psel{background:${t.bgCard};border:1px solid ${t.border};border-radius:6px;padding:4px 8px;color:${t.text};font-family:'DM Mono',monospace;font-size:11px;outline:none;cursor:pointer;}
+  .psel{background:${t.bgCard};border:1px solid ${t.border};border-radius:6px;padding:4px 8px;color:${t.text};font-family:'DM Mono',monospace;font-size:11px;outline:none;cursor:pointer;-webkit-appearance:none;appearance:none;}
   select,input[type=text],input[type=email],input[type=password],input[type=number],textarea{background:${t.bgCard};border:1px solid ${t.border};border-radius:8px;color:${t.text};padding:8px 12px;font-size:12px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.15s;}
   select:focus,input:focus,textarea:focus{border-color:${t.accent};}
   .invite-input{background:${t.bgCard}!important;border:1px solid ${t.border}!important;border-radius:8px;padding:9px 12px;color:${t.text}!important;font-size:12px;font-family:'DM Sans',sans-serif;outline:none;width:100%;box-sizing:border-box;}
@@ -1148,6 +1148,27 @@ function FilesPanel({supabase, currentUserEmail, onClose}) {
           ))}
         </div>
       )}
+      {/* Reset / clear all hardcoded data */}
+      <div style={{marginTop:8,paddingTop:12,borderTop:"1px solid "+T.border}}>
+        <button onClick={async ()=>{
+          if(!window.confirm("Reset all uploaded data? This clears ACT, BUD and EST data and reloads defaults.")) return;
+          // Clear Supabase snapshot
+          if(supabase) await supabase.from("client_snapshots").delete().eq("client",CLIENT_NAME).catch(()=>{});
+          // Reload page to restore hardcoded defaults
+          window.location.reload();
+        }} style={{width:"100%",padding:"8px",background:"rgba(244,63,94,0.06)",
+          border:"1px solid rgba(244,63,94,0.2)",borderRadius:8,color:"#f87171",
+          fontSize:11,fontFamily:"'DM Mono',monospace",cursor:"pointer",
+          transition:"all 0.15s"}}
+          onMouseEnter={e=>e.currentTarget.style.background="rgba(244,63,94,0.12)"}
+          onMouseLeave={e=>e.currentTarget.style.background="rgba(244,63,94,0.06)"}>
+          ↺ Reset to hardcoded defaults
+        </button>
+        <div style={{fontSize:9,color:T.textMuted,textAlign:"center",marginTop:5,
+          fontFamily:"'DM Mono',monospace"}}>
+          Clears uploaded ACT/BUD/EST data — reverts to built-in data
+        </div>
+      </div>
     </div>
   );
 }
@@ -1957,17 +1978,47 @@ function GroupStructureTab({entities,selectedEnt,setSelectedEnt,editingEnt,setEd
                   ))}
                 </div>
               </div>
+              {/* Business description — full width */}
+              <div style={{gridColumn:"1 / -1"}}>
+                <div style={{fontSize:10,color:SLATE,fontFamily:"'DM Mono',monospace",marginBottom:5}}>BUSINESS DESCRIPTION <span style={{color:T.textDim,fontSize:9}}>(used by AI advisor)</span></div>
+                <textarea value={sel.description||""} onChange={e=>updateEntity(sel.id,"description",e.target.value)}
+                  rows={3} placeholder="Describe what the company does, its main products/services, markets, and competitive position…"
+                  style={{width:"100%",background:T.bg,border:"1px solid "+T.border,borderRadius:6,
+                    padding:"7px 10px",color:T.text,fontSize:11,outline:"none",resize:"vertical",
+                    fontFamily:"'DM Sans',sans-serif",lineHeight:1.5,boxSizing:"border-box"}}/>
+              </div>
+              {/* Personnel fields */}
+              <div>
+                <div style={{fontSize:10,color:SLATE,fontFamily:"'DM Mono',monospace",marginBottom:5}}>PERSONNEL TOTAL <span style={{color:T.textDim,fontSize:9}}>(avg FTE)</span></div>
+                <input type="number" min={0} value={sel.personnelTotal||""} onChange={e=>updateEntity(sel.id,"personnelTotal",+e.target.value)}
+                  placeholder="e.g. 85"
+                  style={{width:"100%",background:T.bg,border:"1px solid "+T.border,borderRadius:6,padding:"7px 10px",color:T.text,fontSize:12,outline:"none"}}/>
+              </div>
+              <div>
+                <div style={{fontSize:10,color:SLATE,fontFamily:"'DM Mono',monospace",marginBottom:5}}>BLUE COLLARS <span style={{color:T.textDim,fontSize:9}}>(avg FTE)</span></div>
+                <input type="number" min={0} value={sel.personnelBlue||""} onChange={e=>updateEntity(sel.id,"personnelBlue",+e.target.value)}
+                  placeholder="e.g. 60"
+                  style={{width:"100%",background:T.bg,border:"1px solid "+T.border,borderRadius:6,padding:"7px 10px",color:T.text,fontSize:12,outline:"none"}}/>
+              </div>
+              <div>
+                <div style={{fontSize:10,color:SLATE,fontFamily:"'DM Mono',monospace",marginBottom:5}}>WHITE COLLARS <span style={{color:T.textDim,fontSize:9}}>(avg FTE)</span></div>
+                <input type="number" min={0} value={sel.personnelWhite||""} onChange={e=>updateEntity(sel.id,"personnelWhite",+e.target.value)}
+                  placeholder="e.g. 25"
+                  style={{width:"100%",background:T.bg,border:"1px solid "+T.border,borderRadius:6,padding:"7px 10px",color:T.text,fontSize:12,outline:"none"}}/>
+              </div>
             </div>
           ) : (
             <div style={{display:"flex",gap:24,flexWrap:"wrap"}}>
               {[
                 {l:"Type",       v:sel.type},
                 {l:"Currency",   v:(sel.currency||"EUR")+(sel.currency&&sel.currency!=="EUR"?" → EUR (auto-converted)":""), highlight:sel.currency&&sel.currency!=="EUR"},
+                {l:"Personnel",  v:sel.personnelTotal?(sel.personnelTotal+" total"+(sel.personnelBlue?" · "+sel.personnelBlue+" blue / "+sel.personnelWhite+" white":"")):"—"},
                 {l:"Parent",     v:sel.parentId?(entities.find(e=>e.id===sel.parentId)||{name:"—"}).name:"None"},
                 {l:"Ownership",  v:sel.parentId?sel.ownership+"%":"—"},
                 {l:"Subsidiaries",v:entities.filter(e=>e.parentId===sel.id).length},
+                {l:"Description", v:sel.description||null, full:true},
               ].map(f => (
-                <div key={f.l}>
+                <div key={f.l} style={{gridColumn:f.full?"1 / -1":"auto"}}>
                   <div style={{fontSize:9,color:SLATE,fontFamily:"'DM Mono',monospace",marginBottom:3,textTransform:"uppercase"}}>{f.l}</div>
                   <div style={{fontSize:12,color:f.highlight?AMBER:"#94a3b8",fontFamily:"'DM Mono',monospace",fontWeight:f.highlight?700:400}}>{f.v}</div>
                 </div>
@@ -5110,6 +5161,11 @@ function Dashboard() {
         equity:      fmt(endEq),
         cash:        fmt(actuals.cash[E]||0),
         gmPct, emPct, roePct, eqR, gear, intCov, dso, dio, dpo,
+        companyInfo: entities.map(e=>({
+          name:e.name, type:e.type,
+          description:e.description||null,
+          personnel:e.personnelTotal?{total:e.personnelTotal,blue:e.personnelBlue||0,white:e.personnelWhite||0}:null,
+        })),
       }} isMobile={isMobile} sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} showBillingProp={showBilling} setShowBillingProp={setShowBilling} userEmailProp={userEmail} creditsProp={credits}/>
 
 
