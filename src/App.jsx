@@ -50,7 +50,7 @@ const SESSION_KEY   = 'stremet_auth';
 const ACCENT        = '#60a5fa';
 const CLIENT_NAME   = 'Manutec';
 const ANTHROPIC_KEY  = import.meta.env.VITE_ANTHROPIC_KEY;
-const ALLOWED_EMAILS = []; // Add authorized emails here
+const ALLOWED_EMAILS = ["niklas.isaksson@targetflow.fi"];
 
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const BLUE="#3b82f6",GREEN="#22c55e",AMBER="#f59e0b",RED="#f87171",PURPLE="#a78bfa",CYAN="#06b6d4",SLATE="#64748b";
@@ -3575,7 +3575,8 @@ function Dashboard() {
           setUserRole(member.role || "mainuser");
           setMemberData(member);
         } else {
-          setUserRole("mainuser"); // not in members table = original user = mainuser
+          const SUPERUSERS = ["niklas.isaksson@targetflow.fi"];
+          setUserRole(SUPERUSERS.includes(email) ? "superuser" : "mainuser");
         }
       }
     });
@@ -5275,7 +5276,7 @@ function AppWithAuth() {
       const {data:{session}} = await supabase.auth.getSession();
       if(!session){ setStage("login"); return; }
       const email = session.user?.email||"";
-      if(!ALLOWED_EMAILS.includes(email)){
+      if(ALLOWED_EMAILS.length > 0 && !ALLOWED_EMAILS.includes(email)){
         await supabase.auth.signOut();
         setStage("denied"); return;
       }
