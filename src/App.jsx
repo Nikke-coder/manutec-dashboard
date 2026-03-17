@@ -3830,7 +3830,7 @@ function CommentsPanel({supabase, clientName, userName, enabled}) {
               return (
                 <div key={i} style={{display:"flex",flexDirection:"column",alignItems:isMe?"flex-end":"flex-start",gap:3}}>
                   <div style={{display:"flex",alignItems:"center",gap:6,flexDirection:isMe?"row-reverse":"row"}}>
-                    <div style={{width:22,height:22,borderRadius:"50%",background:isMe?T.accentLo,33:"rgba(22,163,74,0.1)",
+                    <div style={{width:22,height:22,borderRadius:"50%",background:isMe?T.accentLo+"33":"rgba(22,163,74,0.1)",
                       display:"flex",alignItems:"center",justifyContent:"center",fontSize:9,
                       fontWeight:700,color:isMe?BLUE:GREEN,fontFamily:"'DM Mono',monospace",flexShrink:0}}>
                       {initials}
@@ -3839,7 +3839,7 @@ function CommentsPanel({supabase, clientName, userName, enabled}) {
                   </div>
                   <div style={{maxWidth:"85%",padding:"9px 12px",
                     borderRadius:isMe?"12px 12px 2px 12px":"12px 12px 12px 2px",
-                    background:isMe?T.accentLo,22:T.bgCard,
+                    background:isMe?T.accentLo+"22":T.bgCard,
                     border:"1px solid "+(isMe?"#3b82f655":"#16a34a33"),
                     fontSize:12,color:"#d1d5db",lineHeight:1.5}}>
                     {c.body}
