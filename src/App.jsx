@@ -50,7 +50,7 @@ const SESSION_KEY   = 'stremet_auth';
 const ACCENT        = '#60a5fa';
 const CLIENT_NAME   = 'Manutec';
 const ANTHROPIC_KEY  = import.meta.env.VITE_ANTHROPIC_KEY;
-const ALLOWED_EMAILS = ["niklas.isaksson@targetflow.fi"];
+const ALLOWED_EMAILS = ["niklas.isaksson@targetflow.fi", "kirsi.junnilainen@manutec.fi"];
 
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const BLUE="#3b82f6",GREEN="#22c55e",AMBER="#f59e0b",RED="#f87171",PURPLE="#a78bfa",CYAN="#06b6d4",SLATE="#64748b";
