@@ -3818,7 +3818,7 @@ function CommentsPanel({supabase, clientName, userName, enabled}) {
             <button onClick={()=>setOpen(false)}
               style={{background:"none",border:"none",color:SLATE,fontSize:18,cursor:"pointer",lineHeight:1,padding:"2px 6px"}}>✕</button>
           </div>
-          <div style={{flex:1,overflowY:"auto",padding:"12px 14px",display:"flex",flexDirection:"column",gap:10}}>
+          <div style={{flex:1,overflowY:"auto",padding:"12px 14px",display:"flex",flexDirection:"column",gap:10,background:T.bgCard}}>
             {comments.length===0&&(
               <div style={{textAlign:"center",padding:"24px 0",color:SLATE,fontSize:11,fontFamily:"'DM Mono',monospace"}}>
                 No comments yet.<br/>Start the discussion.
@@ -4714,22 +4714,29 @@ function Dashboard() {
   const totExtLiab=MONTHS.map((_,i)=>(actuals.ltDebt[i]||0)+(actuals.stDebt[i]||0)+(actuals.payables[i]||0)+(actuals.otherCL[i]||0));
   // totLiab passed to BalanceTab = equity + all liabilities (should equal totAss)
   const totLiab=MONTHS.map((_,i)=>(actuals.equity[i]||0)+totExtLiab[i]);
+  const compTotCurr = MONTHS.map((_,i)=>(comp.inventory?.[i]||0)+(comp.receivables?.[i]||0)+(comp.cash?.[i]||0)+(comp.otherCA?.[i]||0));
+  const compTotNonCurr = MONTHS.map((_,i)=>(comp.tangibles?.[i]||0));
+  const compTotAss  = MONTHS.map((_,i)=>compTotNonCurr[i]+compTotCurr[i]);
+  const compTotExtLiab = MONTHS.map((_,i)=>(comp.ltDebt?.[i]||0)+(comp.stDebt?.[i]||0)+(comp.payables?.[i]||0)+(comp.otherCL?.[i]||0));
+  const compTotLiab = MONTHS.map((_,i)=>(comp.equity?.[i]||0)+compTotExtLiab[i]);
+
   const balRows=[
     {spacer:"ASSETS"},
     {label:"Tangible assets",   ak:"tangibles",   ck:null,          color:SLATE,indent:true},
-    {label:"Total Non-current", aa:actuals.tangibles||[], ca:null,  color:T.textMuted,bold:true},
+    {label:"Total Non-current", aa:actuals.tangibles||[], ca:compTotNonCurr, color:T.textMuted,bold:true},
     {label:"Inventory",         ak:"inventory",   ck:"inventory",   color:SLATE,indent:true},
     {label:"Receivables",       ak:"receivables", ck:"receivables", color:SLATE,indent:true},
     {label:"Cash",              ak:"cash",        ck:"cash",        color:SLATE,indent:true},
-    {label:"Total Current",     aa:totCurr,       ca:null,          color:T.textMuted,bold:true},
-    {label:"TOTAL ASSETS",      aa:totAss,        ca:null,          color:BLUE, bold:true},
+    {label:"Total Current",     aa:totCurr,       ca:compTotCurr,   color:T.textMuted,bold:true},
+    {label:"TOTAL ASSETS",      aa:totAss,        ca:compTotAss,    color:BLUE, bold:true},
     {spacer:"EQUITY & LIABILITIES"},
     {label:"Total Equity",      ak:"equity",      ck:"equity",      color:GREEN,bold:true},
     {label:"Long-term debt",    ak:"ltDebt",      ck:null,          color:SLATE,indent:true},
     {label:"Short-term debt",   ak:"stDebt",      ck:null,          color:SLATE,indent:true},
     {label:"Payables",          ak:"payables",    ck:"payables",    color:SLATE,indent:true},
     {label:"Other liabilities", ak:"otherCL",     ck:null,          color:SLATE,indent:true},
-    {label:"TOTAL LIABILITIES", aa:totLiab,       ca:null,          color:RED,  bold:true},
+    {label:"TOTAL LIABILITIES",         aa:MONTHS.map((_,i)=>totExtLiab[i]),       ca:MONTHS.map((_,i)=>compTotExtLiab[i]),   color:RED,   bold:true},
+    {label:"TOTAL LIABILITIES & EQUITY", aa:totLiab,                                ca:compTotLiab,                           color:BLUE,  bold:true},
   ];
 
   // Comp (BUD/EST) cash flow
