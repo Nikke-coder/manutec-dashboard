@@ -75,6 +75,7 @@ const THEMES = {
 
 // Default T at module level — App reassigns before render
 let T = THEMES.dark;
+let BLUE="#818cf8",GREEN="#22c55e",AMBER="#f59e0b",RED="#f87171",PURPLE="#a78bfa",CYAN="#a78bfa",SLATE="#6b7280",ACCENT="#9333ea";
 
 function buildStyle(t) { return `
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
@@ -3850,7 +3851,8 @@ function Dashboard() {
   const [themeKey,    setThemeKey]   = useState(()=>localStorage.getItem("tf_theme")||"dark");
   const _T = THEMES[themeKey]||THEMES.dark;
   T = _T; // update module-level T so all sub-components can access it
-  const BLUE=_T.blue,GREEN=_T.green,AMBER=_T.amber,RED=_T.red,PURPLE=_T.purple,CYAN=_T.cyan,SLATE=_T.slate,ACCENT=_T.accent;
+  BLUE=_T.blue; GREEN=_T.green; AMBER=_T.amber; RED=_T.red;
+  PURPLE=_T.purple; CYAN=_T.cyan; SLATE=_T.slate; ACCENT=_T.accent;
   const [mode,        setMode]       = useState("budget");
   const [csvData,     setCsvData]    = useState(null);
   const [csvName,     setCsvName]    = useState(null);
