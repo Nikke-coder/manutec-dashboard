@@ -310,13 +310,13 @@ const Tt = ({active,payload,label}) => {
 };
 
 const SecTitle = ({c}) => (
-  <div style={{fontSize:11,fontWeight:600,color:SLATE,fontFamily:"'DM Mono',monospace",textTransform:"uppercase",letterSpacing:"0.1em",marginBottom:16,paddingBottom:8,borderBottom:"1px solid #0f1e30"}}>{c}</div>
+  <div style={{fontSize:11,fontWeight:600,color:SLATE,fontFamily:"'DM Mono',monospace",textTransform:"uppercase",letterSpacing:"0.1em",marginBottom:16,paddingBottom:8,borderBottom:"1px solid "+T.border}}>{c}</div>
 );
 
 const Gauge = ({label,value,unit,target,targetLabel,color,desc,flip}) => {
   const hit = flip ? +value<=target : +value>=target;
   return (
-    <div className="kpi-card" style={{background:T.bgCard,border:"1px solid #0f1e30",borderRadius:14,padding:"18px 20px"}}>
+    <div className="kpi-card" style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,padding:"18px 20px"}}>
       <div style={{fontSize:10,color:SLATE,fontFamily:"'DM Mono',monospace",textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:10}}>{label}</div>
       <div style={{fontSize:26,fontWeight:700,color,fontFamily:"'DM Mono',monospace",marginBottom:4}}>{value}{unit||""}</div>
       <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:6}}>
@@ -339,7 +339,7 @@ const TblHead = ({visMonths,monthTypes,totalLabel,stickyBg,simple,compLabel="BUD
   const bg = stickyBg||T.bgCard;
   return (
     <thead>
-      <tr style={{borderBottom:"1px solid #0f1e30"}}>
+      <tr style={{borderBottom:"1px solid "+T.border}}>
         <th style={{textAlign:"left",padding:"10px 20px",color:SLATE,fontWeight:500,minWidth:190,position:"sticky",left:0,background:bg,zIndex:2}}>Line Item</th>
         {visMonths.map((m,i) => (
           <th key={i} colSpan={2} style={{padding:"8px 10px",fontWeight:500,fontSize:10,textAlign:"center",color:monthTypes[i]==="ACT"?T.accentHi:AMBER,whiteSpace:"nowrap",minWidth:110}}>{m}</th>
@@ -379,7 +379,7 @@ const TblRow = ({label,actArr,compArr,color,bold,indent,s,e,monthTypes,spot}) =>
           <td key={"c"+i} style={{padding:"7px 8px",textAlign:"right",color:cv!==null?AMBER:SLATE,fontSize:11,fontFamily:"'DM Mono',monospace",whiteSpace:"nowrap"}}>{cv!==null?fmt(cv):"—"}</td>,
         ];
       })}
-      <td style={{padding:"7px 8px",textAlign:"right",color,fontWeight:700,fontSize:11,fontFamily:"'DM Mono',monospace",borderLeft:"1px solid #0f1e30",whiteSpace:"nowrap"}}>{fmt(totA)}</td>
+      <td style={{padding:"7px 8px",textAlign:"right",color,fontWeight:700,fontSize:11,fontFamily:"'DM Mono',monospace",borderLeft:"1px solid "+T.border,whiteSpace:"nowrap"}}>{fmt(totA)}</td>
       <td style={{padding:"7px 8px",textAlign:"right",color:AMBER,fontSize:11,fontFamily:"'DM Mono',monospace",whiteSpace:"nowrap"}}>{totC!==null?fmt(totC):"—"}</td>
       <td style={{padding:"7px 8px",textAlign:"right",color:totV!==null?vc(totV):SLATE,fontSize:11,fontFamily:"'DM Mono',monospace",whiteSpace:"nowrap"}}>{totV!==null?fmt(totV):"—"}</td>
     </tr>
@@ -423,7 +423,7 @@ const PeriodBar = ({startM,endM,setStart,setEnd,compLabel,actLast}) => (
     <div style={{display:"flex",alignItems:"center",gap:12,fontSize:10,fontFamily:"'DM Mono',monospace",whiteSpace:"nowrap"}}>
       <span><span style={{color:BLUE}}>●</span><span style={{color:SLATE}}> ACT</span></span>
       <span><span style={{color:AMBER}}>●</span><span style={{color:SLATE}}> {compLabel}</span></span>
-      <span style={{color:T.textDim,paddingLeft:10,borderLeft:"1px solid #0f1e30"}}>{MONTHS[startM]} – {MONTHS[endM]}</span>
+      <span style={{color:T.textDim,paddingLeft:10,borderLeft:"1px solid "+T.border}}>{MONTHS[startM]} – {MONTHS[endM]}</span>
     </div>
   </div>
 );
@@ -499,7 +499,7 @@ function BillingView({clientName, supabase, onClose, userEmail=""}) {
   return (
     <div style={{display:"flex",flexDirection:"column",height:"100%",overflowY:"auto"}}>
       {/* Header */}
-      <div style={{padding:"14px 18px",borderBottom:"1px solid #0f1e30",display:"flex",alignItems:"center",justifyContent:"space-between",flexShrink:0}}>
+      <div style={{padding:"14px 18px",borderBottom:"1px solid "+T.border,display:"flex",alignItems:"center",justifyContent:"space-between",flexShrink:0}}>
         <div style={{fontSize:13,fontWeight:600,color:T.text,display:"flex",alignItems:"center",gap:8}}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
           Billing & Credits
@@ -566,10 +566,10 @@ function BillingView({clientName, supabase, onClose, userEmail=""}) {
               const filtered = cutoff ? history.filter(tx=>new Date(tx.created_at)>=cutoff) : history;
               if(filtered.length===0) return <div style={{fontSize:11,color:SLATE,padding:"10px 0",textAlign:"center"}}>No transactions in this period.</div>;
               return (
-                <div style={{border:"1px solid #0f1e30",borderRadius:10,overflow:"hidden"}}>
+                <div style={{border:"1px solid "+T.border,borderRadius:10,overflow:"hidden"}}>
                   {filtered.map((tx,i)=>(
                     <div key={tx.id} style={{display:"flex",justifyContent:"space-between",alignItems:"center",
-                      padding:"7px 12px",borderBottom:i<filtered.length-1?"1px solid #0f1e30":"none",fontSize:11}}>
+                      padding:"7px 12px",borderBottom:i<filtered.length-1?"1px solid "+T.border:"none",fontSize:11}}>
                       <span style={{color:"#64748b"}}>{fmt(tx.created_at)} · {tx.type==="purchase"?"Purchase ("+tx.package+")":"Used"}</span>
                       <span style={{color:tx.credits>0?"#4ade80":"#64748b",fontFamily:"'DM Mono',monospace",fontWeight:600}}>
                         {tx.credits>0?"+":""}{tx.credits}
@@ -586,13 +586,13 @@ function BillingView({clientName, supabase, onClose, userEmail=""}) {
         <div style={{marginTop:16,marginBottom:8}}>
           <div style={{fontSize:10,color:T.textMuted,fontFamily:"'DM Mono',monospace",textTransform:"uppercase",letterSpacing:"0.1em",marginBottom:8}}>Invoices</div>
           {invoices.length===0
-            ? <div style={{padding:"14px 16px",background:T.bgRow,border:"1px solid #0f1e30",borderRadius:10,fontSize:11,color:SLATE,textAlign:"center"}}>
+            ? <div style={{padding:"14px 16px",background:T.bgRow,border:"1px solid "+T.border,borderRadius:10,fontSize:11,color:SLATE,textAlign:"center"}}>
                 No invoices yet. Your Stripe receipts will appear here after purchase.
               </div>
-            : <div style={{border:"1px solid #0f1e30",borderRadius:10,overflow:"hidden"}}>
+            : <div style={{border:"1px solid "+T.border,borderRadius:10,overflow:"hidden"}}>
                 {invoices.map((inv,i)=>(
                   <div key={inv.id||i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",
-                    padding:"9px 12px",borderBottom:i<invoices.length-1?"1px solid #0f1e30":"none",fontSize:11}}>
+                    padding:"9px 12px",borderBottom:i<invoices.length-1?"1px solid "+T.border:"none",fontSize:11}}>
                     <div>
                       <div style={{color:T.textMuted,fontWeight:500}}>{inv.package} — {inv.credits} cr</div>
                       <div style={{fontSize:9,color:SLATE,fontFamily:"'DM Mono',monospace",marginTop:1}}>{new Date(inv.created_at).toLocaleDateString("fi-FI")}</div>
@@ -893,7 +893,7 @@ Financial data for this company only (${financialContext.period}, ${financialCon
       {showBilling&&<BillingView clientName={CLIENT_NAME} supabase={supabase} onClose={()=>setShowBilling(false)} userEmail={userEmailProp}/>}
       <div style={{display:showBilling?"none":"flex",flexDirection:"column",flex:1,overflow:"hidden"}}>
       {/* Header */}
-      <div style={{padding:"14px 18px",borderBottom:"1px solid #0f1e30",display:"flex",alignItems:"center",justifyContent:"space-between",background:"linear-gradient(135deg,#0a1628,#060e1e)",flexShrink:0,height:56}}>
+      <div style={{padding:"14px 18px",borderBottom:"1px solid "+T.border+",display:"flex",alignItems:"center",justifyContent:"space-between",background:T.bgPanel",flexShrink:0,height:56}}>
         <div style={{display:"flex",alignItems:"center",gap:10}}>
           <div style={{width:28,height:28,borderRadius:"50%",background:T.bgPanel,border:"1px solid rgba(129,140,248,0.3)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,overflow:"hidden"}}><svg width="28" height="28" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="e9k_a2" cx="50%" cy="50%" r="50%"><stop offset="0%" stopColor="#818cf8" stopOpacity="0.22"/><stop offset="100%" stopColor="#a78bfa" stopOpacity="0"/></radialGradient><radialGradient id="e9k_c2" cx="50%" cy="45%" r="50%"><stop offset="0%" stopColor="#1e3a6e"/><stop offset="100%" stopColor="#05060f"/></radialGradient></defs><circle cx="22" cy="22" r="22" fill="url(#e9k_a2)"/><g opacity="0.15" stroke="#a5b4fc" strokeLinecap="round"><line x1="22" y1="4" x2="22" y2="0" strokeWidth="0.8"/><line x1="22" y1="40" x2="22" y2="44" strokeWidth="0.8"/><line x1="4" y1="22" x2="0" y2="22" strokeWidth="0.8"/><line x1="40" y1="22" x2="44" y2="22" strokeWidth="0.8"/></g><ellipse cx="22" cy="9" rx="9" ry="2.2" fill="none" stroke="#818cf8" strokeWidth="0.9" opacity="0.55"/><circle cx="22" cy="22" r="18" fill="url(#e9k_c2)" stroke="rgba(129,140,248,0.35)" strokeWidth="0.8"/><rect x="10" y="13" width="24" height="20" rx="5" fill="rgba(10,16,45,0.95)" stroke="rgba(99,120,220,0.4)" strokeWidth="0.7"/><rect x="12" y="16" width="20" height="8" rx="2.5" fill="rgba(5,6,15,0.9)"/><rect x="13" y="17.5" width="6" height="3" rx="1.5" fill="#5b21b6"/><rect x="25" y="17.5" width="6" height="3" rx="1.5" fill="#5b21b6"/><rect x="14" y="18" width="4" height="2" rx="1" fill="#a78bfa"/><rect x="26" y="18" width="4" height="2" rx="1" fill="#a78bfa"/><circle cx="16" cy="19" r="0.8" fill="#bfdbfe" opacity="0.9"/><circle cx="28" cy="19" r="0.8" fill="#bfdbfe" opacity="0.9"/><rect x="13" y="26" width="2.5" height="4" rx="0.8" fill="#22c55e" opacity="0.9"/><rect x="17" y="27.5" width="2.5" height="2.5" rx="0.8" fill="#22c55e" opacity="0.7"/><rect x="21" y="26" width="2.5" height="4" rx="0.8" fill="#22c55e" opacity="0.85"/><rect x="25" y="28" width="2.5" height="2" rx="0.8" fill="#22c55e" opacity="0.6"/><rect x="29" y="26" width="2" height="4" rx="0.8" fill="#22c55e" opacity="0.75"/><line x1="22" y1="13" x2="22" y2="8" stroke="rgba(165,180,252,0.5)" strokeWidth="0.8" strokeLinecap="round"/><polygon points="22,5 24,7.5 22,10 20,7.5" fill="#a5b4fc" opacity="0.85"/><circle cx="22" cy="7.5" r="1" fill="white" opacity="0.6"/></svg></div>
           <div>
@@ -902,7 +902,7 @@ Financial data for this company only (${financialContext.period}, ${financialCon
 
           </div>
         </div>
-        {credits!==null&&<div style={{fontSize:9,fontFamily:"'DM Mono',monospace",color:credits===Infinity?"#4ade80":credits>20?"#4a3d7a":credits>5?"#f59e0b":"#f87171",fontWeight:credits<=5?700:400}}>{credits===Infinity?"∞":credits} cr</div>}
+        {credits!==null&&<div style={{fontSize:9,fontFamily:"'DM Mono',monospace",color:credits===Infinity?GREEN:credits>20?T.textDim:credits>5?AMBER:RED,fontWeight:credits<=5?700:400}}>{credits===Infinity?"∞":credits} cr</div>}
         {isMobile && (
           <button onClick={()=>setSidebarOpen(false)} style={{background:"none",border:"none",color:"#64748b",fontSize:18,cursor:"pointer",padding:"4px 8px"}}>✕</button>
         )}
@@ -911,7 +911,7 @@ Financial data for this company only (${financialContext.period}, ${financialCon
       {/* Messages */}
       <div style={{flex:1,overflowY:"auto",padding:"14px 14px",display:"flex",flexDirection:"column",gap:10}}>
         {messages.length===0 && loading && (
-          <div style={{display:"flex",alignItems:"center",gap:10,padding:"12px 14px",background:T.bgCard,borderRadius:14,border:"1px solid #0f1e30"}}>
+          <div style={{display:"flex",alignItems:"center",gap:10,padding:"12px 14px",background:T.bgCard,borderRadius:14,border:"1px solid "+T.border}}>
             <div style={{width:6,height:6,borderRadius:"50%",background:BLUE,animation:"pulse 1s infinite",flexShrink:0}}/>
             <span style={{fontSize:11,color:SLATE,fontFamily:"'DM Mono',monospace"}}>Initialising… please hold.</span>
           </div>
@@ -954,7 +954,7 @@ Financial data for this company only (${financialContext.period}, ${financialCon
       )}
 
       {/* Input */}
-      <div style={{padding:"10px 12px",borderTop:"1px solid #0f1e30",display:"flex",gap:8,flexShrink:0,background:T.bgPanel,alignItems:"center"}}>
+      <div style={{padding:"10px 12px",borderTop:"1px solid "+T.border+",display:"flex",gap:8,flexShrink:0,background:T.bgPanel",alignItems:"center"}}>
         <select value={role} onChange={e=>setRole(e.target.value)}
           style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:10,padding:"6px 8px",
             color:ROLES[role].color,fontSize:10,outline:"none",cursor:"pointer",flexShrink:0,
@@ -1358,7 +1358,7 @@ function MembersPanel({supabase, currentUserEmail, credits, setCredits, customTa
 
               {/* Edit panel */}
               {editMember?.id===m.id&&(
-                <div style={{padding:"10px 12px",borderTop:"1px solid #0f1e30",background:"rgba(10,14,26,0.5)"}}>
+                <div style={{padding:"10px 12px",borderTop:"1px solid "+T.border,background:"rgba(10,14,26,0.5)"}}>
                   {/* Tab access */}
                   <div style={{fontSize:9,color:SLATE,fontFamily:"'DM Mono',monospace",textTransform:"uppercase",letterSpacing:"0.1em",marginBottom:8}}>Tab access</div>
                   <div style={{display:"flex",flexWrap:"wrap",gap:6,marginBottom:12}}>
@@ -1554,7 +1554,7 @@ function AccountingConnect({supabase, onConnected}) {
       </div>
 
       {/* Guide */}
-      <div style={{fontSize:10,color:T.textMuted,padding:"8px 10px",background:T.bgRow,border:"1px solid #0f1e30",borderRadius:10}}>
+      <div style={{fontSize:10,color:T.textMuted,padding:"8px 10px",background:T.bgRow,border:"1px solid "+T.border,borderRadius:10}}>
         📖 {sys.guide}
       </div>
 
@@ -1672,13 +1672,13 @@ function ApiSyncPanel({year, actLast, setActLast, setMode, onClose}) {
     <div style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,overflow:"hidden"}}>
 
       {/* Header */}
-      <div style={{padding:"16px 22px",borderBottom:"1px solid #0f1e30",display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:12}}>
+      <div style={{padding:"16px 22px",borderBottom:"1px solid "+T.border,display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:12}}>
         <div>
           <div style={{fontSize:14,fontWeight:700,color:T.text,marginBottom:2}}>↻ Refresh Actuals from Source</div>
           <div style={{fontSize:11,color:SLATE}}>Pulls General Ledger data from your accounting system and overwrites the selected period</div>
         </div>
         {lastSync && (
-          <div style={{fontSize:10,fontFamily:"'DM Mono',monospace",color:SLATE,background:T.bgPanel,border:"1px solid #0f1e30",borderRadius:10,padding:"5px 12px",whiteSpace:"nowrap"}}>
+          <div style={{fontSize:10,fontFamily:"'DM Mono',monospace",color:SLATE,background:T.bgPanel,border:"1px solid "+T.border,borderRadius:10,padding:"5px 12px",whiteSpace:"nowrap"}}>
             Last sync: {lastSync}
           </div>
         )}
@@ -1773,7 +1773,7 @@ function ApiSyncPanel({year, actLast, setActLast, setMode, onClose}) {
             </button>
           )}
           {source==="csv" && (
-            <div style={{padding:"10px 14px",borderRadius:12,background:T.bgRow,border:"1px solid #0f1e30",fontSize:11,color:SLATE}}>
+            <div style={{padding:"10px 14px",borderRadius:12,background:T.bgRow,border:"1px solid "+T.border,fontSize:11,color:SLATE}}>
               👇 Use the Manual upload panel below
             </div>
           )}
@@ -1787,17 +1787,17 @@ function ApiSyncPanel({year, actLast, setActLast, setMode, onClose}) {
           <div>
             <div style={{fontSize:10,fontWeight:600,color:SLATE,fontFamily:"'DM Mono',monospace",textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:10}}>Connection</div>
             {source==="csv" ? (
-              <div style={{padding:"12px 16px",borderRadius:12,background:T.bgRow,border:"1px solid #0f1e30",fontSize:11,color:SLATE}}>No API connection needed for manual CSV</div>
+              <div style={{padding:"12px 16px",borderRadius:12,background:T.bgRow,border:"1px solid "+T.border,fontSize:11,color:SLATE}}>No API connection needed for manual CSV</div>
             ) : (
               <div style={{display:"flex",flexDirection:"column",gap:8}}>
-                <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"10px 14px",background:T.bgRow,borderRadius:12,border:"1px solid #0f1e30"}}>
+                <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"10px 14px",background:T.bgRow,borderRadius:12,border:"1px solid "+T.border}}>
                   <div style={{display:"flex",alignItems:"center",gap:8}}>
                     <div style={{width:6,height:6,borderRadius:"50%",background:AMBER}}/>
                     <span style={{fontSize:11,color:T.textMuted}}>API Environment</span>
                   </div>
                   <span style={{fontSize:10,fontFamily:"'DM Mono',monospace",color:AMBER}}>Not configured</span>
                 </div>
-                <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"10px 14px",background:T.bgRow,borderRadius:12,border:"1px solid #0f1e30"}}>
+                <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"10px 14px",background:T.bgRow,borderRadius:12,border:"1px solid "+T.border}}>
                   <div style={{display:"flex",alignItems:"center",gap:8}}>
                     <div style={{width:6,height:6,borderRadius:"50%",background:AMBER}}/>
                     <span style={{fontSize:11,color:T.textMuted}}>API Key</span>
@@ -1837,7 +1837,7 @@ function ApiSyncPanel({year, actLast, setActLast, setMode, onClose}) {
 
           {/* Preview of what will be overwritten */}
           {status===null && source!=="csv" && (
-            <div style={{background:T.bgRow,border:"1px solid #0f1e30",borderRadius:12,padding:"12px 14px"}}>
+            <div style={{background:T.bgRow,border:"1px solid "+T.border,borderRadius:12,padding:"12px 14px"}}>
               <div style={{fontSize:10,color:SLATE,fontFamily:"'DM Mono',monospace",marginBottom:8}}>WHAT WILL BE OVERWRITTEN</div>
               <div style={{display:"flex",alignItems:"center",gap:8,fontSize:10,fontFamily:"'DM Mono',monospace",color:T.textMuted}}>
                 <div style={{width:4,height:4,borderRadius:"50%",background:BLUE}}/>
@@ -1889,11 +1889,11 @@ function GroupStructureTab({entities,selectedEnt,setSelectedEnt,editingEnt,setEd
         <button onClick={()=>addEntity("subsidiary")} style={{padding:"7px 14px",background:T.bgCard,border:"1px solid #1e3a5f",borderRadius:10,color:"#a78bfa",fontFamily:"'DM Mono',monospace",fontSize:11,cursor:"pointer",fontWeight:600}}>+ Add Subsidiary</button>
         <button onClick={()=>addEntity("parent")} style={{padding:"7px 14px",background:T.bgCard,border:"1px solid #1e2d45",borderRadius:10,color:SLATE,fontFamily:"'DM Mono',monospace",fontSize:11,cursor:"pointer"}}>+ Add Parent</button>
         {isGroup
-          ? <span style={{fontSize:10,color:GREEN,fontFamily:"'DM Mono',monospace",background:T.bgCard,border:"1px solid #0f1e30",borderRadius:8,padding:"5px 12px"}}>{entities.length} entities · use entity selector in other tabs</span>
-          : <span style={{fontSize:10,color:SLATE,fontFamily:"'DM Mono',monospace",background:T.bgCard,border:"1px solid #0f1e30",borderRadius:8,padding:"5px 12px"}}>Single entity — add subsidiaries to build group structure</span>}
+          ? <span style={{fontSize:10,color:GREEN,fontFamily:"'DM Mono',monospace",background:T.bgCard,border:"1px solid "+T.border,borderRadius:8,padding:"5px 12px"}}>{entities.length} entities · use entity selector in other tabs</span>
+          : <span style={{fontSize:10,color:SLATE,fontFamily:"'DM Mono',monospace",background:T.bgCard,border:"1px solid "+T.border,borderRadius:8,padding:"5px 12px"}}>Single entity — add subsidiaries to build group structure</span>}
       </div>
 
-      <div style={{background:T.bgCard,border:"1px solid #0f1e30",borderRadius:14,overflow:"auto"}}>
+      <div style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,overflow:"auto"}}>
         <svg width="100%" viewBox={"0 0 "+svgW+" "+svgH} style={{minHeight:Math.max(160,svgH),display:"block"}}>
           <defs>
             <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
@@ -2041,14 +2041,14 @@ function GroupStructureTab({entities,selectedEnt,setSelectedEnt,editingEnt,setEd
       )}
 
       {isGroup && (
-        <div style={{background:T.bgCard,border:"1px solid #0f1e30",borderRadius:14,overflow:"hidden"}}>
-          <div style={{padding:"12px 20px",borderBottom:"1px solid #0f1e30"}}>
+        <div style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,overflow:"hidden"}}>
+          <div style={{padding:"12px 20px",borderBottom:"1px solid "+T.border}}>
             <div style={{fontSize:12,fontWeight:600,color:T.textMuted}}>Entity Registry</div>
           </div>
           <div style={{overflowX:"auto"}}>
             <table style={{width:"100%",borderCollapse:"collapse",fontSize:11,fontFamily:"'DM Mono',monospace"}}>
               <thead>
-                <tr style={{background:T.bgRow,borderBottom:"1px solid #0f1e30"}}>
+                <tr style={{background:T.bgRow,borderBottom:"1px solid "+T.border}}>
                   {["Entity","Type","Currency","Parent","Ownership","Subsidiaries"].map((h,i) => (
                     <th key={i} style={{padding:"8px 16px",textAlign:"left",color:SLATE,fontWeight:500,fontSize:10}}>{h}</th>
                   ))}
@@ -2429,7 +2429,7 @@ function SettingsMenu({actData,actName,actLast,setActData,setActName,setActLast,
             </div>
           )}
           {view==="main"&&<>
-            <div style={{padding:"16px 20px 12px",borderBottom:"1px solid #0f1e30",
+            <div style={{padding:"16px 20px 12px",borderBottom:"1px solid "+T.border,
               background:"rgba(255,255,255,0.02)",display:"flex",alignItems:"center",gap:14}}>
               <div style={{width:42,height:42,borderRadius:"50%",flexShrink:0,
                 background:"linear-gradient(135deg,#1e3a5f,#1e4d7b)",
@@ -2475,7 +2475,7 @@ function SettingsMenu({actData,actName,actLast,setActData,setActName,setActLast,
             </div>
 
           {menuNotifs.length>0&&(
-            <div style={{borderTop:"1px solid #0f1e30",padding:"10px 20px 6px"}}>
+            <div style={{borderTop:"1px solid "+T.border,padding:"10px 20px 6px"}}>
               {menuNotifs.map(n=>(
                 <div key={n.id} style={{display:"flex",alignItems:"flex-start",gap:8,padding:"7px 10px",
                   borderRadius:10,marginBottom:5,
@@ -2496,7 +2496,7 @@ function SettingsMenu({actData,actName,actLast,setActData,setActName,setActLast,
               <button onClick={()=>setUploadMsg(null)} style={{background:"none",border:"none",color:T.textMuted,cursor:"pointer",fontSize:12,padding:0}}>✕</button>
             </div>
           )}
-          <div style={{borderTop:"1px solid #0f1e30",padding:"14px 20px 12px"}}>
+          <div style={{borderTop:"1px solid "+T.border,padding:"14px 20px 12px"}}>
 
             {/* ── Entity selector (multi-entity) ── */}
             {entities&&entities.length>1&&(
@@ -2620,7 +2620,7 @@ function SettingsMenu({actData,actName,actLast,setActData,setActName,setActLast,
           </div>
 
           {unmapped&&unmapped.length>0&&(
-              <div style={{borderTop:"1px solid #0f1e30"}}>
+              <div style={{borderTop:"1px solid "+T.border}}>
                 <button onClick={()=>setView(view==="unmapped"?"main":"unmapped")}
                   style={{width:"100%",padding:"11px 20px",background:"transparent",border:"none",
                     color:"#fbbf24",fontSize:12,cursor:"pointer",textAlign:"left",
@@ -2634,7 +2634,7 @@ function SettingsMenu({actData,actName,actLast,setActData,setActName,setActLast,
                   <span style={{fontSize:10,color:T.textMuted}}>{view==="unmapped"?"▲":"▼"}</span>
                 </button>
                 {view==="unmapped"&&(
-                  <div style={{maxHeight:220,overflowY:"auto",borderTop:"1px solid #0f1e30"}}>
+                  <div style={{maxHeight:220,overflowY:"auto",borderTop:"1px solid "+T.border}}>
                     <div style={{padding:"6px 20px 4px",fontSize:9,fontFamily:"'DM Mono',monospace",color:T.textMuted,textTransform:"uppercase",letterSpacing:"0.1em"}}>
                       Not mapped to any model line
                     </div>
@@ -2656,7 +2656,7 @@ function SettingsMenu({actData,actName,actLast,setActData,setActName,setActLast,
 
             <button onClick={()=>setView("pw")}
               style={{width:"100%",padding:"11px 20px",background:"transparent",border:"none",
-                borderTop:"1px solid #0f1e30",color:T.textMuted,fontSize:12,cursor:"pointer",
+                borderTop:"1px solid "+T.border,color:T.textMuted,fontSize:12,cursor:"pointer",
                 textAlign:"left",fontFamily:"'DM Sans',sans-serif",display:"flex",alignItems:"center",gap:11}}>
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
@@ -2665,7 +2665,7 @@ function SettingsMenu({actData,actName,actLast,setActData,setActName,setActLast,
             </button>
             <button onClick={()=>{setOpen(false);setSidebarOpen(true);setShowBillingProp(true);}}
               style={{width:"100%",padding:"11px 20px",background:"transparent",border:"none",
-                borderTop:"1px solid #0f1e30",color:"#a78bfa",fontSize:12,cursor:"pointer",
+                borderTop:"1px solid "+T.border,color:"#a78bfa",fontSize:12,cursor:"pointer",
                 textAlign:"left",fontFamily:"'DM Sans',sans-serif",display:"flex",alignItems:"center",gap:11}}>
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
               Billing & Credits
@@ -2673,7 +2673,7 @@ function SettingsMenu({actData,actName,actLast,setActData,setActName,setActLast,
             {(userRole==="mainuser"||userRole==="superuser")&&(
               <button onClick={()=>setView("members")}
                 style={{width:"100%",padding:"11px 20px",background:"transparent",border:"none",
-                  borderTop:"1px solid #0f1e30",color:T.textMuted,fontSize:12,cursor:"pointer",
+                  borderTop:"1px solid "+T.border,color:T.textMuted,fontSize:12,cursor:"pointer",
                   textAlign:"left",fontFamily:"'DM Sans',sans-serif",display:"flex",alignItems:"center",gap:11}}>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
@@ -2684,7 +2684,7 @@ function SettingsMenu({actData,actName,actLast,setActData,setActName,setActLast,
             {(userRole==="mainuser"||userRole==="superuser")&&(
               <button onClick={()=>setView("files")}
                 style={{width:"100%",padding:"11px 20px",background:"transparent",border:"none",
-                  borderTop:"1px solid #0f1e30",color:T.textMuted,fontSize:12,cursor:"pointer",
+                  borderTop:"1px solid "+T.border,color:T.textMuted,fontSize:12,cursor:"pointer",
                   textAlign:"left",fontFamily:"'DM Sans',sans-serif",display:"flex",alignItems:"center",gap:11}}>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
@@ -2694,7 +2694,7 @@ function SettingsMenu({actData,actName,actLast,setActData,setActName,setActLast,
             )}
             <button onClick={doSignOut}
               style={{width:"100%",padding:"11px 20px",background:"transparent",border:"none",
-                borderTop:"1px solid #0f1e30",color:"#f87171",fontSize:12,cursor:"pointer",
+                borderTop:"1px solid "+T.border,color:"#f87171",fontSize:12,cursor:"pointer",
                 textAlign:"left",fontFamily:"'DM Sans',sans-serif",display:"flex",alignItems:"center",gap:11}}>
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
@@ -2731,7 +2731,7 @@ function SettingsMenu({actData,actName,actLast,setActData,setActName,setActLast,
           {/* ── API Sync placeholder ── */}
           {/* Members — mainuser only */}
           {(userRole==="mainuser"||userRole==="superuser")&&(
-            <div style={{borderTop:"1px solid #0f1e30",padding:"12px 20px"}}>
+            <div style={{borderTop:"1px solid "+T.border,padding:"12px 20px"}}>
               <button onClick={()=>setView("members")}
                 style={{width:"100%",padding:"9px 12px",background:T.bgRow,border:"1px solid #1e2d45",
                   borderRadius:10,color:T.textMuted,fontSize:11,cursor:"pointer",fontFamily:"'DM Mono',monospace",
@@ -2742,7 +2742,7 @@ function SettingsMenu({actData,actName,actLast,setActData,setActName,setActLast,
             </div>
           )}
 
-          <div style={{borderTop:"1px solid #0f1e30",padding:"12px 20px"}}>
+          <div style={{borderTop:"1px solid "+T.border,padding:"12px 20px"}}>
             <div style={{fontSize:9,fontFamily:"'DM Mono',monospace",color:T.textMuted,textTransform:"uppercase",letterSpacing:"0.1em",marginBottom:10}}>Accounting System</div>
             <div style={{display:"flex",gap:8}}>
               <button onClick={()=>setView("connect_accounting")}
@@ -2759,7 +2759,7 @@ function SettingsMenu({actData,actName,actLast,setActData,setActName,setActLast,
           </div>
 
           {/* ── Export section ── */}
-          <div style={{borderTop:"1px solid #0f1e30",padding:"12px 20px"}}>
+          <div style={{borderTop:"1px solid "+T.border,padding:"12px 20px"}}>
             <div style={{fontSize:9,fontFamily:"'DM Mono',monospace",color:T.textMuted,textTransform:"uppercase",letterSpacing:"0.1em",marginBottom:10}}>Export Dashboard</div>
             <div style={{display:"flex",gap:8}}>
               <button
@@ -3122,7 +3122,7 @@ ${rowSample}`,
           <div style={{fontSize:12,fontWeight:600,color:T.textMuted,marginBottom:12}}>AI-Generated Tables</div>
           {aiTables.map((table,ti)=>(
             <div key={table.id||ti} style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:12,overflow:"hidden",marginBottom:12}}>
-              <div style={{padding:"10px 16px",borderBottom:"1px solid #0f1e30",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+              <div style={{padding:"10px 16px",borderBottom:"1px solid "+T.border,display:"flex",alignItems:"center",justifyContent:"space-between"}}>
                 <div>
                   <div style={{fontSize:12,fontWeight:600,color:T.text}}>{table.title}</div>
                   {table.description&&<div style={{fontSize:10,color:SLATE,marginTop:2}}>{table.description}</div>}
@@ -3281,7 +3281,7 @@ function ForecastTab({actuals,comp,compLabel,mode,setMode,S,E,fcRevData,fcEqData
   const HeatGrid = ({data,label,color,centerRowIdx,centerColIdx}) => {
     const allV=data.flat(), mn=Math.min(...allV), mx=Math.max(...allV);
     return (
-      <div style={{background:T.bgCard,border:"1px solid #0f1e30",borderRadius:14,padding:16,overflowX:"auto"}}>
+      <div style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,padding:16,overflowX:"auto"}}>
         <div style={{fontSize:11,fontWeight:600,color,fontFamily:"'DM Mono',monospace",marginBottom:10}}>{label}</div>
         <table style={{borderCollapse:"separate",borderSpacing:2,fontFamily:"'DM Mono',monospace",fontSize:9,width:"100%"}}>
           <thead><tr>
@@ -3320,7 +3320,7 @@ function ForecastTab({actuals,comp,compLabel,mode,setMode,S,E,fcRevData,fcEqData
           ].map(k=>{
             const variance=k.val-k.comp;
             return (
-              <div key={k.label} style={{background:T.bgCard,border:"1px solid #0f1e30",borderRadius:14,padding:"16px 20px"}}>
+              <div key={k.label} style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,padding:"16px 20px"}}>
                 <div style={{fontSize:10,color:SLATE,fontFamily:"'DM Mono',monospace",textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:8}}>{k.label}</div>
                 <div style={{fontSize:24,fontWeight:700,color:k.color,fontFamily:"'DM Mono',monospace",marginBottom:6}}>{fmt(k.val)}</div>
                 <div style={{display:"flex",alignItems:"center",gap:10}}>
@@ -3337,7 +3337,7 @@ function ForecastTab({actuals,comp,compLabel,mode,setMode,S,E,fcRevData,fcEqData
             {title:"Equity ACT vs "+compLabel,  data:fcEqData,   k1:"act",k2:"comp",c1:GREEN,c2:AMBER},
             {title:"Cash ACT vs "+compLabel,    data:fcCashData, k1:"act",k2:"comp",c1:CYAN, c2:AMBER},
           ].map(ch=>(
-            <div key={ch.title} style={{background:T.bgCard,border:"1px solid #0f1e30",borderRadius:14,padding:22}}>
+            <div key={ch.title} style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,padding:22}}>
               <div style={{fontSize:11,color:SLATE,fontFamily:"'DM Mono',monospace",marginBottom:12}}>{ch.title}</div>
               <ResponsiveContainer width="100%" height={150}>
                 <LineChart data={ch.data}>
@@ -3358,7 +3358,7 @@ function ForecastTab({actuals,comp,compLabel,mode,setMode,S,E,fcRevData,fcEqData
       <div>
         <div style={{fontSize:13,fontWeight:600,color:T.textMuted,marginBottom:14}}>Scenario Builder</div>
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
-          <div style={{background:T.bgCard,border:"1px solid #0f1e30",borderRadius:14,padding:22,display:"flex",flexDirection:"column",gap:18}}>
+          <div style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,padding:22,display:"flex",flexDirection:"column",gap:18}}>
             <div>
               <div style={{fontSize:10,fontWeight:600,color:SLATE,fontFamily:"'DM Mono',monospace",textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:10}}>1 · Select line item</div>
               <div style={{display:"flex",flexDirection:"column",gap:6}}>
@@ -3438,7 +3438,7 @@ function ForecastTab({actuals,comp,compLabel,mode,setMode,S,E,fcRevData,fcEqData
                 );
               })}
             </div>
-            <div style={{background:T.bgCard,border:"1px solid #0f1e30",borderRadius:14,padding:18}}>
+            <div style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,padding:18}}>
               <div style={{fontSize:11,color:SLATE,fontFamily:"'DM Mono',monospace",marginBottom:10}}>Revenue: ACT vs {compLabel} vs Scenario</div>
               <ResponsiveContainer width="100%" height={130}>
                 <LineChart data={fcScnData}>
@@ -3463,7 +3463,7 @@ function ForecastTab({actuals,comp,compLabel,mode,setMode,S,E,fcRevData,fcEqData
             <div style={{fontSize:13,fontWeight:600,color:T.textMuted,marginBottom:2}}>EBITDA & Equity Sensitivity Heatmap</div>
             <div style={{fontSize:11,color:SLATE}}>Rows = Revenue change · Columns = OpEx change · Center = selected scenario</div>
           </div>
-          <div style={{fontSize:10,fontFamily:"'DM Mono',monospace",color:SLATE,background:T.bgCard,border:"1px solid #0f1e30",borderRadius:10,padding:"5px 12px"}}>
+          <div style={{fontSize:10,fontFamily:"'DM Mono',monospace",color:SLATE,background:T.bgCard,border:"1px solid "+T.border,borderRadius:10,padding:"5px 12px"}}>
             <span style={{color:GREEN}}>■</span> high · <span style={{color:RED}}>■</span> low · <span style={{color:"#fff",fontWeight:700}}>■</span> center
           </div>
         </div>
@@ -3550,7 +3550,7 @@ function PLTab({actuals,comp,compLabel,mode,setMode,S,E,visMonths,monthTypes,plR
         ].map(k=>{
           const vr = k.c!==null ? k.v-k.c : null;
           return (
-            <div key={k.l} style={{background:T.bgCard,border:"1px solid #0f1e30",borderRadius:14,padding:"14px 18px"}}>
+            <div key={k.l} style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,padding:"14px 18px"}}>
               <div style={{fontSize:10,color:SLATE,fontFamily:"'DM Mono',monospace",textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:8}}>{k.l}</div>
               <div style={{fontSize:22,fontWeight:700,color:k.color,fontFamily:"'DM Mono',monospace",marginBottom:4}}>
                 {k.pct ? k.v+"%" : fmt(k.v)}
@@ -3569,7 +3569,7 @@ function PLTab({actuals,comp,compLabel,mode,setMode,S,E,visMonths,monthTypes,plR
 
       {/* Charts */}
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
-        <div style={{background:T.bgCard,border:"1px solid #0f1e30",borderRadius:14,padding:20}}>
+        <div style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,padding:20}}>
           <div style={{fontSize:11,color:SLATE,fontFamily:"'DM Mono',monospace",marginBottom:12}}>Revenue ACT vs {compLabel}</div>
           <ResponsiveContainer width="100%" height={160}>
             <LineChart data={chartData}>
@@ -3584,7 +3584,7 @@ function PLTab({actuals,comp,compLabel,mode,setMode,S,E,visMonths,monthTypes,plR
             </LineChart>
           </ResponsiveContainer>
         </div>
-        <div style={{background:T.bgCard,border:"1px solid #0f1e30",borderRadius:14,padding:20}}>
+        <div style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,padding:20}}>
           <div style={{fontSize:11,color:SLATE,fontFamily:"'DM Mono',monospace",marginBottom:12}}>EBITDA & Net Profit ACT vs {compLabel}</div>
           <ResponsiveContainer width="100%" height={160}>
             <LineChart data={chartData}>
@@ -3602,7 +3602,7 @@ function PLTab({actuals,comp,compLabel,mode,setMode,S,E,visMonths,monthTypes,plR
       </div>
 
       {/* Table */}
-      <div style={{background:T.bgCard,border:"1px solid #0f1e30",borderRadius:14,overflow:"hidden"}}>
+      <div style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,overflow:"hidden"}}>
         <div style={{overflowX:"auto"}}>
           <table style={{width:"100%",borderCollapse:"collapse",fontSize:11,fontFamily:"'DM Mono',monospace"}}>
             <TblHead visMonths={visMonths} monthTypes={monthTypes} totalLabel={MONTHS_A[S]+"–"+MONTHS_A[E]} compLabel={compLabel}/>
@@ -3655,7 +3655,7 @@ function BalanceTab({actuals,comp,compLabel,mode,setMode,S,E,visMonths,monthType
           {l:"Equity Ratio",   v:eqR,     color:CYAN,  sub:"Equity / Total capital", pct:true},
           {l:"Gearing",        v:gear,    color:AMBER, sub:"Debt / Equity", pct:true},
         ].map(k=>(
-          <div key={k.l} style={{background:T.bgCard,border:"1px solid #0f1e30",borderRadius:14,padding:"14px 18px"}}>
+          <div key={k.l} style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,padding:"14px 18px"}}>
             <div style={{fontSize:10,color:SLATE,fontFamily:"'DM Mono',monospace",textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:8}}>{k.l}</div>
             <div style={{fontSize:22,fontWeight:700,color:k.color,fontFamily:"'DM Mono',monospace",marginBottom:4}}>
               {k.pct ? k.v+"%" : fmt(k.v)}
@@ -3667,7 +3667,7 @@ function BalanceTab({actuals,comp,compLabel,mode,setMode,S,E,visMonths,monthType
 
       {/* Charts */}
       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
-        <div style={{background:T.bgCard,border:"1px solid #0f1e30",borderRadius:14,padding:20}}>
+        <div style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,padding:20}}>
           <div style={{fontSize:11,color:SLATE,fontFamily:"'DM Mono',monospace",marginBottom:12}}>Equity vs Debt</div>
           <ResponsiveContainer width="100%" height={160}>
             <AreaChart data={chartData}>
@@ -3686,7 +3686,7 @@ function BalanceTab({actuals,comp,compLabel,mode,setMode,S,E,visMonths,monthType
             </AreaChart>
           </ResponsiveContainer>
         </div>
-        <div style={{background:T.bgCard,border:"1px solid #0f1e30",borderRadius:14,padding:20}}>
+        <div style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,padding:20}}>
           <div style={{fontSize:11,color:SLATE,fontFamily:"'DM Mono',monospace",marginBottom:12}}>Assets: Total vs Current</div>
           <ResponsiveContainer width="100%" height={160}>
             <LineChart data={chartData}>
@@ -3703,7 +3703,7 @@ function BalanceTab({actuals,comp,compLabel,mode,setMode,S,E,visMonths,monthType
       </div>
 
       {/* Table */}
-      <div style={{background:T.bgCard,border:"1px solid #0f1e30",borderRadius:14,overflow:"hidden"}}>
+      <div style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,overflow:"hidden"}}>
         <div style={{overflowX:"auto"}}>
           <table style={{width:"100%",borderCollapse:"collapse",fontSize:11,fontFamily:"'DM Mono',monospace"}}>
             <TblHead visMonths={visMonths} monthTypes={monthTypes} totalLabel="End of period" compLabel={compLabel}/>
@@ -3804,7 +3804,7 @@ function CommentsPanel({supabase, clientName, userName, enabled}) {
         <div style={{position:"absolute",top:42,right:0,width:340,height:500,
           display:"flex",flexDirection:"column",background:T.bgRow,
           border:"1px solid #1a3a2a",borderRadius:14,boxShadow:"0 16px 60px #000a",overflow:"hidden",zIndex:2000}}>
-          <div style={{padding:"14px 18px",borderBottom:"1px solid #0f1e30",
+          <div style={{padding:"14px 18px",borderBottom:"1px solid "+T.border,
             display:"flex",alignItems:"center",justifyContent:"space-between",
             background:"linear-gradient(135deg,#0a1e12,#060e0a)",flexShrink:0}}>
             <div style={{display:"flex",alignItems:"center",gap:10}}>
@@ -3850,7 +3850,7 @@ function CommentsPanel({supabase, clientName, userName, enabled}) {
             {loading&&<div style={{textAlign:"center",fontSize:10,color:SLATE,fontFamily:"'DM Mono',monospace"}}>posting…</div>}
             <div ref={bottomRef}/>
           </div>
-          <div style={{padding:"10px 12px",borderTop:"1px solid #0f1e30",display:"flex",gap:8,flexShrink:0,background:T.bgPanel}}>
+          <div style={{padding:"10px 12px",borderTop:"1px solid "+T.border+",display:"flex",gap:8,flexShrink:0,background:T.bgPanel"}}>
             <input ref={inputRef} value={input} onChange={e=>setInput(e.target.value)}
               onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();post();}}}
               placeholder="Add a comment…"
@@ -4915,7 +4915,7 @@ function Dashboard() {
                 <Gauge label="EBIT Margin"   value={emPct}  unit="%" target={15} targetLabel="Target" color={BLUE}   desc="EBIT / Revenue"/>
                 <Gauge label="ROE"           value={roePct} unit="%" target={12} targetLabel="Min"    color={PURPLE} desc="Net Profit / Equity"/>
               </div>
-              <div style={{background:T.bgCard,border:"1px solid #0f1e30",borderRadius:14,padding:22}}>
+              <div style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,padding:22}}>
                 <div style={{fontSize:11,color:SLATE,fontFamily:"'DM Mono',monospace",marginBottom:12}}>Margin % Trend</div>
                 <ResponsiveContainer width="100%" height={180}>
                   <LineChart data={marginData}>
@@ -4937,7 +4937,7 @@ function Dashboard() {
                 <Gauge label="Interest Coverage" value={intCov} unit="x" target={3}  targetLabel="Min" color={CYAN}  desc="EBIT / Finance costs"/>
               </div>
               <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14}}>
-                <div style={{background:T.bgCard,border:"1px solid #0f1e30",borderRadius:14,padding:22}}>
+                <div style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,padding:22}}>
                   <div style={{fontSize:11,color:SLATE,fontFamily:"'DM Mono',monospace",marginBottom:12}}>Equity vs Debt</div>
                   <ResponsiveContainer width="100%" height={160}>
                     <AreaChart data={eqDebtData}>
@@ -4950,7 +4950,7 @@ function Dashboard() {
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>
-                <div style={{background:T.bgCard,border:"1px solid #0f1e30",borderRadius:14,padding:22}}>
+                <div style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,padding:22}}>
                   <div style={{fontSize:11,color:SLATE,fontFamily:"'DM Mono',monospace",marginBottom:12}}>Gearing Trend</div>
                   <ResponsiveContainer width="100%" height={160}>
                     <LineChart data={gearData}>
@@ -4972,7 +4972,7 @@ function Dashboard() {
                 <Gauge label="DIO (Inv days)" value={dio} unit=" days" target={60} targetLabel="Max" color={PURPLE} desc="Inventory / (Revenue/365)" flip={true}/>
                 <Gauge label="DPO (AP days)"  value={dpo} unit=" days" target={30} targetLabel="Min" color={AMBER}  desc="Payables / (Revenue/365)"/>
               </div>
-              <div style={{background:T.bgCard,border:"1px solid #0f1e30",borderRadius:14,padding:22}}>
+              <div style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,padding:22}}>
                 <div style={{fontSize:11,color:SLATE,fontFamily:"'DM Mono',monospace",marginBottom:12}}>DSO Trend</div>
                 <ResponsiveContainer width="100%" height={140}>
                   <LineChart data={effData}>
@@ -5016,14 +5016,14 @@ function Dashboard() {
                 {l:"Net Cash Change",v:totOp+totInv+totFin,    c:(totOp+totInv+totFin)>=0?GREEN:RED},
                 {l:"Closing Cash",  v:closCash[E],             c:closCash[E]>=0?CYAN:RED},
               ].map(k=>(
-                <div key={k.l} style={{background:T.bgCard,border:"1px solid #0f1e30",borderRadius:14,padding:"14px 18px"}}>
+                <div key={k.l} style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,padding:"14px 18px"}}>
                   <div style={{fontSize:10,color:SLATE,fontFamily:"'DM Mono',monospace",marginBottom:6,textTransform:"uppercase"}}>{k.l}</div>
                   <div style={{fontSize:20,fontWeight:700,color:k.c,fontFamily:"'DM Mono',monospace"}}>{fmt(k.v)}</div>
                 </div>
               ))}
             </div>
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
-              <div style={{background:T.bgCard,border:"1px solid #0f1e30",borderRadius:14,padding:22}}>
+              <div style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,padding:22}}>
                 <div style={{fontSize:11,color:SLATE,fontFamily:"'DM Mono',monospace",marginBottom:12}}>Monthly Cash Flows</div>
                 <ResponsiveContainer width="100%" height={200}>
                   <BarChart data={cfChart}>
@@ -5037,7 +5037,7 @@ function Dashboard() {
                   </BarChart>
                 </ResponsiveContainer>
               </div>
-              <div style={{background:T.bgCard,border:"1px solid #0f1e30",borderRadius:14,padding:22}}>
+              <div style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,padding:22}}>
                 <div style={{fontSize:11,color:SLATE,fontFamily:"'DM Mono',monospace",marginBottom:12}}>End Cash Balance</div>
                 <ResponsiveContainer width="100%" height={200}>
                   <AreaChart data={cfAll}>
@@ -5051,8 +5051,8 @@ function Dashboard() {
                 </ResponsiveContainer>
               </div>
             </div>
-            <div style={{background:T.bgCard,border:"1px solid #0f1e30",borderRadius:14,overflow:"hidden"}}>
-              <div style={{padding:"14px 22px",borderBottom:"1px solid #0f1e30"}}>
+            <div style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,overflow:"hidden"}}>
+              <div style={{padding:"14px 22px",borderBottom:"1px solid "+T.border}}>
                 <div style={{fontSize:13,fontWeight:600,color:T.textMuted}}>Cash Flow Statement · {MONTHS[S]}–{MONTHS[E]} {year}</div>
               </div>
               <div style={{overflowX:"auto"}}>
@@ -5069,7 +5069,7 @@ function Dashboard() {
                       const topBorder = row.bold ? "1px solid #1e2d45" : "1px solid #080f1a";
                       return (
                         <tr key={ri} className="tbl-row" style={{borderBottom:"1px solid #080f1a",borderTop:topBorder,background:rowBg}}>
-                          <td style={{padding:labelPad,color:row.color,fontWeight:row.bold?700:400,fontSize:row.bold?12:11,position:"sticky",left:0,background:row.bold?T.bgCard:T.bgCard,zIndex:1,borderRight:"1px solid #0f1e30"}}>{row.label}</td>
+                          <td style={{padding:labelPad,color:row.color,fontWeight:row.bold?700:400,fontSize:row.bold?12:11,position:"sticky",left:0,background:row.bold?T.bgCard:T.bgCard,zIndex:1,borderRight:"1px solid "+T.border}}>{row.label}</td>
                           {sliced.map((v,i)=>{
                             const isComp=i+S>actLast;
                             return <td key={"a"+i} style={{padding:"7px 8px",textAlign:"right",
@@ -5096,8 +5096,8 @@ function Dashboard() {
           <div style={{display:"flex",flexDirection:"column",gap:16}}>
 
             {/* Custom notifications — max 3 */}
-            <div style={{background:T.bgCard,border:"1px solid #0f1e30",borderRadius:14,overflow:"hidden"}}>
-              <div style={{padding:"14px 22px",borderBottom:"1px solid #0f1e30",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+            <div style={{background:T.bgCard,border:"1px solid "+T.border,borderRadius:14,overflow:"hidden"}}>
+              <div style={{padding:"14px 22px",borderBottom:"1px solid "+T.border,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                 <div style={{fontSize:13,fontWeight:600,color:T.textMuted}}>Custom Notifications</div>
                 {customNotifs.length < 3 && (
                   <button onClick={addCustomNotif}
@@ -5113,7 +5113,7 @@ function Dashboard() {
                 </div>
               ) : (
                 <div style={{padding:"8px 8px 12px"}}>
-                  <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 160px 100px 40px 50px",gap:0,padding:"6px 16px 8px",borderBottom:"1px solid #0f1e30"}}>
+                  <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 160px 100px 40px 50px",gap:0,padding:"6px 16px 8px",borderBottom:"1px solid "+T.border}}>
                     {["Period","Note","Due Date","Status","",""].map((h,i)=>(
                       <span key={i} style={{fontSize:9,fontFamily:"'DM Mono',monospace",color:T.textDim,textTransform:"uppercase",letterSpacing:"0.08em"}}>{h}</span>
                     ))}
