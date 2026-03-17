@@ -3274,7 +3274,7 @@ function ForecastTab({actuals,comp,compLabel,mode,setMode,S,E,fcRevData,fcEqData
               <div style={{fontSize:11,color:SLATE,fontFamily:"'DM Mono',monospace",marginBottom:12}}>{ch.title}</div>
               <ResponsiveContainer width="100%" height={150}>
                 <LineChart data={ch.data}>
-                  <CartesianGrid strokeDasharray="3 3" stroke=T.borderSub/>
+                  <CartesianGrid strokeDasharray="3 3" stroke={T.borderSub}/>
                   <XAxis dataKey="month" tick={{fontSize:10,fill:SLATE}} axisLine={false} tickLine={false}/>
                   <YAxis tick={{fontSize:10,fill:SLATE}} axisLine={false} tickLine={false} tickFormatter={v=>"€"+(v/1e3).toFixed(0)+"K"}/>
                   <Tooltip content={<Tt/>}/>
@@ -3375,7 +3375,7 @@ function ForecastTab({actuals,comp,compLabel,mode,setMode,S,E,fcRevData,fcEqData
               <div style={{fontSize:11,color:SLATE,fontFamily:"'DM Mono',monospace",marginBottom:10}}>Revenue: ACT vs {compLabel} vs Scenario</div>
               <ResponsiveContainer width="100%" height={130}>
                 <LineChart data={fcScnData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke=T.borderSub/>
+                  <CartesianGrid strokeDasharray="3 3" stroke={T.borderSub}/>
                   <XAxis dataKey="month" tick={{fontSize:9,fill:SLATE}} axisLine={false} tickLine={false}/>
                   <YAxis tick={{fontSize:9,fill:SLATE}} axisLine={false} tickLine={false} tickFormatter={v=>"€"+(v/1e3).toFixed(0)+"K"}/>
                   <Tooltip content={<Tt/>}/>
@@ -3506,7 +3506,7 @@ function PLTab({actuals,comp,compLabel,mode,setMode,S,E,visMonths,monthTypes,plR
           <div style={{fontSize:11,color:SLATE,fontFamily:"'DM Mono',monospace",marginBottom:12}}>Revenue ACT vs {compLabel}</div>
           <ResponsiveContainer width="100%" height={160}>
             <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke=T.borderSub/>
+              <CartesianGrid strokeDasharray="3 3" stroke={T.borderSub}/>
               <XAxis dataKey="month" tick={{fontSize:10,fill:SLATE}} axisLine={false} tickLine={false}/>
               <YAxis tick={{fontSize:10,fill:SLATE}} axisLine={false} tickLine={false} tickFormatter={v=>"€"+(v/1e3).toFixed(0)+"K"}/>
               <Tooltip content={<Tt/>}/>
@@ -3521,7 +3521,7 @@ function PLTab({actuals,comp,compLabel,mode,setMode,S,E,visMonths,monthTypes,plR
           <div style={{fontSize:11,color:SLATE,fontFamily:"'DM Mono',monospace",marginBottom:12}}>EBITDA & Net Profit ACT vs {compLabel}</div>
           <ResponsiveContainer width="100%" height={160}>
             <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke=T.borderSub/>
+              <CartesianGrid strokeDasharray="3 3" stroke={T.borderSub}/>
               <XAxis dataKey="month" tick={{fontSize:10,fill:SLATE}} axisLine={false} tickLine={false}/>
               <YAxis tick={{fontSize:10,fill:SLATE}} axisLine={false} tickLine={false} tickFormatter={v=>"€"+(v/1e3).toFixed(0)+"K"}/>
               <Tooltip content={<Tt/>}/>
@@ -3610,7 +3610,7 @@ function BalanceTab({actuals,comp,compLabel,mode,setMode,S,E,visMonths,monthType
                   <stop offset="95%" stopColor={GREEN} stopOpacity={0}/>
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke=T.borderSub/>
+              <CartesianGrid strokeDasharray="3 3" stroke={T.borderSub}/>
               <XAxis dataKey="month" tick={{fontSize:10,fill:SLATE}} axisLine={false} tickLine={false}/>
               <YAxis tick={{fontSize:10,fill:SLATE}} axisLine={false} tickLine={false} tickFormatter={v=>"€"+(v/1e6).toFixed(1)+"M"}/>
               <Tooltip content={<Tt/>}/>
@@ -3623,7 +3623,7 @@ function BalanceTab({actuals,comp,compLabel,mode,setMode,S,E,visMonths,monthType
           <div style={{fontSize:11,color:SLATE,fontFamily:"'DM Mono',monospace",marginBottom:12}}>Assets: Total vs Current</div>
           <ResponsiveContainer width="100%" height={160}>
             <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke=T.borderSub/>
+              <CartesianGrid strokeDasharray="3 3" stroke={T.borderSub}/>
               <XAxis dataKey="month" tick={{fontSize:10,fill:SLATE}} axisLine={false} tickLine={false}/>
               <YAxis tick={{fontSize:10,fill:SLATE}} axisLine={false} tickLine={false} tickFormatter={v=>"€"+(v/1e6).toFixed(1)+"M"}/>
               <Tooltip content={<Tt/>}/>
@@ -4850,7 +4850,7 @@ function Dashboard() {
                 <div style={{fontSize:11,color:SLATE,fontFamily:"'DM Mono',monospace",marginBottom:12}}>Margin % Trend</div>
                 <ResponsiveContainer width="100%" height={180}>
                   <LineChart data={marginData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke=T.borderSub/>
+                    <CartesianGrid strokeDasharray="3 3" stroke={T.borderSub}/>
                     <XAxis dataKey="month" tick={{fontSize:10,fill:SLATE}} axisLine={false} tickLine={false}/>
                     <YAxis tick={{fontSize:10,fill:SLATE}} axisLine={false} tickLine={false} tickFormatter={v=>v+"%"}/>
                     <Tooltip content={<Tt/>}/>
@@ -4873,7 +4873,7 @@ function Dashboard() {
                   <ResponsiveContainer width="100%" height={160}>
                     <AreaChart data={eqDebtData}>
                       <defs><linearGradient id="eqG" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor={GREEN} stopOpacity={0.2}/><stop offset="95%" stopColor={GREEN} stopOpacity={0}/></linearGradient></defs>
-                      <CartesianGrid strokeDasharray="3 3" stroke=T.borderSub/>
+                      <CartesianGrid strokeDasharray="3 3" stroke={T.borderSub}/>
                       <XAxis dataKey="month" tick={{fontSize:10,fill:SLATE}} axisLine={false} tickLine={false}/>
                       <YAxis tick={{fontSize:10,fill:SLATE}} axisLine={false} tickLine={false} tickFormatter={v=>"€"+(v/1e6).toFixed(1)+"M"}/>
                       <Tooltip content={<Tt/>}/>
@@ -4885,7 +4885,7 @@ function Dashboard() {
                   <div style={{fontSize:11,color:SLATE,fontFamily:"'DM Mono',monospace",marginBottom:12}}>Gearing Trend</div>
                   <ResponsiveContainer width="100%" height={160}>
                     <LineChart data={gearData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke=T.borderSub/>
+                      <CartesianGrid strokeDasharray="3 3" stroke={T.borderSub}/>
                       <XAxis dataKey="month" tick={{fontSize:10,fill:SLATE}} axisLine={false} tickLine={false}/>
                       <YAxis tick={{fontSize:10,fill:SLATE}} axisLine={false} tickLine={false} tickFormatter={v=>v+"%"}/>
                       <Tooltip content={<Tt/>}/>
@@ -4907,7 +4907,7 @@ function Dashboard() {
                 <div style={{fontSize:11,color:SLATE,fontFamily:"'DM Mono',monospace",marginBottom:12}}>DSO Trend</div>
                 <ResponsiveContainer width="100%" height={140}>
                   <LineChart data={effData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke=T.borderSub/>
+                    <CartesianGrid strokeDasharray="3 3" stroke={T.borderSub}/>
                     <XAxis dataKey="month" tick={{fontSize:10,fill:SLATE}} axisLine={false} tickLine={false}/>
                     <YAxis tick={{fontSize:10,fill:SLATE}} axisLine={false} tickLine={false} tickFormatter={v=>v+" d"}/>
                     <Tooltip content={<Tt/>}/>
@@ -4958,7 +4958,7 @@ function Dashboard() {
                 <div style={{fontSize:11,color:SLATE,fontFamily:"'DM Mono',monospace",marginBottom:12}}>Monthly Cash Flows</div>
                 <ResponsiveContainer width="100%" height={200}>
                   <BarChart data={cfChart}>
-                    <CartesianGrid strokeDasharray="3 3" stroke=T.borderSub/>
+                    <CartesianGrid strokeDasharray="3 3" stroke={T.borderSub}/>
                     <XAxis dataKey="month" tick={{fontSize:10,fill:SLATE}} axisLine={false} tickLine={false}/>
                     <YAxis tick={{fontSize:10,fill:SLATE}} axisLine={false} tickLine={false} tickFormatter={v=>"€"+(v/1e3).toFixed(0)+"K"}/>
                     <Tooltip content={<Tt/>}/>
@@ -4973,7 +4973,7 @@ function Dashboard() {
                 <ResponsiveContainer width="100%" height={200}>
                   <AreaChart data={cfAll}>
                     <defs><linearGradient id="cashG" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor={CYAN} stopOpacity={0.3}/><stop offset="95%" stopColor={CYAN} stopOpacity={0}/></linearGradient></defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke=T.borderSub/>
+                    <CartesianGrid strokeDasharray="3 3" stroke={T.borderSub}/>
                     <XAxis dataKey="month" tick={{fontSize:10,fill:SLATE}} axisLine={false} tickLine={false}/>
                     <YAxis tick={{fontSize:10,fill:SLATE}} axisLine={false} tickLine={false} tickFormatter={v=>"€"+(v/1e3).toFixed(0)+"K"}/>
                     <Tooltip content={<Tt/>}/>
